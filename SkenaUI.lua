@@ -9,31 +9,41 @@ pcall(function()
 end)
 
 local PlaceId = game.PlaceId
-local SkenaHub_CoreURL = ""
+local SkenaHub_BaseURL = "http://192.168.100.40:8000/"
+getgenv()._SKENA_BASE_URL = SkenaHub_BaseURL
+
+-- Helper untuk memuat script lain secara lokal / remote
+getgenv().SkenaLoad = function(fileName)
+    local url = SkenaHub_BaseURL .. fileName .. "?t=" .. os.time()
+    local body = game:HttpGet(url, true)
+    return loadstring(body)()
+end
+
+local SkenaHub_CoreURL = SkenaHub_BaseURL
 
 if PlaceId == 114272390738102 then
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/SurvivetheLoop.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SurvivetheLoop.lua"
 elseif PlaceId == 134750290201751 then
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/SurvivetheCold.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SurvivetheCold.lua"
 elseif PlaceId == 83369512629707 then
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/SawahIndo.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SawahIndo.lua"
 elseif PlaceId == 91764591674792 then
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/StopBrainrots.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "StopBrainrots.lua"
 elseif PlaceId == 135668295983945 then
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/SkillPointLegend.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SkillPointLegend.lua"
 elseif PlaceId == 99248392277037 then
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/UntitledMeleeRNG.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "UntitledMeleeRNG.lua"
 elseif PlaceId == 135707546762730 then
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/UnboxYourTank.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "UnboxYourTank.lua"
 elseif PlaceId == 102669100769936 or PlaceId == 97689234675651 then
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/DefendYourBase67.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "DefendYourBase67.lua"
 elseif PlaceId == 74848159470277 or PlaceId == 128981447330754 then
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/levelbound.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "levelbound.lua"
 elseif PlaceId == 118433033586507 then
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/SimpleSpells.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SimpleSpells.lua"
 else
     -- Game tidak disupport: Load Fallback Admin (untuk di-test / bypass oleh admin)
-    SkenaHub_CoreURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/FallbackAdmin.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "FallbackAdmin.lua"
 end
 
 -- Eksekusi script spesifik game (dengan cache buster)1

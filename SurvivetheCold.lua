@@ -257,7 +257,7 @@ end
 local SkenaUI_Loaded = false
 local SkenaUI
 pcall(function()
-    SkenaUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/SkenaUI_Library.lua"))()
+    SkenaUI = loadstring(game:HttpGet("http://192.168.100.40:8000/SkenaUI_Library.lua"))()
     SkenaUI_Loaded = true
 end)
 
@@ -361,7 +361,7 @@ TabSettings:CreateInputRow({
 -- ==========================================
 task.spawn(function()
     local success, SkenaAdmin = pcall(function()
-        return loadstring(game:HttpGet("https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/SkenaUI_Admin.lua"))()
+        return loadstring(game:HttpGet("http://192.168.100.40:8000/SkenaUI_Admin.lua"))()
     end)
     if success and SkenaAdmin then
         SkenaAdmin.Attach(Window, { CapturedPaths = capturedPaths })

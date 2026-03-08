@@ -1,7 +1,7 @@
 local SkenaUI
 
 local success, err = pcall(function()
-    SkenaUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/SkenaUI_Library.lua"))()
+    SkenaUI = loadstring(game:HttpGet("http://192.168.100.40:8000/SkenaUI_Library.lua"))()
 end)
 
 if not success or not SkenaUI then warn("Gagal memuat UI Library SkenaHub"); return end

@@ -3,8 +3,8 @@
 -- Script ini berjalan di game yang belum didukung
 -- ==========================================
 
-local SkenaHub_LibURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/SkenaUI_Library.lua"
-local SkenaHub_AdminURL = "https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/refs/heads/main/key/SkenaUI_Admin.lua"
+local SkenaHub_LibURL = "http://192.168.100.40:8000/SkenaUI_Library.lua"
+local SkenaHub_AdminURL = "http://192.168.100.40:8000/SkenaUI_Admin.lua"
 local cacheBuster = "?t=" .. tostring(os.time())
 
 -- 1. Load Library

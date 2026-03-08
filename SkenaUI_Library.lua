@@ -37,7 +37,10 @@ local Palette = {
     InputHdr = Color3.fromRGB(25, 25, 25)
 }
 
-function SkenaUI:CreateWindow(Options)
+function SkenaUI:CreateWindow(Options, Title, IsMobile)
+    if type(Options) == "string" then
+        Options = {Name = Options, Title = Title, IsMobile = IsMobile}
+    end
     Options = Options or {}
     local WindowName = Options.Name or "SkenaHub"
     
@@ -55,7 +58,8 @@ function SkenaUI:CreateWindow(Options)
     local WindowObj = {
         CurrentTab = nil,
         Tabs = {},
-        ToggleKey = Enum.KeyCode.Z
+        ToggleKey = Enum.KeyCode.Z,
+        Cooldowns = {}
     }
 
     local DragFrame = Instance.new("Frame", SG)
@@ -153,7 +157,7 @@ function SkenaUI:CreateWindow(Options)
     TitleText.Position = UDim2.new(0, 12, 0, 0)
     TitleText.BackgroundTransparency = 1
     TitleText.Text = WindowName
-    TitleText.Font = Enum.Font.BuilderSans
+    TitleText.Font = Enum.Font.Gotham
     TitleText.TextSize = 12
     TitleText.TextColor3 = Palette.TextSecondary
     TitleText.TextXAlignment = Enum.TextXAlignment.Left
@@ -172,7 +176,7 @@ function SkenaUI:CreateWindow(Options)
     ScaleBtn.BackgroundColor3 = Palette.Background
     ScaleBtn.BackgroundTransparency = 1
     ScaleBtn.TextColor3 = Palette.TextPrimary
-    ScaleBtn.Font = Enum.Font.GothamMedium
+    ScaleBtn.Font = Enum.Font.Gotham
     ScaleBtn.TextSize = 14
     ScaleBtn.BorderSizePixel = 0
     Instance.new("UICorner", ScaleBtn).CornerRadius = UDim.new(0, 6)
@@ -191,7 +195,7 @@ function SkenaUI:CreateWindow(Options)
     Minibtn.BackgroundColor3 = Palette.Background
     Minibtn.BackgroundTransparency = 1
     Minibtn.TextColor3 = Palette.TextPrimary
-    Minibtn.Font = Enum.Font.GothamMedium
+    Minibtn.Font = Enum.Font.Gotham
     Minibtn.TextSize = 14
     Minibtn.BorderSizePixel = 0
     Instance.new("UICorner", Minibtn).CornerRadius = UDim.new(0, 6)
@@ -203,7 +207,7 @@ function SkenaUI:CreateWindow(Options)
     CloseBtn.BackgroundColor3 = Palette.Background
     CloseBtn.BackgroundTransparency = 1
     CloseBtn.TextColor3 = Palette.TextPrimary
-    CloseBtn.Font = Enum.Font.GothamMedium
+    CloseBtn.Font = Enum.Font.Gotham
     CloseBtn.TextSize = 14
     CloseBtn.BorderSizePixel = 0
     Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 6)
@@ -342,7 +346,7 @@ function SkenaUI:CreateWindow(Options)
         Tooltip.BackgroundColor3 = Palette.Card
         Tooltip.TextColor3 = Palette.TextPrimary
         Tooltip.Text = " " .. TabName .. " "
-        Tooltip.Font = Enum.Font.GothamMedium
+        Tooltip.Font = Enum.Font.Gotham
         Tooltip.TextSize = 11
         Tooltip.Visible = false
         Tooltip.ZIndex = 50
@@ -386,6 +390,288 @@ function SkenaUI:CreateWindow(Options)
         PLayout.SortOrder = Enum.SortOrder.LayoutOrder
         PLayout.Padding = UDim.new(0, 4)
 
+        function TabData:CreateInputRow(Options)
+            local Title = Options.Name or "Input"
+            local Default = Options.Default or ""
+            local Placeholder = Options.Placeholder or ""
+            local cb = Options.Callback or function() end
+            
+            local Row = AddRowContainer()
+            
+            local Txt = Instance.new("TextLabel", Row)
+            Txt.Size = UDim2.new(0.5, 0, 1, 0)
+            Txt.Position = UDim2.new(0, 12, 0, 0)
+            Txt.BackgroundTransparency = 1
+            Txt.Text = Title
+            Txt.Font = Enum.Font.Gotham
+            Txt.TextSize = 13
+            Txt.TextColor3 = Palette.TextPrimary
+            Txt.TextXAlignment = Enum.TextXAlignment.Left
+
+            local Box = Instance.new("TextBox", Row)
+            Box.Size = UDim2.new(0, 100, 0, 24)
+            Box.Position = UDim2.new(1, -112, 0.5, -12)
+            Box.BackgroundColor3 = Palette.InputHdr
+            Box.Text = tostring(Default)
+            Box.PlaceholderText = Placeholder
+            Box.TextColor3 = Palette.TextPrimary
+            Box.Font = Enum.Font.Gotham
+            Box.TextSize = 12
+            Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
+            local BStroke = Instance.new("UIStroke", Box)
+            BStroke.Color = Palette.Border
+            BStroke.Thickness = 1
+            
+            Box.FocusLost:Connect(function()
+                pcall(cb, Box.Text)
+            end)
+            
+            return Row
+        end
+
+        function TabData:CreateAutoFarmGroup(Options)
+            local GroupName = Options.Name or "Auto Farm"
+            local MasterCallback = Options.OnMasterToggle or function() end
+            
+            local GroupFrame = Instance.new("Frame", Page)
+            GroupFrame.Size = UDim2.new(1, 0, 0, 0)
+            GroupFrame.AutomaticSize = Enum.AutomaticSize.Y
+            GroupFrame.BackgroundColor3 = Palette.Card
+            GroupFrame.BorderSizePixel = 0
+            Instance.new("UICorner", GroupFrame).CornerRadius = UDim.new(0, 8)
+            local GStroke = Instance.new("UIStroke", GroupFrame)
+            GStroke.Color = Palette.Border
+            GStroke.Thickness = 1
+            
+            local GLayout = Instance.new("UIListLayout", GroupFrame)
+            GLayout.SortOrder = Enum.SortOrder.LayoutOrder
+            GLayout.Padding = UDim.new(0, 4)
+            Instance.new("UIPadding", GroupFrame).PaddingBottom = UDim.new(0, 8)
+
+            local Header = Instance.new("Frame", GroupFrame)
+            Header.Size = UDim2.new(1, 0, 0, 36)
+            Header.BackgroundTransparency = 1
+            
+            local HTxt = Instance.new("TextLabel", Header)
+            HTxt.Size = UDim2.new(1, -60, 1, 0)
+            HTxt.Position = UDim2.new(0, 12, 0, 0)
+            HTxt.BackgroundTransparency = 1
+            HTxt.Text = GroupName
+            HTxt.Font = Enum.Font.Gotham
+            HTxt.TextSize = 14
+            HTxt.TextColor3 = Palette.TextPrimary
+            HTxt.TextXAlignment = Enum.TextXAlignment.Left
+
+            if Options.HasMasterToggle then
+                local masterState = false
+                local MToggle = Instance.new("TextButton", Header)
+                MToggle.Size = UDim2.new(0, 40, 0, 20)
+                MToggle.Position = UDim2.new(1, -52, 0.5, -10)
+                MToggle.BackgroundColor3 = Palette.InputHdr
+                MToggle.Text = ""
+                Instance.new("UICorner", MToggle).CornerRadius = UDim.new(1, 0)
+                local MKnob = Instance.new("Frame", MToggle)
+                MKnob.Size = UDim2.new(0, 14, 0, 14)
+                MKnob.Position = UDim2.new(0, 3, 0.5, -7)
+                MKnob.BackgroundColor3 = Palette.TextSecondary
+                Instance.new("UICorner", MKnob).CornerRadius = UDim.new(1, 0)
+                
+                MToggle.MouseButton1Click:Connect(function()
+                    masterState = not masterState
+                    TweenService:Create(MToggle, TweenInfo.new(0.2), {BackgroundColor3 = masterState and Palette.Accent or Palette.InputHdr}):Play()
+                    TweenService:Create(MKnob, TweenInfo.new(0.2), {Position = masterState and UDim2.new(1, -17, 0.5, -7) or UDim2.new(0, 3, 0.5, -7)}):Play()
+                    pcall(MasterCallback, masterState)
+                end)
+            end
+
+            local SkillObj = {}
+            
+            function SkillObj:AddSkill(Name, Default, OnToggle, OnDelay)
+                local Row = Instance.new("Frame", GroupFrame)
+                Row.Size = UDim2.new(1, -16, 0, 32)
+                Row.Position = UDim2.new(0, 8, 0, 0)
+                Row.BackgroundTransparency = 1
+                
+                local Txt = Instance.new("TextLabel", Row)
+                Txt.Size = UDim2.new(0.4, 0, 1, 0)
+                Txt.BackgroundTransparency = 1
+                Txt.Text = Name
+                Txt.Font = Enum.Font.Gotham
+                Txt.TextSize = 12
+                Txt.TextColor3 = Palette.TextSecondary
+                Txt.TextXAlignment = Enum.TextXAlignment.Left
+
+                local skillState = Default or false
+                local Tgl = Instance.new("TextButton", Row)
+                Tgl.Size = UDim2.new(0, 32, 0, 16)
+                Tgl.Position = UDim2.new(0.4, 0, 0.5, -8)
+                Tgl.BackgroundColor3 = skillState and Palette.Accent or Palette.InputHdr
+                Tgl.Text = ""
+                Instance.new("UICorner", Tgl).CornerRadius = UDim.new(1, 0)
+                
+                Tgl.MouseButton1Click:Connect(function()
+                    skillState = not skillState
+                    Tgl.BackgroundColor3 = skillState and Palette.Accent or Palette.InputHdr
+                    pcall(OnToggle, skillState)
+                end)
+
+                local Box = Instance.new("TextBox", Row)
+                Box.Size = UDim2.new(0, 40, 0, 20)
+                Box.Position = UDim2.new(1, -45, 0.5, -10)
+                Box.BackgroundColor3 = Palette.InputHdr
+                Box.Text = "10"
+                Box.TextColor3 = Palette.TextPrimary
+                Box.Font = Enum.Font.Gotham
+                Box.TextSize = 11
+                Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
+                
+                Box.FocusLost:Connect(function()
+                    pcall(OnDelay, Box.Text)
+                end)
+            end
+
+            function SkillObj:AddMultiSkillRow(SkillsData)
+                local Row = Instance.new("Frame", GroupFrame)
+                Row.Size = UDim2.new(1, -16, 0, 32)
+                Row.Position = UDim2.new(0, 8, 0, 0)
+                Row.BackgroundTransparency = 1
+
+                local Layout = Instance.new("UIListLayout", Row)
+                Layout.FillDirection = Enum.FillDirection.Horizontal
+                Layout.Padding = UDim.new(0, 4)
+                Layout.VerticalAlignment = Enum.VerticalAlignment.Center
+
+                for _, data in ipairs(SkillsData) do
+                    local SkillBox = Instance.new("Frame", Row)
+                    SkillBox.Size = UDim2.new(0.33, -3, 0, 26)
+                    SkillBox.BackgroundTransparency = 1
+                    
+                    local SLayout = Instance.new("UIListLayout", SkillBox)
+                    SLayout.FillDirection = Enum.FillDirection.Horizontal
+                    SLayout.Padding = UDim.new(0, 3)
+                    SLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+
+                    local Btn = Instance.new("TextButton", SkillBox)
+                    Btn.Size = UDim2.new(0, 42, 0, 20)
+                    local state = data.DefaultToggle or false
+                    Btn.BackgroundColor3 = state and Palette.Accent or Palette.InputHdr
+                    Btn.Text = data.Name or "Skill"
+                    Btn.Font = Enum.Font.Gotham
+                    Btn.TextSize = 10
+                    Btn.TextColor3 = Palette.TextPrimary
+                    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 4)
+                    
+                    Btn.MouseButton1Click:Connect(function()
+                        state = not state
+                        Btn.BackgroundColor3 = state and Palette.Accent or Palette.InputHdr
+                        pcall(data.OnToggle, state)
+                    end)
+
+                    local Box = Instance.new("TextBox", SkillBox)
+                    Box.Size = UDim2.new(0, 24, 0, 20)
+                    Box.BackgroundColor3 = Palette.InputHdr
+                    Box.Text = tostring(data.DefaultDelay or "10")
+                    Box.TextColor3 = Palette.TextPrimary
+                    Box.Font = Enum.Font.Gotham
+                    Box.TextSize = 10
+                    Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
+                    Box.FocusLost:Connect(function() pcall(data.OnDelay, Box.Text) end)
+
+                    local Sec = Instance.new("TextLabel", SkillBox)
+                    Sec.Size = UDim2.new(0, 15, 1, 0)
+                    Sec.BackgroundTransparency = 1
+                    Sec.Text = "sec"
+                    Sec.Font = Enum.Font.Gotham
+                    Sec.TextSize = 9
+                    Sec.TextColor3 = Palette.TextSecondary
+                end
+            end
+
+            function SkillObj:AddActionInputRow(Opt)
+                local Row = Instance.new("Frame", GroupFrame)
+                Row.Size = UDim2.new(1, -16, 0, 32)
+                Row.Position = UDim2.new(0, 8, 0, 0)
+                Row.BackgroundTransparency = 1
+                
+                -- Left Group: Toggle Button + Input + "sec"
+                local Left = Instance.new("Frame", Row)
+                Left.Size = UDim2.new(0.65, 0, 1, 0)
+                Left.BackgroundTransparency = 1
+                local LLayout = Instance.new("UIListLayout", Left)
+                LLayout.FillDirection = Enum.FillDirection.Horizontal
+                LLayout.Padding = UDim.new(0, 6)
+                LLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+
+                local state = Opt.DefaultToggle or false
+                local TglBtn = Instance.new("TextButton", Left)
+                TglBtn.Size = UDim2.new(0, 65, 0, 20)
+                TglBtn.BackgroundColor3 = state and Palette.Accent or Palette.InputHdr
+                TglBtn.Text = Opt.Name or "Action"
+                TglBtn.TextColor3 = Palette.TextPrimary
+                TglBtn.Font = Enum.Font.Gotham
+                TglBtn.TextSize = 10
+                Instance.new("UICorner", TglBtn).CornerRadius = UDim.new(0, 4)
+                TglBtn.MouseButton1Click:Connect(function()
+                    state = not state
+                    TglBtn.BackgroundColor3 = state and Palette.Accent or Palette.InputHdr
+                    pcall(Opt.OnToggle, state)
+                end)
+
+                local Box = Instance.new("TextBox", Left)
+                Box.Size = UDim2.new(0, 32, 0, 20)
+                Box.BackgroundColor3 = Palette.InputHdr
+                Box.Text = Opt.InputDefault or ""
+                Box.TextColor3 = Palette.TextPrimary
+                Box.Font = Enum.Font.Gotham
+                Box.TextSize = 11
+                Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
+                Box.FocusLost:Connect(function() pcall(Opt.Callback, Box.Text) end)
+
+                local Sec = Instance.new("TextLabel", Left)
+                Sec.AutomaticSize = Enum.AutomaticSize.X
+                Sec.Size = UDim2.new(0, 0, 0.5, 0)
+                Sec.BackgroundTransparency = 1
+                Sec.Text = "sec"
+                Sec.Font = Enum.Font.Gotham
+                Sec.TextSize = 10
+                Sec.TextColor3 = Palette.TextSecondary
+
+                -- Right Group: Status + Button
+                local Right = Instance.new("Frame", Row)
+                Right.Size = UDim2.new(0.35, 0, 1, 0)
+                Right.Position = UDim2.new(0.65, 0, 0, 0)
+                Right.BackgroundTransparency = 1
+                local RLayout = Instance.new("UIListLayout", Right)
+                RLayout.FillDirection = Enum.FillDirection.Horizontal
+                RLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+                RLayout.Padding = UDim.new(0, 8)
+                RLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+
+                local Status = Instance.new("TextLabel", Right)
+                Status.AutomaticSize = Enum.AutomaticSize.X
+                Status.Size = UDim2.new(0, 0, 0.5, 0)
+                Status.BackgroundTransparency = 1
+                Status.Text = Opt.StatusText or ""
+                Status.Font = Enum.Font.Gotham
+                Status.TextSize = 10
+                Status.TextColor3 = Color3.fromRGB(150, 150, 150)
+
+                local Btn = Instance.new("TextButton", Right)
+                Btn.Size = UDim2.new(0, 90, 0, 20)
+                Btn.BackgroundColor3 = Palette.InputHdr
+                Btn.Text = Opt.ButtonText or "Action"
+                Btn.TextColor3 = Palette.TextPrimary
+                Btn.Font = Enum.Font.Gotham
+                Btn.TextSize = 11
+                Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 4)
+                Btn.MouseButton1Click:Connect(function() pcall(Opt.OnButton) end)
+                
+                return {Row = Row, StatusLabel = Status, Button = Btn}
+            end
+
+            return SkillObj
+        end
+
         WindowObj.Tabs[TabName] = { Button = TabBtn, Icon = TabIcon, Indicator = Indicator, Page = Page }
         
         TabBtn.MouseButton1Click:Connect(function() WindowObj:SelectTab(TabName) end)
@@ -397,7 +683,7 @@ function SkenaUI:CreateWindow(Options)
         Header.Size = UDim2.new(1, 0, 0, 36)
         Header.BackgroundTransparency = 1
         Header.Text = TabName
-        Header.Font = Enum.Font.BuilderSansBold
+        Header.Font = Enum.Font.Gotham
         Header.TextSize = 20
         Header.TextColor3 = Palette.TextPrimary
         Header.TextXAlignment = Enum.TextXAlignment.Left
@@ -426,7 +712,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -491,7 +777,7 @@ function SkenaUI:CreateWindow(Options)
                 SubBtn.BackgroundColor3 = Options.SubToggleDefault and Palette.Accent or Palette.InputHdr
                 SubBtn.Text = Options.SubToggleName or "Sub"
                 SubBtn.TextColor3 = Color3.new(1,1,1)
-                SubBtn.Font = Enum.Font.GothamMedium
+                SubBtn.Font = Enum.Font.Gotham
                 SubBtn.TextSize = 11
                 SubBtn.LayoutOrder = 1
                 Instance.new("UICorner", SubBtn).CornerRadius = UDim.new(0, 4)
@@ -531,7 +817,7 @@ function SkenaUI:CreateWindow(Options)
                 Box.Text = tostring(defaultVal or "")
                 Box.PlaceholderText = placeholder
                 Box.TextColor3 = Palette.TextPrimary
-                Box.Font = Enum.Font.GothamMedium
+                Box.Font = Enum.Font.Gotham
                 Box.TextSize = 12
                 Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
                 local BStroke = Instance.new("UIStroke", Box)
@@ -564,7 +850,7 @@ function SkenaUI:CreateWindow(Options)
                 lbl.BackgroundTransparency = 1
                 lbl.Size = UDim2.new(1, 0, 1, 0)
                 lbl.Text = "0.0 s/s"
-                lbl.Font = Enum.Font.GothamBold
+                lbl.Font = Enum.Font.Gotham
                 lbl.TextSize = 11
                 lbl.TextColor3 = Palette.Accent
                 lbl.TextXAlignment = Enum.TextXAlignment.Right
@@ -594,7 +880,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -609,7 +895,7 @@ function SkenaUI:CreateWindow(Options)
             ValTxt.Position = UDim2.new(0, 0, 0, 0)
             ValTxt.BackgroundTransparency = 1
             ValTxt.Text = Prefix .. tostring(Default) .. Suffix
-            ValTxt.Font = Enum.Font.GothamMedium
+            ValTxt.Font = Enum.Font.Gotham
             ValTxt.TextSize = 12
             ValTxt.TextColor3 = Palette.TextSecondary
             ValTxt.TextXAlignment = Enum.TextXAlignment.Right
@@ -707,7 +993,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -718,7 +1004,7 @@ function SkenaUI:CreateWindow(Options)
             ExecBtn.BackgroundColor3 = Palette.InputHdr
             ExecBtn.Text = BtnText
             ExecBtn.TextColor3 = Palette.TextPrimary
-            ExecBtn.Font = Enum.Font.GothamMedium
+            ExecBtn.Font = Enum.Font.Gotham
             ExecBtn.TextSize = 12
             ExecBtn.AutoButtonColor = false
             Instance.new("UICorner", ExecBtn).CornerRadius = UDim.new(0, 4)
@@ -746,7 +1032,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -797,7 +1083,7 @@ function SkenaUI:CreateWindow(Options)
             ExecBtn.BackgroundColor3 = Palette.InputHdr
             ExecBtn.Text = BtnText
             ExecBtn.TextColor3 = Palette.TextPrimary
-            ExecBtn.Font = Enum.Font.GothamMedium
+            ExecBtn.Font = Enum.Font.Gotham
             ExecBtn.TextSize = 12
             ExecBtn.AutoButtonColor = false
             Instance.new("UICorner", ExecBtn).CornerRadius = UDim.new(0, 4)
@@ -826,7 +1112,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -848,7 +1134,7 @@ function SkenaUI:CreateWindow(Options)
                 btn.BackgroundColor3 = Palette.InputHdr
                 btn.Text = txt
                 btn.TextColor3 = Palette.TextPrimary
-                btn.Font = Enum.Font.GothamMedium
+                btn.Font = Enum.Font.Gotham
                 btn.TextSize = 12
                 btn.AutoButtonColor = false
                 btn.LayoutOrder = order
@@ -893,7 +1179,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -913,7 +1199,7 @@ function SkenaUI:CreateWindow(Options)
             DropLabel.BackgroundColor3 = Palette.InputHdr
             DropLabel.Text = "Select v"
             DropLabel.TextColor3 = Palette.TextSecondary
-            DropLabel.Font = Enum.Font.GothamMedium
+            DropLabel.Font = Enum.Font.Gotham
             DropLabel.TextSize = 12
             Instance.new("UICorner", DropLabel).CornerRadius = UDim.new(0, 4)
             local EStroke = Instance.new("UIStroke", DropLabel)
@@ -978,7 +1264,7 @@ function SkenaUI:CreateWindow(Options)
                 Itm.Text = columns > 1 and itemStr or ("  " .. itemStr)
                 Itm.TextXAlignment = columns > 1 and Enum.TextXAlignment.Center or Enum.TextXAlignment.Left
                 Itm.TextColor3 = isDefault and Color3.new(1,1,1) or Palette.TextSecondary
-                Itm.Font = Enum.Font.GothamMedium
+                Itm.Font = Enum.Font.Gotham
                 Itm.TextSize = columns > 1 and 11 or 12
                 Itm.AutoButtonColor = false
                 Instance.new("UICorner", Itm).CornerRadius = UDim.new(0,4)
@@ -1056,7 +1342,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -1115,7 +1401,7 @@ function SkenaUI:CreateWindow(Options)
             DropLabel.BackgroundColor3 = Palette.InputHdr
             DropLabel.Text = "Select v"
             DropLabel.TextColor3 = Palette.TextSecondary
-            DropLabel.Font = Enum.Font.GothamMedium
+            DropLabel.Font = Enum.Font.Gotham
             DropLabel.TextSize = 12
             Instance.new("UICorner", DropLabel).CornerRadius = UDim.new(0, 4)
             local EStroke = Instance.new("UIStroke", DropLabel)
@@ -1180,7 +1466,7 @@ function SkenaUI:CreateWindow(Options)
                 Itm.Text = columns > 1 and itemStr or ("  " .. itemStr)
                 Itm.TextXAlignment = columns > 1 and Enum.TextXAlignment.Center or Enum.TextXAlignment.Left
                 Itm.TextColor3 = isDefault and Color3.new(1,1,1) or Palette.TextSecondary
-                Itm.Font = Enum.Font.GothamMedium
+                Itm.Font = Enum.Font.Gotham
                 Itm.TextSize = columns > 1 and 11 or 12
                 Itm.AutoButtonColor = false
                 Instance.new("UICorner", Itm).CornerRadius = UDim.new(0,4)
@@ -1257,7 +1543,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -1279,7 +1565,7 @@ function SkenaUI:CreateWindow(Options)
             ActionBtn.BackgroundColor3 = Palette.InputHdr
             ActionBtn.Text = btnText
             ActionBtn.TextColor3 = Palette.TextSecondary
-            ActionBtn.Font = Enum.Font.GothamMedium
+            ActionBtn.Font = Enum.Font.Gotham
             ActionBtn.TextSize = 12
             ActionBtn.AutoButtonColor = false
             Instance.new("UICorner", ActionBtn).CornerRadius = UDim.new(0, 4)
@@ -1296,7 +1582,7 @@ function SkenaUI:CreateWindow(Options)
             DropLabel.BackgroundColor3 = Palette.InputHdr
             DropLabel.Text = "Select v"
             DropLabel.TextColor3 = Palette.TextSecondary
-            DropLabel.Font = Enum.Font.GothamMedium
+            DropLabel.Font = Enum.Font.Gotham
             DropLabel.TextSize = 12
             Instance.new("UICorner", DropLabel).CornerRadius = UDim.new(0, 4)
             local EStroke = Instance.new("UIStroke", DropLabel)
@@ -1361,7 +1647,7 @@ function SkenaUI:CreateWindow(Options)
                 Itm.Text = columns > 1 and itemStr or ("  " .. itemStr)
                 Itm.TextXAlignment = columns > 1 and Enum.TextXAlignment.Center or Enum.TextXAlignment.Left
                 Itm.TextColor3 = isDefault and Color3.new(1,1,1) or Palette.TextSecondary
-                Itm.Font = Enum.Font.GothamMedium
+                Itm.Font = Enum.Font.Gotham
                 Itm.TextSize = columns > 1 and 11 or 12
                 Itm.AutoButtonColor = false
                 Instance.new("UICorner", Itm).CornerRadius = UDim.new(0,4)
@@ -1430,7 +1716,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -1490,7 +1776,7 @@ function SkenaUI:CreateWindow(Options)
             ExpandBtn.BackgroundColor3 = Palette.InputHdr
             ExpandBtn.Text = "Filter v"
             ExpandBtn.TextColor3 = Palette.TextSecondary
-            ExpandBtn.Font = Enum.Font.GothamMedium
+            ExpandBtn.Font = Enum.Font.Gotham
             ExpandBtn.TextSize = 12
             ExpandBtn.AutoButtonColor = false
             Instance.new("UICorner", ExpandBtn).CornerRadius = UDim.new(0, 4)
@@ -1538,7 +1824,7 @@ function SkenaUI:CreateWindow(Options)
                 Itm.Text = "  " .. itemStr
                 Itm.TextXAlignment = Enum.TextXAlignment.Left
                 Itm.TextColor3 = defaultState and Color3.new(1,1,1) or Palette.TextSecondary
-                Itm.Font = Enum.Font.GothamMedium
+                Itm.Font = Enum.Font.Gotham
                 Itm.TextSize = 12
                 Itm.AutoButtonColor = false
                 Instance.new("UICorner", Itm).CornerRadius = UDim.new(0,4)
@@ -1570,7 +1856,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -1582,7 +1868,7 @@ function SkenaUI:CreateWindow(Options)
             Box.Text = tostring(Default)
             Box.PlaceholderText = Placeholder
             Box.TextColor3 = Palette.TextPrimary
-            Box.Font = Enum.Font.GothamMedium
+            Box.Font = Enum.Font.Gotham
             Box.TextSize = 12
             Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
             local BStroke = Instance.new("UIStroke", Box)
@@ -1608,7 +1894,7 @@ function SkenaUI:CreateWindow(Options)
             Txt.Position = UDim2.new(0, 12, 0, 0)
             Txt.BackgroundTransparency = 1
             Txt.Text = Title
-            Txt.Font = Enum.Font.GothamMedium
+            Txt.Font = Enum.Font.Gotham
             Txt.TextSize = 13
             Txt.TextColor3 = Palette.TextPrimary
             Txt.TextXAlignment = Enum.TextXAlignment.Left
@@ -1618,7 +1904,7 @@ function SkenaUI:CreateWindow(Options)
             ExecBtn.Position = UDim2.new(1, -62, 0.5, -12)
             ExecBtn.BackgroundColor3 = Palette.Accent
             ExecBtn.Text = BtnText
-            ExecBtn.Font = Enum.Font.GothamMedium
+            ExecBtn.Font = Enum.Font.Gotham
             ExecBtn.TextSize = 12
             ExecBtn.TextColor3 = Color3.new(1, 1, 1)
             Instance.new("UICorner", ExecBtn).CornerRadius = UDim.new(0, 4)
@@ -1630,7 +1916,7 @@ function SkenaUI:CreateWindow(Options)
             Box.Text = tostring(Default)
             Box.PlaceholderText = Placeholder
             Box.TextColor3 = Palette.TextPrimary
-            Box.Font = Enum.Font.GothamMedium
+            Box.Font = Enum.Font.Gotham
             Box.TextSize = 12
             Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
             local BStroke = Instance.new("UIStroke", Box)
@@ -1679,6 +1965,76 @@ function SkenaUI:CreateWindow(Options)
         if WindowObj.TitleText then
             WindowObj.TitleText.Text = tostring(NewTitle)
         end
+    end
+
+    function WindowObj:UpdateCooldown(skillName, duration)
+        local HUD = parentUI:FindFirstChild("SkenaHUD")
+        if not HUD then
+            HUD = Instance.new("ScreenGui", parentUI)
+            HUD.Name = "SkenaHUD"
+            
+            local Container = Instance.new("Frame", HUD)
+            Container.Name = "Container"
+            Container.Size = UDim2.new(0, 200, 0, 0)
+            Container.Position = UDim2.new(1, -210, 1, -20)
+            Container.AnchorPoint = Vector2.new(0, 1)
+            Container.BackgroundTransparency = 1
+            Container.AutomaticSize = Enum.AutomaticSize.Y
+            
+            local Layout = Instance.new("UIListLayout", Container)
+            Layout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+            Layout.SortOrder = Enum.SortOrder.LayoutOrder
+            Layout.Padding = UDim.new(0, 5)
+        end
+        
+        local Container = HUD.Container
+        local Item = Container:FindFirstChild(skillName)
+        
+        if duration <= 0 then
+            if Item then
+                TweenService:Create(Item, TweenInfo.new(0.3), {GroupTransparency = 1}):Play()
+                task.delay(0.3, function() Item:Destroy() end)
+            end
+            WindowObj.Cooldowns[skillName] = nil
+            return
+        end
+        
+        if not Item then
+            Item = Instance.new("CanvasGroup", Container)
+            Item.Name = skillName
+            Item.Size = UDim2.new(1, 0, 0, 30)
+            Item.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+            Item.GroupTransparency = 1
+            Instance.new("UICorner", Item).CornerRadius = UDim.new(0, 6)
+            Instance.new("UIStroke", Item).Color = Palette.Border
+            
+            local Label = Instance.new("TextLabel", Item)
+            Label.Name = "Label"
+            Label.Size = UDim2.new(1, -60, 1, 0)
+            Label.Position = UDim2.new(0, 8, 0, 0)
+            Label.BackgroundTransparency = 1
+            Label.Text = skillName
+            Label.TextColor3 = Palette.TextPrimary
+            Label.Font = Enum.Font.Gotham
+            Label.TextSize = 11
+            Label.TextXAlignment = Enum.TextXAlignment.Left
+            
+            local Time = Instance.new("TextLabel", Item)
+            Time.Name = "Time"
+            Time.Size = UDim2.new(0, 50, 1, 0)
+            Time.Position = UDim2.new(1, -55, 0, 0)
+            Time.BackgroundTransparency = 1
+            Time.Text = string.format("%.1fs", duration)
+            Time.TextColor3 = Palette.Accent
+            Time.Font = Enum.Font.Gotham
+            Time.TextSize = 11
+            Time.TextXAlignment = Enum.TextXAlignment.Right
+            
+            TweenService:Create(Item, TweenInfo.new(0.3), {GroupTransparency = 0}):Play()
+        end
+        
+        Item.Time.Text = string.format("%.1fs", duration)
+        WindowObj.Cooldowns[skillName] = duration
     end
     
     return WindowObj

@@ -240,17 +240,32 @@ function SkenaAdmin.Attach(Window, DebugData)
         end
     })
 
-    TabSettings:CreateButtonRow({
-        Name = "Unload SkenaHub",
-        Callback = function()
-            local CoreGui = game:GetService("CoreGui")
-            local ui = nil
-            if pcall(function() return CoreGui.RobloxGui end) then
-                ui = CoreGui:FindFirstChild("SkenaHub_UI")
-            else
-                ui = game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("SkenaHub_UI")
-            end
-            if ui then ui:Destroy() end
+    TabSettings:CreateDoubleButtonRow({
+        Name = "UI Management",
+        Button1Text = "Unload",
+        Button2Text = "Reload",
+        Callback1 = function()
+            pcall(function()
+                local ui = game:GetService("CoreGui"):FindFirstChild("SkenaHub_UI") or player:WaitForChild("PlayerGui"):FindFirstChild("SkenaHub_UI")
+                if ui then ui:Destroy() end
+                if getgenv()._SKENA_FLY_CONN then getgenv()._SKENA_FLY_CONN:Disconnect() end
+                if getgenv()._SKENA_SPEED_CONN then getgenv()._SKENA_SPEED_CONN:Disconnect() end
+                if getgenv()._SKENA_NOCLIP_CONN then getgenv()._SKENA_NOCLIP_CONN:Disconnect() end
+                if getgenv()._SKENA_ESP_CONN then getgenv()._SKENA_ESP_CONN:Disconnect() end
+            end)
+        end,
+        Callback2 = function()
+            local baseUrl = getgenv()._SKENA_BASE_URL or "http://192.168.100.40:8000/"
+            pcall(function()
+                local ui = game:GetService("CoreGui"):FindFirstChild("SkenaHub_UI") or player:WaitForChild("PlayerGui"):FindFirstChild("SkenaHub_UI")
+                if ui then ui:Destroy() end
+                if getgenv()._SKENA_FLY_CONN then getgenv()._SKENA_FLY_CONN:Disconnect() end
+                if getgenv()._SKENA_SPEED_CONN then getgenv()._SKENA_SPEED_CONN:Disconnect() end
+                if getgenv()._SKENA_NOCLIP_CONN then getgenv()._SKENA_NOCLIP_CONN:Disconnect() end
+                if getgenv()._SKENA_ESP_CONN then getgenv()._SKENA_ESP_CONN:Disconnect() end
+            end)
+            task.wait(0.1)
+            loadstring(game:HttpGet(baseUrl .. "SkenaUI.lua", true))()
         end
     })
 

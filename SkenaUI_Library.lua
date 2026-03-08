@@ -550,6 +550,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                     SLayout.FillDirection = Enum.FillDirection.Horizontal
                     SLayout.Padding = UDim.new(0, 3)
                     SLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+                    SLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
                     local Btn = Instance.new("TextButton", SkillBox)
                     Btn.Size = UDim2.new(0, 42, 0, 20)
@@ -559,6 +560,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                     Btn.Font = Enum.Font.Gotham
                     Btn.TextSize = 10
                     Btn.TextColor3 = Palette.TextPrimary
+                    Btn.LayoutOrder = 1
                     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 4)
                     
                     Btn.MouseButton1Click:Connect(function()
@@ -574,6 +576,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                     Box.TextColor3 = Palette.TextPrimary
                     Box.Font = Enum.Font.Gotham
                     Box.TextSize = 10
+                    Box.LayoutOrder = 2
                     Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
                     Box.FocusLost:Connect(function() pcall(data.OnDelay, Box.Text) end)
 
@@ -584,6 +587,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                     Sec.Font = Enum.Font.Gotham
                     Sec.TextSize = 9
                     Sec.TextColor3 = Palette.TextSecondary
+                    Sec.LayoutOrder = 3
                 end
             end
 
@@ -601,6 +605,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 LLayout.FillDirection = Enum.FillDirection.Horizontal
                 LLayout.Padding = UDim.new(0, 6)
                 LLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+                LLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
                 local state = Opt.DefaultToggle or false
                 local TglBtn = Instance.new("TextButton", Left)
@@ -610,6 +615,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 TglBtn.TextColor3 = Palette.TextPrimary
                 TglBtn.Font = Enum.Font.Gotham
                 TglBtn.TextSize = 10
+                TglBtn.LayoutOrder = 1
                 Instance.new("UICorner", TglBtn).CornerRadius = UDim.new(0, 4)
                 TglBtn.MouseButton1Click:Connect(function()
                     state = not state
@@ -624,6 +630,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 Box.TextColor3 = Palette.TextPrimary
                 Box.Font = Enum.Font.Gotham
                 Box.TextSize = 11
+                Box.LayoutOrder = 2
                 Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
                 Box.FocusLost:Connect(function() pcall(Opt.Callback, Box.Text) end)
 
@@ -635,6 +642,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 Sec.Font = Enum.Font.Gotham
                 Sec.TextSize = 10
                 Sec.TextColor3 = Palette.TextSecondary
+                Sec.LayoutOrder = 3
 
                 -- Right Group: Status + Button
                 local Right = Instance.new("Frame", Row)

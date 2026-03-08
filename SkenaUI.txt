@@ -1,0 +1,38 @@
+-- Obfuscator preparation for SkenaUI Loader
+-- This script reconstructs the GitHub URL using a combination of byte arrays,
+-- reversed strings, and inline concatenation to make it harder to extract
+-- the URL before running it through the WeAreDevs obfuscator.
+
+local function reconstruct()
+    -- "https://raw.githubusercontent.com"
+    local p1 = string.char(104, 116, 116, 112, 115, 58, 47, 47)
+    local p2 = string.reverse("tnetnocresubuhtig.war")
+    local p3 = ".com"
+    
+    -- "/kndrckm/kndrckm.github.io/refs/heads/main/key/SkenaUI.lua"
+    local t = {
+        47, 107, 110, 100, 114, 99, 107, 109, 47, 107, 110, 100, 114, 99, 107, 109,
+        46, 103, 105, 116, 104, 117, 98, 46, 105, 111, 47, 114, 101, 102, 115, 47,
+        104, 101, 97, 100, 115, 47, 109, 97, 105, 110, 47, 107, 101, 121, 47,
+        83, 107, 101, 110, 97, 85, 73, 46, 108, 117, 97
+    }
+    
+    local p4 = ""
+    for i = 1, #t do
+        p4 = p4 .. string.char(t[i])
+    end
+    
+    return p1 .. p2 .. p3 .. p4
+end
+
+-- Get the URL safely
+local u = reconstruct()
+
+-- Execute the fetched script
+local s, e = pcall(function()
+    loadstring(game:HttpGet(u, true))()
+end)
+
+if not s then
+    warn("Failed to load script.")
+end

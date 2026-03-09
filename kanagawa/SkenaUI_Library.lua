@@ -2,6 +2,7 @@ local SkenaUI = {}
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
+local Lighting = game:GetService("Lighting")
 
 local parentUI = nil
 if pcall(function() return CoreGui.RobloxGui end) then
@@ -88,6 +89,12 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     SG.DisplayOrder = 9999
     SG.ZIndexBehavior = Enum.ZIndexBehavior.Global
 
+    -- Glassmorphism: blur the game world behind the UI
+    local _blurEffect = Instance.new("BlurEffect")
+    _blurEffect.Name = "SkenaUI_Blur"
+    _blurEffect.Size = 16
+    _blurEffect.Parent = Lighting
+
     local WindowObj = {
         CurrentTab = nil,
         Tabs = {},
@@ -127,6 +134,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
         uiVisible = not uiVisible
         if uiVisible then
             SG.Enabled = true
+            if _blurEffect then _blurEffect.Size = 16 end
             MainScale.Scale = 0.85
             Main.GroupTransparency = 1
             TweenService:Create(Main, TweenInfo.new(0.3, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {GroupTransparency = 0}):Play()
@@ -140,6 +148,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             tw:Play()
             task.delay(0.2, function()
                 if not uiVisible then SG.Enabled = false end
+                if _blurEffect then _blurEffect.Size = 0 end
             end)
         end
     end
@@ -156,6 +165,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     -- When SG is destroyed, cleanup Toggle shortcut
     SG.Destroying:Connect(function()
         if uiToggleConnection then uiToggleConnection:Disconnect() end
+        if _blurEffect then _blurEffect:Destroy() _blurEffect = nil end
     end)
 
     -- Drag Logic
@@ -261,45 +271,55 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
         ToggleUIAnim()
     end)
 
-    CloseBtn.MouseButton1Click:Connect(function() SG:Destroy() end)
+    CloseBtn.MouseButton1Click:Connect(function()
+        if _blurEffect then _blurEffect:Destroy() _blurEffect = nil end
+        SG:Destroy()
+    end)
 
     -- Under Title Bar
     local BodyFrame = Instance.new("Frame", Main)
-    BodyFrame.Size = UDim2.new(1, 0, 1, -32)
-    BodyFrame.Position = UDim2.new(0, 0, 0, 32)
+    BodyFrame.Size = UDim2.new(1, 0, 1, -72)
+    BodyFrame.Position = UDim2.new(0, 0, 0, 72)
     BodyFrame.BackgroundTransparency = 1
     
     local BodyPadding = Instance.new("UIPadding", BodyFrame)
     BodyPadding.PaddingBottom = UDim.new(0, 12)
 
-    -- Sidebar (Left)
-    local Sidebar = Instance.new("Frame", BodyFrame)
-    Sidebar.Size = UDim2.new(0, 45, 1, 0)
-    Sidebar.Position = UDim2.new(0, 5, 0, 0)
-    Sidebar.BackgroundTransparency = 1
+    -- NavBar (horizontal tab bar below TitleBar)
+    local NavBar = Instance.new("Frame", Main)
+    NavBar.Name = "NavBar"
+    NavBar.Size = UDim2.new(1, 0, 0, 40)
+    NavBar.Position = UDim2.new(0, 0, 0, 32)
+    NavBar.BackgroundTransparency = 1
+    NavBar.BorderSizePixel = 0
 
-    local SidebarTop = Instance.new("Frame", Sidebar)
-    SidebarTop.Size = UDim2.new(1, 0, 0, 0)
-    SidebarTop.AutomaticSize = Enum.AutomaticSize.Y
-    SidebarTop.BackgroundTransparency = 1
-    local STLayout = Instance.new("UIListLayout", SidebarTop)
-    STLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    STLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    STLayout.Padding = UDim.new(0, 12)
+    local NavScroll = Instance.new("ScrollingFrame", NavBar)
+    NavScroll.Name = "NavScroll"
+    NavScroll.Size = UDim2.new(1, -16, 1, 0)
+    NavScroll.Position = UDim2.new(0, 8, 0, 0)
+    NavScroll.BackgroundTransparency = 1
+    NavScroll.BorderSizePixel = 0
+    NavScroll.ScrollBarThickness = 0
+    NavScroll.ScrollingDirection = Enum.ScrollingDirection.X
+    NavScroll.AutomaticCanvasSize = Enum.AutomaticSize.X
+    NavScroll.CanvasSize = UDim2.new(0, 0, 1, 0)
+    NavScroll.ClipsDescendants = true
 
-    local SidebarBottom = Instance.new("Frame", Sidebar)
-    SidebarBottom.Size = UDim2.new(1, 0, 1, 0)
-    SidebarBottom.BackgroundTransparency = 1
-    local SBLayout = Instance.new("UIListLayout", SidebarBottom)
-    SBLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    SBLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
-    SBLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    SBLayout.Padding = UDim.new(0, 12)
+    local NavLayout = Instance.new("UIListLayout", NavScroll)
+    NavLayout.FillDirection = Enum.FillDirection.Horizontal
+    NavLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
+    NavLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+    NavLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    NavLayout.Padding = UDim.new(0, 4)
 
-    -- Inner Card (Right)
+    local NavPadding = Instance.new("UIPadding", NavScroll)
+    NavPadding.PaddingLeft = UDim.new(0, 4)
+    NavPadding.PaddingRight = UDim.new(0, 4)
+
+    -- Inner Card (Full-width)
     local Card = Instance.new("Frame", BodyFrame)
-    Card.Size = UDim2.new(1, -60, 1, -8)
-    Card.Position = UDim2.new(0, 55, 0, 0)
+    Card.Size = UDim2.new(1, -16, 1, -8)
+    Card.Position = UDim2.new(0, 8, 0, 0)
     Card.BackgroundColor3 = Palette.Card
     Card.BorderSizePixel = 0
     Card.ClipsDescendants = true
@@ -329,19 +349,34 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     TabContainer.Name = "Tabs"
     
     local function CreateTabButton(TabName, IconID, isSettings)
-        local TabBtn = Instance.new("TextButton", isSettings and SidebarBottom or SidebarTop)
-        TabBtn.Size = UDim2.new(0, 36, 0, 36)
+        local TabBtn = Instance.new("TextButton", NavScroll)
+        TabBtn.Name = "Tab_" .. TabName
+        TabBtn.Size = UDim2.new(0, 0, 0, 32)
+        TabBtn.AutomaticSize = Enum.AutomaticSize.X
         TabBtn.BackgroundColor3 = Palette.RowHover
         TabBtn.BackgroundTransparency = 1
         TabBtn.Text = ""
         TabBtn.AutoButtonColor = false
-        Instance.new("UICorner", TabBtn).CornerRadius = UDim.new(0, 10)
-        
+        TabBtn.LayoutOrder = isSettings and 9999 or 0
+        Instance.new("UICorner", TabBtn).CornerRadius = UDim.new(0, 8)
+
+        local BtnPadding = Instance.new("UIPadding", TabBtn)
+        BtnPadding.PaddingLeft = UDim.new(0, 10)
+        BtnPadding.PaddingRight = UDim.new(0, 10)
+
+        local BtnLayout = Instance.new("UIListLayout", TabBtn)
+        BtnLayout.FillDirection = Enum.FillDirection.Horizontal
+        BtnLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+        BtnLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+        BtnLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        BtnLayout.Padding = UDim.new(0, 6)
+
         local TabIcon = Instance.new("ImageLabel", TabBtn)
-        TabIcon.Size = UDim2.new(0, 20, 0, 20)
-        TabIcon.Position = UDim2.new(0.5, -10, 0.5, -10)
+        TabIcon.Name = "Icon"
+        TabIcon.Size = UDim2.new(0, 16, 0, 16)
         TabIcon.BackgroundTransparency = 1
-        
+        TabIcon.LayoutOrder = 1
+
         local finalImage = ""
         if type(IconID) == "string" then
             local checkKey = "lucide-" .. IconID
@@ -350,47 +385,45 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             elseif LucideIcons[IconID] then
                 finalImage = LucideIcons[IconID]
             else
-                finalImage = "rbxassetid://10709798174" -- Circle Fallback
+                finalImage = "rbxassetid://10709798174"
             end
         else
             finalImage = "rbxassetid://" .. tostring(IconID)
         end
-        
+
         TabIcon.Image = finalImage
         TabIcon.ImageColor3 = Palette.TextSecondary
-        
+
+        local TabLabel = Instance.new("TextLabel", TabBtn)
+        TabLabel.Name = "Label"
+        TabLabel.Size = UDim2.new(0, 0, 1, 0)
+        TabLabel.AutomaticSize = Enum.AutomaticSize.X
+        TabLabel.BackgroundTransparency = 1
+        TabLabel.Text = TabName
+        TabLabel.Font = Enum.Font.Gotham
+        TabLabel.TextSize = 12
+        TabLabel.TextColor3 = Palette.TextSecondary
+        TabLabel.LayoutOrder = 2
+
+        -- Bottom underline indicator (iOS style)
         local Indicator = Instance.new("Frame", TabBtn)
-        Indicator.Size = UDim2.new(0, 3, 0, 16)
-        Indicator.Position = UDim2.new(0, 0, 0.5, -8)
+        Indicator.Name = "Indicator"
+        Indicator.Size = UDim2.new(1, -8, 0, 2)
+        Indicator.Position = UDim2.new(0, 4, 1, -3)
         Indicator.BackgroundColor3 = Palette.Accent
         Indicator.BorderSizePixel = 0
         Indicator.Visible = false
         Instance.new("UICorner", Indicator).CornerRadius = UDim.new(1, 0)
 
-        local Tooltip = Instance.new("TextLabel", TabBtn)
-        Tooltip.Size = UDim2.new(0, 0, 0, 24)
-        Tooltip.Position = UDim2.new(1, 10, 0.5, -12)
-        Tooltip.AutomaticSize = Enum.AutomaticSize.X
-        Tooltip.BackgroundColor3 = Palette.Card
-        Tooltip.TextColor3 = Palette.TextPrimary
-        Tooltip.Text = " " .. TabName .. " "
-        Tooltip.Font = Enum.Font.Gotham
-        Tooltip.TextSize = 11
-        Tooltip.Visible = false
-        Tooltip.ZIndex = 50
-        Instance.new("UICorner", Tooltip).CornerRadius = UDim.new(0, 4)
-
         TabBtn.MouseEnter:Connect(function()
             if WindowObj.CurrentTab ~= TabName then
                 TweenService:Create(TabBtn, TweenInfo.new(0.2), {BackgroundTransparency = 0}):Play()
             end
-            Tooltip.Visible = true
         end)
         TabBtn.MouseLeave:Connect(function()
             if WindowObj.CurrentTab ~= TabName then
                 TweenService:Create(TabBtn, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
             end
-            Tooltip.Visible = false
         end)
 
         return TabBtn, TabIcon, Indicator
@@ -1921,15 +1954,21 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 data.Page.Visible = true
                 data.Page.GroupTransparency = 1
                 TweenService:Create(data.Page, TweenInfo.new(0.35, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {GroupTransparency = 0}):Play()
-                
+
                 data.Indicator.Visible = true
                 data.Icon.ImageColor3 = Palette.Accent
+                -- Highlight label text for active tab
+                local lbl = data.Button:FindFirstChild("Label")
+                if lbl then lbl.TextColor3 = Palette.Accent end
                 data.Button.BackgroundTransparency = 0
+                data.Button.BackgroundColor3 = Palette.RowHover
             else
                 data.Page.Visible = false
                 data.Page.GroupTransparency = 1
                 data.Indicator.Visible = false
                 data.Icon.ImageColor3 = Palette.TextSecondary
+                local lbl = data.Button:FindFirstChild("Label")
+                if lbl then lbl.TextColor3 = Palette.TextSecondary end
                 data.Button.BackgroundTransparency = 1
             end
         end

@@ -76,5 +76,23 @@ local success, err = pcall(function()
 end)
 
 if not success then
-    warn("[SkenaUI] Gagal membaca script: " .. tostring(err))
+    warn("[SkenaUI] Gagal memuat UI untuk game ini: ", err)
+    -- Tampilkan error di layar agar tidak silent-fail
+    pcall(function()
+        local sg = Instance.new("ScreenGui")
+        sg.Name = "SkenaErrorDisplay"
+        local ok = pcall(function() sg.Parent = game:GetService("CoreGui") end)
+        if not ok then sg.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui") end
+        local lbl = Instance.new("TextLabel", sg)
+        lbl.Size = UDim2.new(0, 500, 0, 60)
+        lbl.Position = UDim2.new(0.5, -250, 0, 10)
+        lbl.BackgroundColor3 = Color3.fromRGB(180, 30, 30)
+        lbl.TextColor3 = Color3.new(1,1,1)
+        lbl.Font = Enum.Font.GothamBold
+        lbl.TextSize = 12
+        lbl.TextWrapped = true
+        lbl.Text = "[SkenaUI Error] " .. tostring(err)
+        Instance.new("UICorner", lbl).CornerRadius = UDim.new(0, 6)
+        task.delay(15, function() if sg then sg:Destroy() end end)
+    end)
 end

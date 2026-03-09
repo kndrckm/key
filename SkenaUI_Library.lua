@@ -445,7 +445,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             
             local GLayout = Instance.new("UIListLayout", GroupFrame)
             GLayout.SortOrder = Enum.SortOrder.LayoutOrder
-            GLayout.Padding = UDim.new(0, 4)
+            GLayout.Padding = UDim.new(0, 2)
             Instance.new("UIPadding", GroupFrame).PaddingBottom = UDim.new(0, 8)
 
             local Header = Instance.new("Frame", GroupFrame)
@@ -532,18 +532,19 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
 
             function SkillObj:AddMultiSkillRow(SkillsData)
                 local Row = Instance.new("Frame", GroupFrame)
-                Row.Size = UDim2.new(1, -16, 0, 32)
+                Row.Size = UDim2.new(1, -16, 0, 24)
                 Row.Position = UDim2.new(0, 8, 0, 0)
                 Row.BackgroundTransparency = 1
 
                 local Layout = Instance.new("UIListLayout", Row)
                 Layout.FillDirection = Enum.FillDirection.Horizontal
-                Layout.Padding = UDim.new(0, 4)
+                Layout.Padding = UDim.new(0, 2)
                 Layout.VerticalAlignment = Enum.VerticalAlignment.Center
 
+                local count = #SkillsData
                 for _, data in ipairs(SkillsData) do
                     local SkillBox = Instance.new("Frame", Row)
-                    SkillBox.Size = UDim2.new(0.33, -3, 0, 26)
+                    SkillBox.Size = UDim2.new(1/count, -2, 0, 26)
                     SkillBox.BackgroundTransparency = 1
                     
                     local SLayout = Instance.new("UIListLayout", SkillBox)
@@ -675,6 +676,132 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 Btn.MouseButton1Click:Connect(function() pcall(Opt.OnButton) end)
                 
                 return {Row = Row, StatusLabel = Status, Button = Btn}
+            end
+
+            function SkillObj:AddMultiButtonRow(Label, Buttons)
+                local Row = Instance.new("Frame", GroupFrame)
+                Row.Size = UDim2.new(1, -16, 0, 44)
+                Row.Position = UDim2.new(0, 8, 0, 0)
+                Row.BackgroundTransparency = 1
+                
+                local Lbl = Instance.new("TextLabel", Row)
+                Lbl.Size = UDim2.new(0.4, 0, 1, 0)
+                Lbl.BackgroundTransparency = 1
+                Lbl.Text = Label
+                Lbl.Font = Enum.Font.Gotham
+                Lbl.TextSize = 12
+                Lbl.TextColor3 = Palette.TextSecondary
+                Lbl.TextXAlignment = Enum.TextXAlignment.Left
+
+                local Container = Instance.new("Frame", Row)
+                Container.Size = UDim2.new(0.6, 0, 1, 0)
+                Container.Position = UDim2.new(0.4, 0, 0, 0)
+                Container.BackgroundTransparency = 1
+                local CLayout = Instance.new("UIListLayout", Container)
+                CLayout.FillDirection = Enum.FillDirection.Horizontal
+                CLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+                CLayout.Padding = UDim.new(0, 8)
+                CLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+
+                return result
+            end
+
+            function SkillObj:AddUnifiedActionRow(Opt, Buttons)
+                local Row = Instance.new("Frame", GroupFrame)
+                Row.Size = UDim2.new(1, -16, 0, 38)
+                Row.Position = UDim2.new(0, 8, 0, 0)
+                Row.BackgroundTransparency = 1
+                
+                -- Left: Toggle + Input
+                local Left = Instance.new("Frame", Row)
+                Left.Size = UDim2.new(0.3, 0, 1, 0)
+                Left.Position = UDim2.new(0, 0, 0, 0)
+                Left.BackgroundTransparency = 1
+                local LLayout = Instance.new("UIListLayout", Left)
+                LLayout.FillDirection = Enum.FillDirection.Horizontal
+                LLayout.Padding = UDim.new(0, 4)
+                LLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+                LLayout.SortOrder = Enum.SortOrder.LayoutOrder
+                
+                local LPadding = Instance.new("UIPadding", Left)
+                LPadding.PaddingBottom = UDim.new(0, 5)
+
+                local state = Opt.DefaultToggle or false
+                local TglBtn = Instance.new("TextButton", Left)
+                TglBtn.Size = UDim2.new(0, 60, 0, 20)
+                TglBtn.BackgroundColor3 = state and Palette.Accent or Palette.InputHdr
+                TglBtn.Text = Opt.Name or "Action"
+                TglBtn.TextColor3 = Palette.TextPrimary
+                TglBtn.Font = Enum.Font.Gotham
+                TglBtn.TextSize = 10
+                TglBtn.LayoutOrder = 1
+                Instance.new("UICorner", TglBtn).CornerRadius = UDim.new(0, 4)
+                TglBtn.MouseButton1Click:Connect(function()
+                    state = not state
+                    TglBtn.BackgroundColor3 = state and Palette.Accent or Palette.InputHdr
+                    pcall(Opt.OnToggle, state)
+                end)
+
+                local Box = Instance.new("TextBox", Left)
+                Box.Size = UDim2.new(0, 28, 0, 20)
+                Box.BackgroundColor3 = Palette.InputHdr
+                Box.Text = Opt.InputDefault or ""
+                Box.TextColor3 = Palette.TextPrimary
+                Box.Font = Enum.Font.Gotham
+                Box.TextSize = 10
+                Box.LayoutOrder = 2
+                Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
+                Box.FocusLost:Connect(function() pcall(Opt.Callback, Box.Text) end)
+
+                local Sec = Instance.new("TextLabel", Left)
+                Sec.Size = UDim2.new(0, 15, 0, 20)
+                Sec.BackgroundTransparency = 1
+                Sec.Text = "sec"
+                Sec.Font = Enum.Font.Gotham
+                Sec.TextSize = 9
+                Sec.TextColor3 = Palette.TextSecondary
+                Sec.LayoutOrder = 3
+
+                -- Right: Buttons
+                local Right = Instance.new("Frame", Row)
+                Right.Size = UDim2.new(0.7, 0, 1, 0)
+                Right.Position = UDim2.new(0.3, 0, 0, 0)
+                Right.BackgroundTransparency = 1
+                local RLayout = Instance.new("UIListLayout", Right)
+                RLayout.FillDirection = Enum.FillDirection.Horizontal
+                RLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+                RLayout.Padding = UDim.new(0, 6)
+                RLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+
+                local result = {}
+                for _, data in ipairs(Buttons) do
+                    local Wrapper = Instance.new("Frame", Right)
+                    Wrapper.Size = UDim2.new(0, 52, 0, 36)
+                    Wrapper.BackgroundTransparency = 1
+                    
+                    local Status = Instance.new("TextLabel", Wrapper)
+                    Status.Size = UDim2.new(1, 0, 0, 12)
+                    Status.BackgroundTransparency = 1
+                    Status.Text = data.Status or "Not Saved"
+                    Status.Font = Enum.Font.Gotham
+                    Status.TextSize = 8
+                    Status.TextColor3 = Color3.fromRGB(150, 150, 150)
+
+                    local Btn = Instance.new("TextButton", Wrapper)
+                    Btn.Size = UDim2.new(1, 0, 0, 20)
+                    Btn.Position = UDim2.new(0, 0, 0, 13)
+                    Btn.BackgroundColor3 = Palette.InputHdr
+                    Btn.Text = data.Text or "Button"
+                    Btn.TextColor3 = Palette.TextPrimary
+                    Btn.Font = Enum.Font.Gotham
+                    Btn.TextSize = 10
+                    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 4)
+                    Btn.MouseButton1Click:Connect(function() 
+                        pcall(data.Callback, {Button = Btn, StatusLabel = Status}) 
+                    end)
+                    result[data.Text or _] = {Button = Btn, StatusLabel = Status}
+                end
+                return result
             end
 
             return SkillObj

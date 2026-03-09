@@ -82,6 +82,16 @@ TabTeleport:CreateButtonRow({
 })
 
 TabTeleport:CreateButtonRow({
+    Name = "Secret Weapon - Ice Arrow",
+    Text = "Teleport",
+    Callback = function()
+        local char = game.Players.LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if hrp then hrp.CFrame = CFrame.new(1060.314, 132.567, -231.072) end
+    end
+})
+
+TabTeleport:CreateButtonRow({
     Name = "Secret Weapon - Fire Sword",
     Text = "Teleport",
     Callback = function()
@@ -91,13 +101,28 @@ TabTeleport:CreateButtonRow({
     end
 })
 
+TabTeleport:CreateButtonRow({
+    Name = "Secret Weapon - Ancient Catalyst",
+    Text = "Teleport",
+    Callback = function()
+        local char = game.Players.LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if hrp then hrp.CFrame = CFrame.new(527.259, 39.619, 493.563) end
+    end
+})
+
 -- ==========================================
 -- 1.0 AUTO FARM MASTER
 -- ==========================================
 
+local cachedBuster = "?t=" .. tostring(os.time())
 local autoFarmEnabled = false
 local isSelling = false
-local savedFarmLocation = nil
+local savedFarmLocation1 = nil
+local savedFarmLocation2 = nil
+local savedFarmLocation3 = nil
+local savedFarmLocation4 = nil
+local currentSpotIndex = 1
 local autoSellConfig = { cooldown = 60, enabled = true }
 
 -- ==========================================
@@ -166,6 +191,7 @@ local spellStates = {
     ["1"] = { enabled = false, delay = 10 },
     ["2"] = { enabled = false, delay = 10 },
     ["3"] = { enabled = false, delay = 10 },
+    ["4"] = { enabled = false, delay = 10 },
 }
 
 local sellRow -- Forward declaration
@@ -181,13 +207,14 @@ local farmCard = TabMain:CreateAutoFarmGroup({
             Window:UpdateCooldown("Skill 1", 0)
             Window:UpdateCooldown("Skill 2", 0)
             Window:UpdateCooldown("Skill 3", 0)
+            Window:UpdateCooldown("Skill 4", 0)
         end
     end
 })
 
 -- 1. Add Auto Cast Skills
 local skillEntries = {}
-for i = 1, 3 do
+for i = 1, 4 do
     local id = tostring(i)
     local data = spellStates[id]
     
@@ -234,12 +261,29 @@ for i = 1, 3 do
 end
 farmCard:AddMultiSkillRow(skillEntries)
 
--- 2. Add Auto Sell to same Card
-sellRow = farmCard:AddActionInputRow({
+-- 2. Add Unified Auto Sell & Spots Row
+local function updateSpotButton(obj, success)
+    local btn = obj.Button
+    local status = obj.StatusLabel
+    local oldText = btn.Text
+    local oldColor = btn.BackgroundColor3
+    btn.Text = success and "Saved!" or "Error"
+    btn.BackgroundColor3 = success and Color3.fromRGB(0, 150, 80) or Color3.fromRGB(180, 50, 50)
+    
+    if success then
+        status.Text = "Saved"
+        status.TextColor3 = Color3.fromRGB(0, 255, 120)
+    end
+    
+    task.delay(1.5, function()
+        btn.Text = oldText
+        btn.BackgroundColor3 = oldColor
+    end)
+end
+
+local spotBtns = farmCard:AddUnifiedActionRow({
     Name = "Auto Sell",
     InputDefault = "60",
-    StatusText = "location not saved!",
-    ButtonText = "Save Location",
     DefaultToggle = true,
     OnToggle = function(state)
         autoSellConfig.enabled = state
@@ -251,38 +295,64 @@ sellRow = farmCard:AddActionInputRow({
     end,
     Callback = function(val)
         autoSellConfig.cooldown = tonumber(val) or 60
-    end,
-    OnButton = function()
-        local char = game.Players.LocalPlayer.Character
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-        if hrp then
-            savedFarmLocation = hrp.CFrame
-            sellRow.StatusLabel.Text = "location saved"
-            sellRow.StatusLabel.TextColor3 = Color3.fromRGB(0, 255, 120)
-            
-            local oldText = sellRow.Button.Text
-            sellRow.Button.Text = "Saved!"
-            sellRow.Button.TextColor3 = Color3.new(1, 1, 1)
-            sellRow.Button.BackgroundColor3 = Color3.fromRGB(0, 150, 80)
-            
-            task.delay(1.5, function()
-                sellRow.Button.Text = oldText
-                sellRow.Button.TextColor3 = Color3.fromRGB(180, 180, 180)
-                sellRow.Button.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-            end)
-        else
-            local oldText = sellRow.Button.Text
-            sellRow.Button.Text = "Error"
-            sellRow.Button.TextColor3 = Color3.new(1, 1, 1)
-            sellRow.Button.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-            
-            task.delay(1.5, function()
-                sellRow.Button.Text = oldText
-                sellRow.Button.TextColor3 = Color3.fromRGB(180, 180, 180)
-                sellRow.Button.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-            end)
-        end
     end
+}, {
+    {
+        Text = "Spot 1",
+        Status = "Empty",
+        Callback = function(obj)
+            local char = game.Players.LocalPlayer.Character
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                savedFarmLocation1 = hrp.CFrame
+                updateSpotButton(obj, true)
+            else
+                updateSpotButton(obj, false)
+            end
+        end
+    },
+    {
+        Text = "Spot 2",
+        Status = "Empty",
+        Callback = function(obj)
+            local char = game.Players.LocalPlayer.Character
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                savedFarmLocation2 = hrp.CFrame
+                updateSpotButton(obj, true)
+            else
+                updateSpotButton(obj, false)
+            end
+        end
+    },
+    {
+        Text = "Spot 3",
+        Status = "Empty",
+        Callback = function(obj)
+            local char = game.Players.LocalPlayer.Character
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                savedFarmLocation3 = hrp.CFrame
+                updateSpotButton(obj, true)
+            else
+                updateSpotButton(obj, false)
+            end
+        end
+    },
+    {
+        Text = "Spot 4",
+        Status = "Empty",
+        Callback = function(obj)
+            local char = game.Players.LocalPlayer.Character
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                savedFarmLocation4 = hrp.CFrame
+                updateSpotButton(obj, true)
+            else
+                updateSpotButton(obj, false)
+            end
+        end
+    }
 })
 
 -- Master Sell Loop
@@ -294,7 +364,7 @@ task.spawn(function()
             
             if hrp then
                 isSelling = true
-                -- 1. Simpan Lokasi Sementara
+                -- 1. Simpan Lokasi Sementara (Safety)
                 local oldCF = hrp.CFrame
                 local safetyCF = oldCF + Vector3.new(0, 1, 0)
                 
@@ -310,13 +380,40 @@ task.spawn(function()
                 end
                 Window:UpdateCooldown("Selling...", 0)
                 
-                -- 4. Kembali
+                -- 4. Kembali ke Spot (Rotation Logic)
                 if autoFarmEnabled and autoSellConfig.enabled then
-                    if savedFarmLocation then
-                        hrp.CFrame = savedFarmLocation
-                    else
-                        hrp.CFrame = safetyCF
+                    local targetCF = safetyCF
+                    
+                    local activeSpots = {}
+                    if savedFarmLocation1 then table.insert(activeSpots, 1) end
+                    if savedFarmLocation2 then table.insert(activeSpots, 2) end
+                    if savedFarmLocation3 then table.insert(activeSpots, 3) end
+                    if savedFarmLocation4 then table.insert(activeSpots, 4) end
+                    
+                    if #activeSpots > 0 then
+                        -- Find next active spot in rotation
+                        local foundNext = false
+                        for i = 1, #activeSpots do
+                            if activeSpots[i] > currentSpotIndex then
+                                currentSpotIndex = activeSpots[i]
+                                foundNext = true
+                                break
+                            end
+                        end
+                        
+                        -- If none found higher than current, wrap back to the first active spot
+                        if not foundNext then
+                            currentSpotIndex = activeSpots[1]
+                        end
+                        
+                        -- Set target
+                        if currentSpotIndex == 1 then targetCF = savedFarmLocation1
+                        elseif currentSpotIndex == 2 then targetCF = savedFarmLocation2
+                        elseif currentSpotIndex == 3 then targetCF = savedFarmLocation3
+                        elseif currentSpotIndex == 4 then targetCF = savedFarmLocation4 end
                     end
+                    
+                    hrp.CFrame = targetCF
                 end
                 isSelling = false
             end
@@ -350,9 +447,25 @@ task.spawn(function()
                 if isSelling then
                     -- Teleport back to Sell Area
                     hrp.CFrame = CFrame.new(935.876, 132.344, -52.726)
-                elseif savedFarmLocation then
-                    -- Teleport back to Saved Farm
-                    hrp.CFrame = savedFarmLocation
+                else
+                    -- Teleport back to Current Spot
+                    local targetCF = nil
+                    if currentSpotIndex == 1 and savedFarmLocation1 then
+                        targetCF = savedFarmLocation1
+                    elseif currentSpotIndex == 2 and savedFarmLocation2 then
+                        targetCF = savedFarmLocation2
+                    elseif currentSpotIndex == 3 and savedFarmLocation3 then
+                        targetCF = savedFarmLocation3
+                    elseif currentSpotIndex == 4 and savedFarmLocation4 then
+                        targetCF = savedFarmLocation4
+                    else
+                        -- Fallback to any saved spot
+                        targetCF = savedFarmLocation1 or savedFarmLocation2 or savedFarmLocation3 or savedFarmLocation4
+                    end
+                    
+                    if targetCF then
+                        hrp.CFrame = targetCF
+                    end
                 end
                 task.wait(1) -- Prevent rapid teleporting
             end

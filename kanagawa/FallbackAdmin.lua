@@ -3,9 +3,14 @@
 -- Script ini berjalan di game yang belum didukung
 -- ==========================================
 
+local SkenaHub_LibURL = "http://192.168.100.40:8000/kanagawa/SkenaUI_Library.lua"
+local SkenaHub_AdminURL = "http://192.168.100.40:8000/kanagawa/SkenaUI_Admin.lua"
+local cacheBuster = "?t=" .. tostring(os.time())
+
+-- 1. Load Library
 local SkenaUI
 local success, err = pcall(function()
-    SkenaUI = getgenv().SkenaLoad("SkenaUI_Library.lua")
+    SkenaUI = loadstring(game:HttpGet(SkenaHub_LibURL .. cacheBuster, true))()
 end)
 
 if not success or not SkenaUI then
@@ -17,15 +22,13 @@ local Window = SkenaUI.CreateWindow("SkenaHub", "Unsupported Game (Admin Only)",
 
 -- 3. Load Admin Panel
 local adminLoaded, SkenaAdmin = pcall(function()
-    return getgenv().SkenaLoad("SkenaUI_Admin.lua")
+    return loadstring(game:HttpGet(SkenaHub_AdminURL .. cacheBuster, true))()
 end)
 
 if adminLoaded and SkenaAdmin then
-    -- Attach akan otomatis mengecek whitelist dan membuat Tab Admin
     SkenaAdmin.Attach(Window, {})
 else
     warn("[SkenaUI Fallback] Gagal memuat Admin Module atau Anda tidak di-whitelist.")
-    -- Buat tab informasi jika bukan admin
     local TabInfo = Window:CreateTab("Info", "info", false)
     TabInfo:CreateTextRow({
         Text = "Game ini belum didukung oleh SkenaHub. Hubungi developer untuk request dukungan game ini."

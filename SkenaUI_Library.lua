@@ -1255,7 +1255,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local isExpanded = false
             ExpandBtn.MouseButton1Click:Connect(function()
                 isExpanded = not isExpanded
-                TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, expandedHeight) or UDim2.new(1, 0, 0, 0)}):Play()
+                TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, 155) or UDim2.new(1, 0, 0, 0)}):Play()
             end)
 
             local out = {}
@@ -1301,10 +1301,8 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                     pcall(cb, itemStr)
                 end)
                 
-                -- Recalculate expanded height
-                local rows = math.ceil(itemCount / columns)
-                expandedHeight = (rows * (itemH + gridGap)) + gridGap + 4
-                Scroll.CanvasSize = UDim2.new(0, 0, 0, expandedHeight)
+                Scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+                Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
             end
 
             function out:ClearItems()
@@ -1799,15 +1797,62 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             DropFrame.Position = UDim2.new(0, 0, 0, 44)
             DropFrame.BackgroundTransparency = 1
             DropFrame.ClipsDescendants = true
+
+            -- Toolbar (Search + Select All/Desell)
+            local Toolbar = Instance.new("Frame", DropFrame)
+            Toolbar.Size = UDim2.new(1, -16, 0, 26)
+            Toolbar.Position = UDim2.new(0, 8, 0, 4)
+            Toolbar.BackgroundTransparency = 1
+            
+            local SearchBox = Instance.new("TextBox", Toolbar)
+            SearchBox.Size = UDim2.new(0.6, -4, 1, 0)
+            SearchBox.BackgroundColor3 = Palette.InputHdr
+            SearchBox.Text = ""
+            SearchBox.PlaceholderText = "Search..."
+            SearchBox.TextColor3 = Palette.TextPrimary
+            SearchBox.Font = Enum.Font.Gotham
+            SearchBox.TextSize = 12
+            Instance.new("UICorner", SearchBox).CornerRadius = UDim.new(0, 4)
+            local S_Stroke = Instance.new("UIStroke", SearchBox)
+            S_Stroke.Color = Palette.Border
+            S_Stroke.Thickness = 1
+
+            local BulkContainer = Instance.new("Frame", Toolbar)
+            BulkContainer.Size = UDim2.new(0.4, 0, 1, 0)
+            BulkContainer.Position = UDim2.new(0.6, 0, 0, 0)
+            BulkContainer.BackgroundTransparency = 1
+            local BLayout = Instance.new("UIListLayout", BulkContainer)
+            BLayout.FillDirection = Enum.FillDirection.Horizontal
+            BLayout.Padding = UDim.new(0, 4)
+            BLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+
+            local function CreateBulkBtn(txt, color)
+                local b = Instance.new("TextButton", BulkContainer)
+                b.Size = UDim2.new(0.48, 0, 1, 0)
+                b.BackgroundColor3 = Palette.InputHdr
+                b.Text = txt
+                b.TextColor3 = color
+                b.Font = Enum.Font.GothamBold
+                b.TextSize = 10
+                Instance.new("UICorner", b).CornerRadius = UDim.new(0, 4)
+                local bs = Instance.new("UIStroke", b)
+                bs.Color = Palette.Border
+                bs.Thickness = 1
+                return b
+            end
+
+            local SelAll = CreateBulkBtn("ALL", Palette.Accent)
+            local DeselAll = CreateBulkBtn("NONE", Color3.fromRGB(200, 60, 60))
             
             local Scroll = Instance.new("ScrollingFrame", DropFrame)
-            Scroll.Size = UDim2.new(1, -16, 1, -8)
-            Scroll.Position = UDim2.new(0, 8, 0, 0)
+            Scroll.Size = UDim2.new(1, -16, 1, -40)
+            Scroll.Position = UDim2.new(0, 8, 0, 36)
             Scroll.BackgroundTransparency = 1
             Scroll.ScrollBarThickness = 3
             Scroll.ScrollBarImageColor3 = Palette.Accent
             Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
             Scroll.BorderSizePixel = 0
+            Scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
             
             local SList = Instance.new("UIListLayout", Scroll)
             SList.Padding = UDim.new(0, 4)
@@ -1817,14 +1862,36 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             ExpandBtn.MouseButton1Click:Connect(function()
                 isExpanded = not isExpanded
                 ExpandBtn.Text = isExpanded and "Filter ^" or "Filter v"
-                TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, 120) or UDim2.new(1, 0, 0, 0)}):Play()
+                TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, 200) or UDim2.new(1, 0, 0, 0)}):Play()
             end)
 
             local out = {}
-            local addedItems = {}
+            local addedItems = {} -- table of {Btn, Str, Callback, State}
+            
+            SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+                local query = SearchBox.Text:lower()
+                for _, data in ipairs(addedItems) do
+                    data.Btn.Visible = data.Str:lower():find(query) ~= nil
+                end
+            end)
+
+            local function SetAllStates(state)
+                for _, data in ipairs(addedItems) do
+                    if data.State ~= state then
+                        data.State = state
+                        data.Btn.BackgroundColor3 = state and Palette.AccentDark or Palette.InputHdr
+                        data.Btn.TextColor3 = state and Color3.new(1,1,1) or Palette.TextSecondary
+                        pcall(data.Callback, state)
+                    end
+                end
+            end
+
+            SelAll.MouseButton1Click:Connect(function() SetAllStates(true) end)
+            DeselAll.MouseButton1Click:Connect(function() SetAllStates(false) end)
+
             function out:AddItem(itemStr, defaultState, callback)
-                if addedItems[itemStr] then return end
-                addedItems[itemStr] = true
+                -- Check if already exists to avoid dupes
+                for _, d in ipairs(addedItems) do if d.Str == itemStr then return end end
                 
                 local Itm = Instance.new("TextButton", Scroll)
                 Itm.Size = UDim2.new(1, -8, 0, 26)
@@ -1837,15 +1904,15 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 Itm.AutoButtonColor = false
                 Instance.new("UICorner", Itm).CornerRadius = UDim.new(0,4)
                 
-                local currState = defaultState
+                local data = {Btn = Itm, Str = itemStr, Callback = callback, State = defaultState}
+                table.insert(addedItems, data)
+
                 Itm.MouseButton1Click:Connect(function()
-                    currState = not currState
-                    Itm.BackgroundColor3 = currState and Palette.AccentDark or Palette.InputHdr
-                    Itm.TextColor3 = currState and Color3.new(1,1,1) or Palette.TextSecondary
-                    pcall(callback, currState)
+                    data.State = not data.State
+                    Itm.BackgroundColor3 = data.State and Palette.AccentDark or Palette.InputHdr
+                    Itm.TextColor3 = data.State and Color3.new(1,1,1) or Palette.TextSecondary
+                    pcall(callback, data.State)
                 end)
-                
-                Scroll.CanvasSize = UDim2.new(0,0,0, SList.AbsoluteContentSize.Y + 10)
             end
             
             return out

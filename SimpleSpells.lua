@@ -11,6 +11,7 @@ local Window = SkenaUI.CreateWindow("SkenaHub", "Skena Hub | Simple Spells!", fa
 -- 2. Buat Tab
 local TabMain = Window:CreateTab("Main", "zap", false)
 local TabTeleport = Window:CreateTab("Teleport", "map-pin", false)
+local TabResources = Window:CreateTab("Resources", "gem", false)
 
 -- HELPER: Kill phantom loops
 pcall(function()
@@ -677,6 +678,152 @@ task.spawn(function()
     while task.wait(5) do
         if zoneESPEnabled then
             runZoneScan()
+        end
+    end
+end)
+
+
+-- ==========================================
+-- 3. RESOURCE TRACKER (Sun Ore, Uranium)
+-- ==========================================
+
+local resESPEnabled = false
+local resTracerEnabled = false
+local resFilters = {["Sun Ore"] = false, ["Uranium"] = false}
+
+local hrpAttachment = nil
+local function getHRPAttachment()
+    local char = game.Players.LocalPlayer.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return nil end
+    if not hrpAttachment or hrpAttachment.Parent ~= hrp then
+        hrpAttachment = Instance.new("Attachment")
+        hrpAttachment.Name = "SkenaTracerAnchor"
+        hrpAttachment.Parent = hrp
+    end
+    return hrpAttachment
+end
+
+local function applySpecialESP(obj, name)
+    if not obj or not obj.Parent then return end
+    local shouldESP = resESPEnabled and resFilters[name]
+    local shouldTracer = shouldESP and resTracerEnabled
+    
+    local hl = obj:FindFirstChild("SkenaResourceESP")
+    if not shouldESP then
+        if hl then hl:Destroy() end
+        local beam = obj:FindFirstChild("SkenaTracer")
+        if beam then beam:Destroy() end
+        return
+    end
+    
+    if not hl then
+        hl = Instance.new("Highlight")
+        hl.Name = "SkenaResourceESP"
+        hl.FillTransparency = 0.4
+        hl.OutlineTransparency = 0
+        hl.FillColor = (name == "Uranium" and Color3.fromRGB(150, 255, 100) or Color3.fromRGB(255, 200, 50))
+        hl.OutlineColor = Color3.fromRGB(255, 255, 255)
+        hl.Parent = obj
+        
+        local bb = Instance.new("BillboardGui")
+        bb.Name = "SkenaTag"
+        bb.Size = UDim2.new(0, 100, 0, 20)
+        bb.AlwaysOnTop = true
+        bb.StudsOffset = Vector3.new(0, 3, 0)
+        bb.Parent = hl
+        
+        local tl = Instance.new("TextLabel")
+        tl.Size = UDim2.new(1, 0, 1, 0)
+        tl.BackgroundTransparency = 1
+        tl.Text = name
+        tl.TextColor3 = Color3.new(1,1,1)
+        tl.Font = Enum.Font.GothamBold
+        tl.TextSize = 12
+        tl.Parent = bb
+    end
+    
+    local beam = obj:FindFirstChild("SkenaTracer")
+    if shouldTracer then
+        if not beam then
+            local att1 = Instance.new("Attachment")
+            att1.Name = "SkenaTargetAtt"
+            att1.Parent = obj:IsA("Model") and (obj.PrimaryPart or obj:FindFirstChildWhichIsA("BasePart")) or obj
+            
+            beam = Instance.new("Beam")
+            beam.Name = "SkenaTracer"
+            beam.Width0 = 0.15
+            beam.Width1 = 0.15
+            beam.Attachment1 = att1
+            beam.FaceCamera = true
+            beam.Color = ColorSequence.new(hl.FillColor)
+            beam.Transparency = NumberSequence.new(0.3)
+            beam.Parent = obj
+        end
+        local anchor = getHRPAttachment()
+        if anchor then
+            beam.Attachment0 = anchor
+            beam.Enabled = true
+        else
+            beam.Enabled = false
+        end
+    elseif beam then
+        beam.Enabled = false
+    end
+end
+
+local resGroup = TabResources:CreateAutoFarmGroup({
+    Name = "Special Resources",
+    HasMasterToggle = true,
+    OnMasterToggle = function(state)
+        resESPEnabled = state
+        if not state then
+            -- Cleanup all on disable
+            local root = workspace:FindFirstChild("ObjectsToDestroy")
+            if root then
+                for _, obj in ipairs(root:GetDescendants()) do
+                    if resFilters[obj.Name] ~= nil then applySpecialESP(obj, obj.Name) end
+                end
+            end
+        end
+    end
+})
+
+resGroup:AddToggleRow({
+    Name = "Enable Tracers",
+    Default = false,
+    Callback = function(state) resTracerEnabled = state end
+})
+
+for _, name in ipairs({"Sun Ore", "Uranium"}) do
+    resGroup:AddToggleRow({
+        Name = "Track " .. name,
+        Default = false,
+        Callback = function(state) 
+            resFilters[name] = state
+            -- Update existing ones immediately
+            local root = workspace:FindFirstChild("ObjectsToDestroy")
+            if root then
+                for _, obj in ipairs(root:GetDescendants()) do
+                    if obj.Name == name then applySpecialESP(obj, name) end
+                end
+            end
+        end
+    })
+end
+
+-- Scanner Loop
+task.spawn(function()
+    while task.wait(2) do
+        if resESPEnabled then
+            local root = workspace:FindFirstChild("ObjectsToDestroy")
+            if root then
+                for _, obj in ipairs(root:GetDescendants()) do
+                    if resFilters[obj.Name] then
+                        applySpecialESP(obj, obj.Name)
+                    end
+                end
+            end
         end
     end
 end)

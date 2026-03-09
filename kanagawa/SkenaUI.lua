@@ -1,1 +1,79 @@
-LS0gQW50aS1BRksgKEdsb2JhbCB1bnR1ayBzZW11YSBnYW1lKQpwY2FsbChmdW5jdGlvbigpCiAgICBsb2NhbCBWaXJ0dWFsVXNlciA9IGdhbWU6R2V0U2VydmljZSgiVmlydHVhbFVzZXIiKQogICAgZ2FtZS5QbGF5ZXJzLkxvY2FsUGxheWVyLklkbGVkOkNvbm5lY3QoZnVuY3Rpb24oKQogICAgICAgIFZpcnR1YWxVc2VyOkNhcHR1cmVDb250cm9sbGVyKCkKICAgICAgICBWaXJ0dWFsVXNlcjpDbGlja0J1dHRvbjIoVmVjdG9yMi5uZXcoKSkKICAgIGVuZCkKICAgIGdldGdlbnYoKS5fU0tFTkFfQU5USV9BRksgPSB0cnVlCmVuZCkKCmxvY2FsIFBsYWNlSWQgPSBnYW1lLlBsYWNlSWQKbG9jYWwgU2tlbmFIdWJfQmFzZVVSTCA9ICJodHRwOi8vMTkyLjE2OC4xMDAuNDA6ODAwMC8iCmdldGdlbnYoKS5fU0tFTkFfQkFTRV9VUkwgPSBTa2VuYUh1Yl9CYXNlVVJMCgotLSBIZWxwZXIgdW50dWsgbWVtdWF0IHNjcmlwdCBsYWluIHNlY2FyYSBsb2thbCAvIHJlbW90ZQpnZXRnZW52KCkuU2tlbmFMb2FkID0gZnVuY3Rpb24oZmlsZU5hbWUpCiAgICBsb2NhbCB1cmwgPSBTa2VuYUh1Yl9CYXNlVVJMIC4uIGZpbGVOYW1lIC4uICI/dD0iIC4uIG9zLnRpbWUoKQogICAgbG9jYWwgYm9keSA9IGdhbWU6SHR0cEdldCh1cmwsIHRydWUpCiAgICByZXR1cm4gbG9hZHN0cmluZyhib2R5KSgpCmVuZAoKbG9jYWwgU2tlbmFIdWJfQ29yZVVSTCA9IFNrZW5hSHViX0Jhc2VVUkwKCmlmIFBsYWNlSWQgPT0gMTE0MjcyMzkwNzM4MTAyIHRoZW4KICAgIFNrZW5hSHViX0NvcmVVUkwgPSBTa2VuYUh1Yl9Db3JlVVJMIC4uICJTdXJ2aXZldGhlTG9vcC5sdWEiCmVsc2VpZiBQbGFjZUlkID09IDEzNDc1MDI5MDIwMTc1MSB0aGVuCiAgICBTa2VuYUh1Yl9Db3JlVVJMID0gU2tlbmFIdWJfQ29yZVVSTCAuLiAiU3Vydml2ZXRoZUNvbGQubHVhIgplbHNlaWYgUGxhY2VJZCA9PSA4MzM2OTUxMjYyOTcwNyB0aGVuCiAgICBTa2VuYUh1Yl9Db3JlVVJMID0gU2tlbmFIdWJfQ29yZVVSTCAuLiAiU2F3YWhJbmRvLmx1YSIKZWxzZWlmIFBsYWNlSWQgPT0gOTE3NjQ1OTE2NzQ3OTIgdGhlbgogICAgU2tlbmFIdWJfQ29yZVVSTCA9IFNrZW5hSHViX0NvcmVVUkwgLi4gIlN0b3BCcmFpbnJvdHMubHVhIgplbHNlaWYgUGxhY2VJZCA9PSAxMzU2NjgyOTU5ODM5NDUgdGhlbgogICAgU2tlbmFIdWJfQ29yZVVSTCA9IFNrZW5hSHViX0NvcmVVUkwgLi4gIlNraWxsUG9pbnRMZWdlbmQubHVhIgplbHNlaWYgUGxhY2VJZCA9PSA5OTI0ODM5MjI3NzAzNyB0aGVuCiAgICBTa2VuYUh1Yl9Db3JlVVJMID0gU2tlbmFIdWJfQ29yZVVSTCAuLiAiVW50aXRsZWRNZWxlZVJORy5sdWEiCmVsc2VpZiBQbGFjZUlkID09IDEzNTcwNzU0Njc2MjczMCB0aGVuCiAgICBTa2VuYUh1Yl9Db3JlVVJMID0gU2tlbmFIdWJfQ29yZVVSTCAuLiAiVW5ib3hZb3VyVGFuay5sdWEiCmVsc2VpZiBQbGFjZUlkID09IDEwMjY2OTEwMDc2OTkzNiBvciBQbGFjZUlkID09IDk3Njg5MjM0NjU3NjUxIHRoZW4KICAgIFNrZW5hSHViX0NvcmVVUkwgPSBTa2VuYUh1Yl9Db3JlVVJMIC4uICJEZWZlbmRZb3VyQmFzZTY3Lmx1YSIKZWxzZWlmIFBsYWNlSWQgPT0gNzQ4NDgxNTk0NzAyNzcgb3IgUGxhY2VJZCA9PSAxMjg5ODE0NDczMzA3NTQgdGhlbgogICAgU2tlbmFIdWJfQ29yZVVSTCA9IFNrZW5hSHViX0NvcmVVUkwgLi4gImxldmVsYm91bmQubHVhIgplbHNlaWYgUGxhY2VJZCA9PSAxMTg0MzMwMzM1ODY1MDcgdGhlbgogICAgU2tlbmFIdWJfQ29yZVVSTCA9IFNrZW5hSHViX0NvcmVVUkwgLi4gIlNpbXBsZVNwZWxscy5sdWEiCmVsc2UKICAgIC0tIEdhbWUgdGlkYWsgZGlzdXBwb3J0OiBMb2FkIEZhbGxiYWNrIEFkbWluICh1bnR1ayBkaS10ZXN0IC8gYnlwYXNzIG9sZWggYWRtaW4pCiAgICBTa2VuYUh1Yl9Db3JlVVJMID0gU2tlbmFIdWJfQ29yZVVSTCAuLiAia2FuYWdhd2EvRmFsbGJhY2tBZG1pbi5sdWEiCmVuZAoKLS0gRWtzZWt1c2kgc2NyaXB0IHNwZXNpZmlrIGdhbWUgKGRlbmdhbiBjYWNoZSBidXN0ZXIpMQpsb2NhbCBjYWNoZUJ1c3RlciA9ICI/dD0iIC4uIHRvc3RyaW5nKG9zLnRpbWUoKSkKbG9jYWwgc3VjY2VzcywgZXJyID0gcGNhbGwoZnVuY3Rpb24oKQogICAgbG9jYWwgc2NyaXB0Qm9keSA9IGdhbWU6SHR0cEdldChTa2VuYUh1Yl9Db3JlVVJMIC4uIGNhY2hlQnVzdGVyLCB0cnVlKQogICAgbG9jYWwgZnVuYywgY29tcGlsZUVyciA9IGxvYWRzdHJpbmcoc2NyaXB0Qm9keSkKICAgIGlmIG5vdCBmdW5jIHRoZW4KICAgICAgICBlcnJvcigiU3ludGF4IEVycm9yOiAiIC4uIHRvc3RyaW5nKGNvbXBpbGVFcnIpKQogICAgZW5kCiAgICBmdW5jKCkKZW5kKQoKaWYgbm90IHN1Y2Nlc3MgdGhlbgogICAgd2FybigiW1NrZW5hVUldIEdhZ2FsIG1lbXVhdCBVSSB1bnR1ayBnYW1lIGluaTogIiwgZXJyKQogICAgLS0gVGFtcGlsa2FuIGVycm9yIGRpIGxheWFyIGFnYXIgdGlkYWsgc2lsZW50LWZhaWwKICAgIHBjYWxsKGZ1bmN0aW9uKCkKICAgICAgICBsb2NhbCBzZyA9IEluc3RhbmNlLm5ldygiU2NyZWVuR3VpIikKICAgICAgICBzZy5OYW1lID0gIlNrZW5hRXJyb3JEaXNwbGF5IgogICAgICAgIGxvY2FsIG9rID0gcGNhbGwoZnVuY3Rpb24oKSBzZy5QYXJlbnQgPSBnYW1lOkdldFNlcnZpY2UoIkNvcmVHdWkiKSBlbmQpCiAgICAgICAgaWYgbm90IG9rIHRoZW4gc2cuUGFyZW50ID0gZ2FtZS5QbGF5ZXJzLkxvY2FsUGxheWVyOldhaXRGb3JDaGlsZCgiUGxheWVyR3VpIikgZW5kCiAgICAgICAgbG9jYWwgbGJsID0gSW5zdGFuY2UubmV3KCJUZXh0TGFiZWwiLCBzZykKICAgICAgICBsYmwuU2l6ZSA9IFVEaW0yLm5ldygwLCA1MDAsIDAsIDYwKQogICAgICAgIGxibC5Qb3NpdGlvbiA9IFVEaW0yLm5ldygwLjUsIC0yNTAsIDAsIDEwKQogICAgICAgIGxibC5CYWNrZ3JvdW5kQ29sb3IzID0gQ29sb3IzLmZyb21SR0IoMTgwLCAzMCwgMzApCiAgICAgICAgbGJsLlRleHRDb2xvcjMgPSBDb2xvcjMuZnJvbVJHQigyNTUsIDI1NSwgMjU1KQogICAgICAgIGxibC5UZXh0ID0gIlNrZW5hVUkgRXJyb3I6ICIgLi4gdG9zdHJpbmcoZXJyKQogICAgICAgIGxibC5UZXh0U2NhbGVkID0gdHJ1ZQogICAgICAgIGxibC5Gb250ID0gRW51bS5Gb250LkdvdGhhbU1lZGl1bQogICAgICAgIGxibC5QYXJlbnQgPSBzZwogICAgICAgIHRhc2suZGVsYXkoNiwgZnVuY3Rpb24oKSBzZzpEZXN0cm95KCkgZW5kKQogICAgZW5kKQplbmQK
+-- Anti-AFK (Global untuk semua game)
+pcall(function()
+    local VirtualUser = game:GetService("VirtualUser")
+    game.Players.LocalPlayer.Idled:Connect(function()
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+    end)
+    getgenv()._SKENA_ANTI_AFK = true
+end)
+
+local PlaceId = game.PlaceId
+local SkenaHub_BaseURL = "http://192.168.100.40:8000/"
+getgenv()._SKENA_BASE_URL = SkenaHub_BaseURL
+
+-- Helper untuk memuat script lain secara lokal / remote
+getgenv().SkenaLoad = function(fileName)
+    local url = SkenaHub_BaseURL .. fileName .. "?t=" .. os.time()
+    local body = game:HttpGet(url, true)
+    return loadstring(body)()
+end
+
+local SkenaHub_CoreURL = SkenaHub_BaseURL
+
+if PlaceId == 114272390738102 then
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SurvivetheLoop.lua"
+elseif PlaceId == 134750290201751 then
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SurvivetheCold.lua"
+elseif PlaceId == 83369512629707 then
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SawahIndo.lua"
+elseif PlaceId == 91764591674792 then
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "StopBrainrots.lua"
+elseif PlaceId == 135668295983945 then
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SkillPointLegend.lua"
+elseif PlaceId == 99248392277037 then
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "UntitledMeleeRNG.lua"
+elseif PlaceId == 135707546762730 then
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "UnboxYourTank.lua"
+elseif PlaceId == 102669100769936 or PlaceId == 97689234657651 then
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "DefendYourBase67.lua"
+elseif PlaceId == 74848159470277 or PlaceId == 128981447330754 then
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "levelbound.lua"
+elseif PlaceId == 118433033586507 then
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SimpleSpells.lua"
+else
+    -- Game tidak disupport: Load Fallback Admin (untuk di-test / bypass oleh admin)
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "kanagawa/FallbackAdmin.lua"
+end
+
+-- Eksekusi script spesifik game (dengan cache buster)1
+local cacheBuster = "?t=" .. tostring(os.time())
+local success, err = pcall(function()
+    local scriptBody = game:HttpGet(SkenaHub_CoreURL .. cacheBuster, true)
+    local func, compileErr = loadstring(scriptBody)
+    if not func then
+        error("Syntax Error: " .. tostring(compileErr))
+    end
+    func()
+end)
+
+if not success then
+    warn("[SkenaUI] Gagal memuat UI untuk game ini: ", err)
+    -- Tampilkan error di layar agar tidak silent-fail
+    pcall(function()
+        local sg = Instance.new("ScreenGui")
+        sg.Name = "SkenaErrorDisplay"
+        local ok = pcall(function() sg.Parent = game:GetService("CoreGui") end)
+        if not ok then sg.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui") end
+        local lbl = Instance.new("TextLabel", sg)
+        lbl.Size = UDim2.new(0, 500, 0, 60)
+        lbl.Position = UDim2.new(0.5, -250, 0, 10)
+        lbl.BackgroundColor3 = Color3.fromRGB(180, 30, 30)
+        lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+        lbl.Text = "SkenaUI Error: " .. tostring(err)
+        lbl.TextScaled = true
+        lbl.Font = Enum.Font.GothamMedium
+        lbl.Parent = sg
+        task.delay(6, function() sg:Destroy() end)
+    end)
+end

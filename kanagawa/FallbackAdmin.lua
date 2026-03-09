@@ -18,7 +18,7 @@ if not success or not SkenaUI then
     return
 end
 
-local Window = SkenaUI.CreateWindow("SkenaHub", "Unsupported Game (Admin Only)", false)
+local Window = SkenaUI:CreateWindow("SkenaHub", "Unsupported Game (Admin Only)", false)
 
 -- 3. Load Admin Panel
 local adminLoaded, SkenaAdmin = pcall(function()

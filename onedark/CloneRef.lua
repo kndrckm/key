@@ -1,12 +1,4 @@
-LS0gQWRkIGNsb25lcmVmIHN1cHBvcnQgaWYgdGhlIGV4cGxvaXQgZG9lc24n
-dCBoYXZlIGl0IG9yIGlmIGl0J3MgcmVhbGx5IHNoaXQuLgoKLS0gQ3JlZGl0
-dG8gQWxleCB8IEpKc3Bsb2l0IFN1cHBvcnQKbG9jYWwgYT1JbnN0YW5jZS5u
-ZXcoIlBhcnQiKWZvciBiLGMgaW4gcGFpcnMoZ2V0cmVnKCkpZG8gaWYgdHlw
-ZShjKT09InRhYmxlImFuZCNjIHRoZW4gaWYgcmF3Z2V0KGMsIl9fbW9kZSIp
-PT0ia3ZzInRoZW4gZm9yIGQsZSBpbiBwYWlycyhjKWRvIGlmIGU9PWEgdGhl
-biBnZXRnZW52KCkuSW5zdGFuY2VMaXN0PWM7YnJlYWsgZW5kIGVuZCBlbmQg
-ZW5kIGVuZDtsb2NhbCBmPXt9ZnVuY3Rpb24gZi5pbnZhbGlkYXRlKGcpaWYg
-bm90IEluc3RhbmNlTGlzdCB0aGVuIHJldHVybiBlbmQ7Zm9yIGIsYyBpbiBw
-YWlycyhJbnN0YW5jZUxpc3QpZG8gaWYgYz1nIHRoZW4gSW5zdGFuY2VMaXN0
-W2JdPW5pbDtyZXR1cm4gZyBlbmQgZW5kIGVuZDtpZiBub3QgY2xvbmVyZWYg
-dGhlbiBnZXRnZW52KCkuY2xvbmVyZWY9Zi5pbnZhbGlkYXRlIGVuZAo=
+-- Add cloneref support if the exploit doesn't have it or if it's really shit..
+
+-- Creditto Alex | JJsploit Support
+local a=Instance.new("Part")for b,c in pairs(getreg())do if type(c)=="table"and#c then if rawget(c,"__mode")=="kvs"then for d,e in pairs(c)do if e==a then getgenv().InstanceList=c;break end end end end end;local f={}function f.invalidate(g)if not InstanceList then return end;for b,c in pairs(InstanceList)do if c=g then InstanceList[b]=nil;return g end end end;if not cloneref then getgenv().cloneref=f.invalidate end

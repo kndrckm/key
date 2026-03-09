@@ -8,15 +8,48 @@ pcall(function()
     getgenv()._SKENA_ANTI_AFK = true
 end)
 
+local GITHUB_URL = "https://raw.githubusercontent.com/kndrckm/key/refs/heads/main/"
+local LOCAL_URL = "http://192.168.100.40:8000/"
+
 local PlaceId = game.PlaceId
-local SkenaHub_BaseURL = "http://192.168.100.40:8000/"
+
+-- Set to true for local testing, false to use GitHub
+if getgenv()._SKENA_DEV_MODE == nil then
+    getgenv()._SKENA_DEV_MODE = true 
+end
+
+local SkenaHub_BaseURL = getgenv()._SKENA_DEV_MODE and LOCAL_URL or GITHUB_URL
 getgenv()._SKENA_BASE_URL = SkenaHub_BaseURL
 
 -- Helper untuk memuat script lain secara lokal / remote
 getgenv().SkenaLoad = function(fileName)
-    local url = SkenaHub_BaseURL .. fileName .. "?t=" .. os.time()
-    local body = game:HttpGet(url, true)
-    return loadstring(body)()
+    -- Kanagawa core files are in the kanagawa/ subdirectory
+    local coreFiles = {
+        ["SkenaUI_Library.lua"] = true,
+        ["SkenaUI_Admin.lua"] = true,
+        ["FallbackAdmin.lua"] = true,
+        ["SkenaUI.lua"] = true,
+        ["CloneRef.lua"] = true,
+        ["DexBypasses.lua"] = true,
+        ["CustomDex.lua"] = true,
+        ["XenoRSpy.lua"] = true,
+        ["CobaltSpy.lua"] = true
+    }
+    
+    local path = coreFiles[fileName] and ("kanagawa/" .. fileName) or fileName
+    local url = SkenaHub_BaseURL .. path .. "?t=" .. os.time()
+    
+    local success, body = pcall(game.HttpGet, game, url, true)
+    if success then
+        local func, err = loadstring(body)
+        if func then
+            return func()
+        else
+            warn("[SkenaUI-Kanagawa] Syntax Error in " .. fileName .. ": " .. tostring(err))
+        end
+    else
+        warn("[SkenaUI-Kanagawa] Gagal mengunduh: " .. fileName .. " (URL: " .. url .. ")")
+    end
 end
 
 local SkenaHub_CoreURL = SkenaHub_BaseURL

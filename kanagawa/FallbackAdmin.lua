@@ -1,1 +1,38 @@
-LS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tIFNLRU5BIEhVQiA6IEZBTExCQUNLIEFETUlOIFBBTkVMCi0tIFNjcmlwdCBpbmkgYmVyamFsYW4gZGkgZ2FtZSB5YW5nIGJlbHVtIGRpZHVrdW5nCi0tID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQoKbG9jYWwgU2tlbmFIdWJfTGliVVJMID0gImh0dHA6Ly8xOTIuMTY4LjEwMC40MDo4MDAwL2thbmFnYXdhL1NrZW5hVUlfTGlicmFyeS5sdWEiCmxvY2FsIFNrZW5hSHViX0FkbWluVVJMID0gImh0dHA6Ly8xOTIuMTY4LjEwMC40MDo4MDAwL2thbmFnYXdhL1NrZW5hVUlfQWRtaW4ubHVhIgpsb2NhbCBjYWNoZUJ1c3RlciA9ICI/dD0iIC4uIHRvc3RyaW5nKG9zLnRpbWUoKSkKCi0tIDEuIExvYWQgTGlicmFyeQpsb2NhbCBTa2VuYVVJCmxvY2FsIHN1Y2Nlc3MsIGVyciA9IHBjYWxsKGZ1bmN0aW9uKCkKICAgIFNrZW5hVUkgPSBsb2Fkc3RyaW5nKGdhbWU6SHR0cEdldChTa2VuYUh1Yl9MaWJVUkwgLi4gY2FjaGVCdXN0ZXIsIHRydWUpKSgpCmVuZCkKCmlmIG5vdCBzdWNjZXNzIG9yIG5vdCBTa2VuYVVJIHRoZW4KICAgIHdhcm4oIltTa2VuYVVJIEZhbGxiYWNrXSBHYWdhbCBtZW11YXQgVUkgTGlicmFyeTogIiwgZXJyKQogICAgcmV0dXJuCmVuZAoKbG9jYWwgV2luZG93ID0gU2tlbmFVSS5DcmVhdGVXaW5kb3coIlNrZW5hSHViIiwgIlVuc3VwcG9ydGVkIEdhbWUgKEFkbWluIE9ubHkpIiwgZmFsc2UpCgotLSAzLiBMb2FkIEFkbWluIFBhbmVsCmxvY2FsIGFkbWluTG9hZGVkLCBTa2VuYUFkbWluID0gcGNhbGwoZnVuY3Rpb24oKQogICAgcmV0dXJuIGxvYWRzdHJpbmcoZ2FtZTpIdHRwR2V0KFNrZW5hSHViX0FkbWluVVJMIC4uIGNhY2hlQnVzdGVyLCB0cnVlKSkoKQplbmQpCgppZiBhZG1pbkxvYWRlZCBhbmQgU2tlbmFBZG1pbiB0aGVuCiAgICAtLSBBdHRhY2ggYWthbiBvdG9tYXRpcyBtZW5nZWNlayB3aGl0ZWxpc3QgZGFuIG1lbWJ1YXQgVGFiIEFkbWluCiAgICBTa2VuYUFkbWluLkF0dGFjaChXaW5kb3csIHt9KQplbHNlCiAgICB3YXJuKCJbU2tlbmFVSSBGYWxsYmFja10gR2FnYWwgbWVtdWF0IEFkbWluIE1vZHVsZSBhdGF1IEFuZGEgdGlkYWsgZGktd2hpdGVsaXN0LiIpCiAgICAtLSBCdWF0IHRhYiBpbmZvcm1hc2kgamlrYSBidWthbiBhZG1pbgogICAgbG9jYWwgVGFiSW5mbyA9IFdpbmRvdzpDcmVhdGVUYWIoIkluZm8iLCAiaW5mbyIsIGZhbHNlKQogICAgVGFiSW5mbzpDcmVhdGVUZXh0Um93KHsKICAgICAgICBUZXh0ID0gIkdhbWUgaW5pIGJlbHVtIGRpZHVrdW5nIG9sZWggU2tlbmFIdWIuIEh1YnVuZ2kgZGV2ZWxvcGVyIHVudHVrIHJlcXVlc3QgZHVrdW5nYW4gZ2FtZSBpbmkuIgogICAgfSkKZW5kCg==
+-- ==========================================
+-- SKENA HUB : FALLBACK ADMIN PANEL
+-- Script ini berjalan di game yang belum didukung
+-- ==========================================
+
+local SkenaHub_LibURL = "http://192.168.100.40:8000/kanagawa/SkenaUI_Library.lua"
+local SkenaHub_AdminURL = "http://192.168.100.40:8000/kanagawa/SkenaUI_Admin.lua"
+local cacheBuster = "?t=" .. tostring(os.time())
+
+-- 1. Load Library
+local SkenaUI
+local success, err = pcall(function()
+    SkenaUI = loadstring(game:HttpGet(SkenaHub_LibURL .. cacheBuster, true))()
+end)
+
+if not success or not SkenaUI then
+    warn("[SkenaUI Fallback] Gagal memuat UI Library: ", err)
+    return
+end
+
+local Window = SkenaUI.CreateWindow("SkenaHub", "Unsupported Game (Admin Only)", false)
+
+-- 3. Load Admin Panel
+local adminLoaded, SkenaAdmin = pcall(function()
+    return loadstring(game:HttpGet(SkenaHub_AdminURL .. cacheBuster, true))()
+end)
+
+if adminLoaded and SkenaAdmin then
+    -- Attach akan otomatis mengecek whitelist dan membuat Tab Admin
+    SkenaAdmin.Attach(Window, {})
+else
+    warn("[SkenaUI Fallback] Gagal memuat Admin Module atau Anda tidak di-whitelist.")
+    -- Buat tab informasi jika bukan admin
+    local TabInfo = Window:CreateTab("Info", "info", false)
+    TabInfo:CreateTextRow({
+        Text = "Game ini belum didukung oleh SkenaHub. Hubungi developer untuk request dukungan game ini."
+    })
+end

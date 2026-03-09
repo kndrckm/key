@@ -1,66 +1,281 @@
-LS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-Ci0tIFNLRU5BIEhVQiA6IFVudGl0bGVkIE1lbGVlIFJORwotLSBHYW1lIElE
-OiA5OTI0ODM5MjI3NzAzNwotLSA9PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT0KCmxvY2FsIFNrZW5hVUkgPSBnZXRnZW52KCku
-U2tlbmFMb2FkKCJTa2VuYVVJX0xpYnJhcnkubHVhIikKCmxvY2FsIFBsYXll
-cnMgPSBnYW1lOkdldFNlcnZpY2UoIlBsYXllcnMiKQpsb2NhbCBwbGF5ZXIg
-PSBQbGF5ZXJzLkxvY2FsUGxheWVyCgpsb2NhbCBXaW5kb3cgPSBTa2VuYVVJ
-LkNyZWF0ZVdpbmRvdygiU2tlbmFIdWIiLCAiVW50aXRsZWQgTWVsZWUgUk5H
-IiwgZmFsc2UpCmxvY2FsIFRhYk1haW4gPSBXaW5kb3c6Q3JlYXRlVGFiKCJN
-YWluIiwgInphcCIsIGZhbHNlKQoKLS0gS2lsbCBwaGFudG9tIGxvb3BzCnBj
-YWxsKGZ1bmN0aW9uKCkKICAgIGlmIGdldGdlbnYoKS5fU0tFTkFfVU1SX0xP
-T1BTIHRoZW4KICAgICAgICBmb3IgXywgZmxhZyBpbiBwYWlycyhnZXRnZW52
-KCkuX1NLRU5BX1VNUl9MT09QUykgZG8KICAgICAgICAgICAgZ2V0Z2Vudigp
-W2ZsYWddID0gZmFsc2UKICAgICAgICBlbmQKICAgIGVuZAplbmQpCmdldGdl
-bnYoKS5fU0tFTkFfVU1SX0xPT1BTID0ge30KCmxvY2FsIGZ1bmN0aW9uIFJl
-Z2lzdGVyTG9vcChmbGFnTmFtZSkKICAgIGdldGdlbnYoKVtmbGFnTmFtZV0g
-PSBmYWxzZQogICAgdGFibGUuaW5zZXJ0KGdldGdlbnYoKS5fU0tFTkFfVU1S
-X0xPT1BTLCBmbGFnTmFtZSkKZW5kCgotLSA9PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT0KLS0gVEFCIE1BSU4KLS0gPT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CgotLSBUb2dn
-bGUgUnVuOiBNZW1ha3NhIGthcmFrdGVyIGJlcmxhcmkgbGF5YWtueWEgbWVu
-ZWthbiAoU2hpZnQpIGRlbmdhbiBtZW5ndWJhaCBzdGF0dXNsYXJpIGF0YXUg
-bWVuZWthbiBWaXJ0dWFsIElucHV0CmlmIGdldGdlbnYoKS5fU0tFTkFfVE9H
-R0xFX1JVTiA9PSBuaWwgdGhlbgogICAgZ2V0Z2VudigpLl9TS0VOQV9UT0dH
-TEVfUlVOID0gdHJ1ZQplbmQKUmVnaXN0ZXJMb29wKCJfU0tFTkFfVE9HR0xF
-X1JVTiIpCgpsb2NhbCB2aW0gPSBnYW1lOkdldFNlcnZpY2UoIlZpcnR1YWxJ
-bnB1dE1hbmFnZXIiKQoKdGFzay5zcGF3bihmdW5jdGlvbigpCiAgICBsb2Nh
-bCBycyA9IGdhbWU6R2V0U2VydmljZSgiUnVuU2VydmljZSIpCiAgICB3aGls
-ZSB0YXNrLndhaXQoKSBkbwogICAgICAgIC0tIFRlcnVzIGNlayBhZ2FyIGth
-bGF1IGthcmFrdGVyIGFkYS9yZXNwYXduLCBraXRhIHRla2FuICJMZWZ0U2hp
-ZnQiIGRpIGJhY2tncm91bmQKICAgICAgICBpZiBnZXRnZW52KCkuX1NLRU5B
-X1RPR0dMRV9SVU4gdGhlbgogICAgICAgICAgICBsb2NhbCBjaGFyID0gcGxh
-eWVyLkNoYXJhY3RlcgogICAgICAgICAgICBpZiBjaGFyIGFuZCBjaGFyOkZp
-bmRGaXJzdENoaWxkKCJIdW1hbm9pZCIpIHRoZW4KICAgICAgICAgICAgICAg
-IHBjYWxsKGZ1bmN0aW9uKCkKICAgICAgICAgICAgICAgICAgICB2aW06U2Vu
-ZEtleUV2ZW50KHRydWUsIEVudW0uS2V5Q29kZS5MZWZ0U2hpZnQsIGZhbHNl
-LCBnYW1lKQogICAgICAgICAgICAgICAgZW5kKQogICAgICAgICAgICBlbmQK
-ICAgICAgICBlbmQKICAgIGVuZAplbmQpCgpUYWJNYWluOkNyZWF0ZVRvZ2ds
-ZVJvdyh7CiAgICBOYW1lID0gIlRvZ2dsZSBSdW4iLAogICAgRGVmYXVsdCA9
-IGdldGdlbnYoKS5fU0tFTkFfVE9HR0xFX1JVTiwKICAgIE9uVG9nZ2xlID0g
-ZnVuY3Rpb24oc3RhdGUpCiAgICAgICAgZ2V0Z2VudigpLl9TS0VOQV9UT0dH
-TEVfUlVOID0gc3RhdGUKICAgICAgICBpZiBub3Qgc3RhdGUgdGhlbgogICAg
-ICAgICAgICAtLSBSZWxlYXNlIHRoZSBTaGlmdCBrZXkgaG9sZGluZyBzdGF0
-ZSBhcyBmYWxsYmFjawogICAgICAgICAgICBwY2FsbChmdW5jdGlvbigpCiAg
-ICAgICAgICAgICAgICB2aW06U2VuZEtleUV2ZW50KGZhbHNlLCBFbnVtLktl
-eUNvZGUuTGVmdFNoaWZ0LCBmYWxzZSwgZ2FtZSkKICAgICAgICAgICAgZW5k
-KQogICAgICAgIGVuZAogICAgZW5kCn0pCgotLSBUZWxlcG9ydHMKVGFiTWFp
-bjpDcmVhdGVUZXh0Um93KHsKICAgIFRleHQgPSAi4pSA4pSAIFRlbGVwb3J0
-cyDilIDilIAiCn0pCgpsb2NhbCBmdW5jdGlvbiBkb1RQKHBvcykKICAgIGxv
-Y2FsIGNoYXIgPSBwbGF5ZXIuQ2hhcmFjdGVyCiAgICBsb2NhbCBocnAgPSBj
-aGFyIGFuZCBjaGFyOkZpbmRGaXJzdENoaWxkKCJIdW1hbm9pZFJvb3RQYXJ0
-IikKICAgIGlmIGhycCB0aGVuCiAgICAgICAgaHJwLkNGcmFtZSA9IENGcmFt
-ZS5uZXcocG9zKQogICAgZW5kCmVuZAoKbG9jYWwgVFBfT1JERVJFRCA9IHsK
-ICAgIHsgbmFtZSA9ICJHcmFzc2xhbmQiLCBwb3MgPSBWZWN0b3IzLm5ldygx
-ODguOTYxLCAzNS43NzksIC0yNTQuNjE0KSB9LAogICAgeyBuYW1lID0gIkRl
-c2VydCAoMnggbHVjaywgMTAwIGtpbGwpIiwgcG9zID0gVmVjdG9yMy5uZXco
-MjYwLjI3OCwgMTcuMTEwLCAtOTI3Ljc5MikgfSwKICAgIHsgbmFtZSA9ICJT
-bm93ICg0eCBsdWNrLCAxLjVLIGtpbGwpIiwgcG9zID0gVmVjdG9yMy5uZXco
-Mjg2LjMyMiwgMTYuMTYwLCAtMTU4MS4zMDMpIH0sCiAgICB7IG5hbWUgPSAi
-SnVuZ2xlICg2eCBsdWNrLCAxNUsga2lsbCkiLCBwb3MgPSBWZWN0b3IzLm5l
-dyg0NDIuODYwLCAxMTMuOTgxLCAtMjc0NC44MzQpIH0sCiAgICB7IG5hbWUg
-PSAiVm9sY2FubyAoOHggbHVjaywgMjAwSyBraWxsKSIsIHBvcyA9IFZlY3Rv
-cjMubmV3KDY2OC4zMzIsIDEwLjIxNCwgLTQxMDAuOTM5KSB9Cn0KCi0tIENy
-ZWF0ZSB0aGUgRHJvcGRvd24gVUkgZm9yIFRlbGVwb3J0cwpsb2NhbCBUUERy
-b3Bkb3duClRQRHJvcGRvd24gPSBUYWJNYWluOkNyZWF0ZURyb3Bkb3duQnV0
-dG9uKHsKICAgIE5hbWUgPSAiVGVsZXBvcnQ...
+-- ==========================================
+-- SKENA HUB : Untitled Melee RNG
+-- Game ID: 99248392277037
+-- ==========================================
+
+local SkenaUI = getgenv().SkenaLoad("SkenaUI_Library.lua")
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local Window = SkenaUI.CreateWindow("SkenaHub", "Untitled Melee RNG", false)
+local TabMain = Window:CreateTab("Main", "zap", false)
+
+-- Kill phantom loops
+pcall(function()
+    if getgenv()._SKENA_UMR_LOOPS then
+        for _, flag in pairs(getgenv()._SKENA_UMR_LOOPS) do
+            getgenv()[flag] = false
+        end
+    end
+end)
+getgenv()._SKENA_UMR_LOOPS = {}
+
+local function RegisterLoop(flagName)
+    getgenv()[flagName] = false
+    table.insert(getgenv()._SKENA_UMR_LOOPS, flagName)
+end
+
+-- ==========================================
+-- TAB MAIN
+-- ==========================================
+
+-- Toggle Run: Memaksa karakter berlari layaknya menekan (Shift) dengan mengubah statuslari atau menekan Virtual Input
+if getgenv()._SKENA_TOGGLE_RUN == nil then
+    getgenv()._SKENA_TOGGLE_RUN = true
+end
+RegisterLoop("_SKENA_TOGGLE_RUN")
+
+local vim = game:GetService("VirtualInputManager")
+
+task.spawn(function()
+    local rs = game:GetService("RunService")
+    while task.wait() do
+        -- Terus cek agar kalau karakter ada/respawn, kita tekan "LeftShift" di background
+        if getgenv()._SKENA_TOGGLE_RUN then
+            local char = player.Character
+            if char and char:FindFirstChild("Humanoid") then
+                pcall(function()
+                    vim:SendKeyEvent(true, Enum.KeyCode.LeftShift, false, game)
+                end)
+            end
+        end
+    end
+end)
+
+TabMain:CreateToggleRow({
+    Name = "Toggle Run",
+    Default = getgenv()._SKENA_TOGGLE_RUN,
+    OnToggle = function(state)
+        getgenv()._SKENA_TOGGLE_RUN = state
+        if not state then
+            -- Release the Shift key holding state as fallback
+            pcall(function()
+                vim:SendKeyEvent(false, Enum.KeyCode.LeftShift, false, game)
+            end)
+        end
+    end
+})
+
+-- Teleports
+TabMain:CreateTextRow({
+    Text = "── Teleports ──"
+})
+
+local function doTP(pos)
+    local char = player.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if hrp then
+        hrp.CFrame = CFrame.new(pos)
+    end
+end
+
+local TP_ORDERED = {
+    { name = "Grassland", pos = Vector3.new(188.961, 35.779, -254.614) },
+    { name = "Desert (2x luck, 100 kill)", pos = Vector3.new(260.278, 17.110, -927.792) },
+    { name = "Snow (4x luck, 1.5K kill)", pos = Vector3.new(286.322, 16.160, -1581.303) },
+    { name = "Jungle (6x luck, 15K kill)", pos = Vector3.new(442.860, 113.981, -2744.834) },
+    { name = "Volcano (8x luck, 200K kill)", pos = Vector3.new(668.332, 10.214, -4100.939) }
+}
+
+-- Create the Dropdown UI for Teleports
+local TPDropdown
+TPDropdown = TabMain:CreateDropdownButton({
+    Name = "Teleport To",
+    ButtonText = "TP",
+    Columns = 2,
+    Callback = function(val)
+        getgenv().SelectedUMR_TP = val
+    end,
+    OnButton = function()
+        local selected = getgenv().SelectedUMR_TP
+        if selected then
+            for _, loc in ipairs(TP_ORDERED) do
+                if loc.name == selected then
+                    doTP(loc.pos)
+                    break
+                end
+            end
+        end
+    end
+})
+
+-- Populate the Dropdown with Teleport Locations (preserving exact order)
+for i, loc in ipairs(TP_ORDERED) do
+    TPDropdown:AddItem(loc.name, i == 1)
+    if i == 1 then getgenv().SelectedUMR_TP = loc.name end
+end
+
+-- Features
+TabMain:CreateTextRow({
+    Text = "── Features ──"
+})
+
+getgenv()._SKENA_AUTO_SP = false
+RegisterLoop("_SKENA_AUTO_SP")
+
+TabMain:CreateToggleRow({
+    Name = "Auto Update SP Models",
+    OnToggle = function(state)
+        getgenv()._SKENA_AUTO_SP = state
+        if state then
+            task.spawn(function()
+                while getgenv()._SKENA_AUTO_SP do
+                    pcall(function()
+                        local char = player.Character
+                        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                        if hrp then
+                            -- Cari ClickDetector/ProximityPrompt terdekat pada mesin upgrade
+                            -- Stand in front of the machine to auto click it
+                            local fired = false
+                            for _, obj in ipairs(workspace:GetDescendants()) do
+                                if obj:IsA("ClickDetector") or (obj:IsA("ProximityPrompt") and obj.Enabled) then
+                                    local parent = obj.Parent
+                                    if parent and parent:IsA("BasePart") then
+                                        local dist = (hrp.Position - parent.Position).Magnitude
+                                        if dist < 45 then
+                                            -- Jika dekat, simulasikan klik/interaction
+                                            if obj:IsA("ClickDetector") then
+                                                fireclickdetector(obj)
+                                            else
+                                                fireproximityprompt(obj)
+                                            end
+                                            fired = true
+                                        end
+                                    end
+                                end
+                            end
+                            -- Jika ada remote update dengan static arguments, coba panggil fallback.
+                            -- Tapi diutamakan ClickDetector karena harga SP model dinamis.
+                            if not fired then
+                                local rs = game:GetService("ReplicatedStorage")
+                                local remote = rs:FindFirstChild("Remotes") and rs.Remotes:FindFirstChild("UpdateSPModels")
+                                if remote then
+                                    -- Kadang game menyimpan value yang bisa dibaca di client, tapi kalau tak ada kita biarkan ClickDetector bekerja.
+                                end
+                            end
+                        end
+                    end)
+                    task.wait(0.5) -- Spam click
+                end
+            end)
+        end
+    end
+})
+
+TabMain:CreateButtonRow({
+    Name = "Open Totem Menu (Must be nearby)",
+    ButtonText = "Open",
+    Callback = function()
+        pcall(function()
+            local char = player.Character
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
+            if not hrp then return end
+
+            for _, obj in ipairs(workspace:GetDescendants()) do
+                if obj:IsA("ProximityPrompt") and obj.ActionText == "Use" then
+                    local model = obj:FindFirstAncestorOfClass("Model")
+                    if model and (model.Name:lower():find("totem") or model.Name == "Totem of Fortune") then
+                        -- Cek jarak supaya gamenya tidak kick karena eksploit jarak jauh
+                        local objPart = obj.Parent
+                        if objPart and objPart:IsA("BasePart") then
+                            local dist = (hrp.Position - objPart.Position).Magnitude
+                            if dist < 20 then
+                                fireproximityprompt(obj)
+                                warn("[Skena Hub] Totem menu triggered.")
+                                return
+                            else
+                                warn("[Skena Hub] Totem terlalu jauh (" .. tostring(math.floor(dist)) .. " studs). Dekati dulu!")
+                            end
+                        end
+                    end
+                end
+            end
+            warn("[Skena Hub] Totem of Fortune tidak ditemukan/tidak aktif di dekatmu.")
+        end)
+    end
+})
+
+getgenv()._SKENA_AUTO_BOSS = false
+RegisterLoop("_SKENA_AUTO_BOSS")
+
+TabMain:CreateToggleRow({
+    Name = "Auto Boss Raid",
+    OnToggle = function(state)
+        getgenv()._SKENA_AUTO_BOSS = state
+        if state then
+            task.spawn(function()
+                while getgenv()._SKENA_AUTO_BOSS do
+                    pcall(function()
+                        local char = player.Character
+                        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                        if not hrp then return end
+
+                        -- Start Raid process: Try to fire the remote
+                        local rs = game:GetService("ReplicatedStorage")
+                        local startRaid = rs:FindFirstChild("Remotes") and rs.Remotes:FindFirstChild("StartRaid")
+                        if startRaid then
+                            startRaid:FireServer(true)
+                        end
+
+                        -- Raid Combat Logistics (TP to mobs so auto attack hits them)
+                        -- The map often spawns the mob in the workspace, or folders like Npcs or Mobs
+                        local minDist = 9e9
+                        local targetMobHrp = nil
+
+                        local folders = {workspace:FindFirstChild("Mobs"), workspace:FindFirstChild("Npcs"), workspace:FindFirstChild("Enemies")}
+                        for _, folder in ipairs(folders) do
+                            if folder then
+                                for _, mob in ipairs(folder:GetChildren()) do
+                                    if mob:IsA("Model") then
+                                        local mHrp = mob:FindFirstChild("HumanoidRootPart") or mob.PrimaryPart
+                                        -- Usually mobs are not players and shouldn't be fully transparent
+                                        if mHrp and mHrp.Transparency < 0.9 and (not mHrp.Anchored) then
+                                            local dist = (hrp.Position - mHrp.Position).Magnitude
+                                            if dist < minDist then
+                                                minDist = dist
+                                                targetMobHrp = mHrp
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+
+                        -- If we found an enemy, float near them (not flying, just TP near them on ground)
+                        if targetMobHrp then
+                            -- Teleport near the mob (offsetting 3 studs in front/back ideally grounded)
+                            hrp.CFrame = targetMobHrp.CFrame * CFrame.new(0, 0, 3)
+
+                            -- Reset velocity to avoid flinging
+                            hrp.Velocity = Vector3.new(0,0,0)
+                        end
+                    end)
+                    task.wait(0.2)
+                end
+            end)
+        end
+    end
+})
+
+-- ==========================================
+-- ATTACH ADMIN MODULE
+-- ==========================================
+task.spawn(function()
+    local succ, SkenaAdmin = pcall(function()
+        return getgenv().SkenaLoad("SkenaUI_Admin.lua")
+    end)
+    if succ and SkenaAdmin then
+        SkenaAdmin.Attach(Window, {})
+    end
+end)

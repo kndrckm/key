@@ -1227,10 +1227,29 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             DropFrame.Position = UDim2.new(0, 0, 0, 44)
             DropFrame.BackgroundTransparency = 1
             DropFrame.ClipsDescendants = true
+
+            -- Toolbar (Search)
+            local Toolbar = Instance.new("Frame", DropFrame)
+            Toolbar.Size = UDim2.new(1, -16, 0, 26)
+            Toolbar.Position = UDim2.new(0, 8, 0, 4)
+            Toolbar.BackgroundTransparency = 1
+            
+            local SearchBox = Instance.new("TextBox", Toolbar)
+            SearchBox.Size = UDim2.new(1, 0, 1, 0)
+            SearchBox.BackgroundColor3 = Palette.InputHdr
+            SearchBox.Text = ""
+            SearchBox.PlaceholderText = "Search..."
+            SearchBox.TextColor3 = Palette.TextPrimary
+            SearchBox.Font = Enum.Font.Gotham
+            SearchBox.TextSize = 12
+            Instance.new("UICorner", SearchBox).CornerRadius = UDim.new(0, 4)
+            local S_Stroke = Instance.new("UIStroke", SearchBox)
+            S_Stroke.Color = Palette.Border
+            S_Stroke.Thickness = 1
             
             local Scroll = Instance.new("ScrollingFrame", DropFrame)
-            Scroll.Size = UDim2.new(1, -16, 1, -8)
-            Scroll.Position = UDim2.new(0, 8, 0, 0)
+            Scroll.Size = UDim2.new(1, -16, 1, -40)
+            Scroll.Position = UDim2.new(0, 8, 0, 36)
             Scroll.BackgroundTransparency = 1
             Scroll.ScrollBarThickness = 3
             Scroll.ScrollBarImageColor3 = Palette.Accent
@@ -1238,7 +1257,6 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             Scroll.BorderSizePixel = 0
             
             local itemCount = 0
-            local expandedHeight = 155 -- default
             
             if columns > 1 then
                 local SGrid = Instance.new("UIGridLayout", Scroll)
@@ -1253,13 +1271,28 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             end
             
             local isExpanded = false
+            DropFrame.Visible = false
             ExpandBtn.MouseButton1Click:Connect(function()
                 isExpanded = not isExpanded
-                TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, 155) or UDim2.new(1, 0, 0, 0)}):Play()
+                if isExpanded then DropFrame.Visible = true end
+                local tween = TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, 155) or UDim2.new(1, 0, 0, 0)})
+                tween:Play()
+                if not isExpanded then
+                    tween.Completed:Connect(function()
+                        if not isExpanded then DropFrame.Visible = false end
+                    end)
+                end
             end)
 
             local out = {}
             out.Items = {}
+
+            SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+                local query = SearchBox.Text:lower()
+                for _, data in ipairs(out.Items) do
+                    data.Btn.Visible = data.Str:lower():find(query) ~= nil
+                end
+            end)
             function out:AddItem(itemStr, isDefault)
                 itemCount = itemCount + 1
                 local Itm = Instance.new("TextButton", Scroll)
@@ -1427,10 +1460,29 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             DropFrame.Position = UDim2.new(0, 0, 0, 44)
             DropFrame.BackgroundTransparency = 1
             DropFrame.ClipsDescendants = true
+
+            -- Toolbar (Search)
+            local Toolbar = Instance.new("Frame", DropFrame)
+            Toolbar.Size = UDim2.new(1, -16, 0, 26)
+            Toolbar.Position = UDim2.new(0, 8, 0, 4)
+            Toolbar.BackgroundTransparency = 1
+            
+            local SearchBox = Instance.new("TextBox", Toolbar)
+            SearchBox.Size = UDim2.new(1, 0, 1, 0)
+            SearchBox.BackgroundColor3 = Palette.InputHdr
+            SearchBox.Text = ""
+            SearchBox.PlaceholderText = "Search..."
+            SearchBox.TextColor3 = Palette.TextPrimary
+            SearchBox.Font = Enum.Font.Gotham
+            SearchBox.TextSize = 12
+            Instance.new("UICorner", SearchBox).CornerRadius = UDim.new(0, 4)
+            local S_Stroke = Instance.new("UIStroke", SearchBox)
+            S_Stroke.Color = Palette.Border
+            S_Stroke.Thickness = 1
             
             local Scroll = Instance.new("ScrollingFrame", DropFrame)
-            Scroll.Size = UDim2.new(1, -16, 1, -8)
-            Scroll.Position = UDim2.new(0, 8, 0, 0)
+            Scroll.Size = UDim2.new(1, -16, 1, -40)
+            Scroll.Position = UDim2.new(0, 8, 0, 36)
             Scroll.BackgroundTransparency = 1
             Scroll.ScrollBarThickness = 3
             Scroll.ScrollBarImageColor3 = Palette.Accent
@@ -1453,13 +1505,28 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             end
             
             local isExpanded = false
+            DropFrame.Visible = false
             ExpandBtn.MouseButton1Click:Connect(function()
                 isExpanded = not isExpanded
-                TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, expandedHeight) or UDim2.new(1, 0, 0, 0)}):Play()
+                if isExpanded then DropFrame.Visible = true end
+                local tween = TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, 155) or UDim2.new(1, 0, 0, 0)})
+                tween:Play()
+                if not isExpanded then
+                    tween.Completed:Connect(function()
+                        if not isExpanded then DropFrame.Visible = false end
+                    end)
+                end
             end)
 
             local out = {}
             out.Items = {}
+
+            SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+                local query = SearchBox.Text:lower()
+                for _, data in ipairs(out.Items) do
+                    data.Btn.Visible = data.Str:lower():find(query) ~= nil
+                end
+            end)
             function out:AddItem(itemStr, isDefault)
                 itemCount = itemCount + 1
                 local Itm = Instance.new("TextButton", Scroll)
@@ -1500,9 +1567,8 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                     pcall(cb, itemStr)
                 end)
                 
-                local rows = math.ceil(itemCount / columns)
-                expandedHeight = (rows * (itemH + gridGap)) + gridGap + 4
-                Scroll.CanvasSize = UDim2.new(0, 0, 0, expandedHeight)
+                Scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+                Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
             end
 
             function out:ClearItems()
@@ -1608,10 +1674,29 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             DropFrame.Position = UDim2.new(0, 0, 0, 44)
             DropFrame.BackgroundTransparency = 1
             DropFrame.ClipsDescendants = true
+
+            -- Toolbar (Search)
+            local Toolbar = Instance.new("Frame", DropFrame)
+            Toolbar.Size = UDim2.new(1, -16, 0, 26)
+            Toolbar.Position = UDim2.new(0, 8, 0, 4)
+            Toolbar.BackgroundTransparency = 1
+            
+            local SearchBox = Instance.new("TextBox", Toolbar)
+            SearchBox.Size = UDim2.new(1, 0, 1, 0)
+            SearchBox.BackgroundColor3 = Palette.InputHdr
+            SearchBox.Text = ""
+            SearchBox.PlaceholderText = "Search..."
+            SearchBox.TextColor3 = Palette.TextPrimary
+            SearchBox.Font = Enum.Font.Gotham
+            SearchBox.TextSize = 12
+            Instance.new("UICorner", SearchBox).CornerRadius = UDim.new(0, 4)
+            local S_Stroke = Instance.new("UIStroke", SearchBox)
+            S_Stroke.Color = Palette.Border
+            S_Stroke.Thickness = 1
             
             local Scroll = Instance.new("ScrollingFrame", DropFrame)
-            Scroll.Size = UDim2.new(1, -16, 1, -8)
-            Scroll.Position = UDim2.new(0, 8, 0, 0)
+            Scroll.Size = UDim2.new(1, -16, 1, -40)
+            Scroll.Position = UDim2.new(0, 8, 0, 36)
             Scroll.BackgroundTransparency = 1
             Scroll.ScrollBarThickness = 3
             Scroll.ScrollBarImageColor3 = Palette.Accent
@@ -1634,9 +1719,17 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             end
             
             local isExpanded = false
+            DropFrame.Visible = false
             ExpandBtn.MouseButton1Click:Connect(function()
                 isExpanded = not isExpanded
-                TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, expandedHeight) or UDim2.new(1, 0, 0, 0)}):Play()
+                if isExpanded then DropFrame.Visible = true end
+                local tween = TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, 155) or UDim2.new(1, 0, 0, 0)})
+                tween:Play()
+                if not isExpanded then
+                    tween.Completed:Connect(function()
+                        if not isExpanded then DropFrame.Visible = false end
+                    end)
+                end
             end)
 
             local out = {}
@@ -1681,9 +1774,8 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                     pcall(cb, itemStr)
                 end)
                 
-                local rows = math.ceil(itemCount / columns)
-                expandedHeight = (rows * (itemH + gridGap)) + gridGap + 4
-                Scroll.CanvasSize = UDim2.new(0, 0, 0, expandedHeight)
+                Scroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+                Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
             end
 
             function out:ClearItems()
@@ -1859,10 +1951,18 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             SList.SortOrder = Enum.SortOrder.LayoutOrder
             
             local isExpanded = false
+            DropFrame.Visible = false
             ExpandBtn.MouseButton1Click:Connect(function()
                 isExpanded = not isExpanded
                 ExpandBtn.Text = isExpanded and "Filter ^" or "Filter v"
-                TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, 200) or UDim2.new(1, 0, 0, 0)}):Play()
+                if isExpanded then DropFrame.Visible = true end
+                local tween = TweenService:Create(DropFrame, TweenInfo.new(0.25, Enum.EasingStyle.Cubic), {Size = isExpanded and UDim2.new(1, 0, 0, 200) or UDim2.new(1, 0, 0, 0)})
+                tween:Play()
+                if not isExpanded then
+                    tween.Completed:Connect(function()
+                        if not isExpanded then DropFrame.Visible = false end
+                    end)
+                end
             end)
 
             local out = {}

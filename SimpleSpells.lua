@@ -81,6 +81,16 @@ TabTeleport:CreateButtonRow({
     end
 })
 
+TabTeleport:CreateButtonRow({
+    Name = "Secret Weapon - Fire Sword",
+    Text = "Teleport",
+    Callback = function()
+        local char = game.Players.LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if hrp then hrp.CFrame = CFrame.new(869.619, 135.231, -390.111) end
+    end
+})
+
 -- ==========================================
 -- 1.0 AUTO FARM MASTER
 -- ==========================================

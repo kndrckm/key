@@ -1,25 +1,34 @@
-LS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-Ci0tIFNLRU5BIEhVQiA6IEZBTExCQUNLIEFETUlOIFBBTkVMCi0tIFNjcmlw
-dCBpbmkgYmVyamFsYW4gZGkgZ2FtZSB5YW5nIGJlbHVtIGRpZHVrdW5nCi0t
-ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQoK
-LS0gMS4gTG9hZCBMaWJyYXJ5CmxvY2FsIFNrZW5hVUkKbG9jYWwgc3VjY2Vz
-cywgZXJyID0gcGNhbGwoZnVuY3Rpb24oKQogICAgU2tlbmFVSSA9IGdldGdl
-bnYoKS5Ta2VuYUxvYWQoIlNrZW5hVUlfTGlicmFyeS5sdWEiKQplbmQpCgpp
-ZiBub3Qgc3VjY2VzcyBvciBub3QgU2tlbmFVSSB0aGVuCiAgICB3YXJuKCJb
-U2tlbmFVSSBGYWxsYmFja10gR2FnYWwgbWVtdWF0IFVJIExpYnJhcnk6ICIs
-IGVycikKICAgIHJldHVybgplbmQKCmxvY2FsIFdpbmRvdyA9IFNrZW5hVUku
-Q3JlYXRlV2luZG93KCJTa2VuYUh1YiIsICJVbnN1cHBvcnRlZCBHYW1lIChB
-ZG1pbiBPbmx5KSIsIGZhbHNlKQoKLS0gMy4gTG9hZCBBZG1pbiBQYW5lbAps
-b2NhbCBhZG1pbkxvYWRlZCwgU2tlbmFBZG1pbiA9IHBjYWxsKGZ1bmN0aW9u
-KCkKICAgIHJldHVybiBnZXRnZW52KCkuU2tlbmFMb2FkKCJTa2VuYVVJX0Fk
-bWluLmx1YSIpCmVuZCkKCmlmIGFkbWluTG9hZGVkIGFuZCBTa2VuYUFkbWlu
-IHRoZW4KICAgIC0tIEF0dGFjaCBha2FuIG90b21hdGlzIG1lbmdlY2VrIHdo
-aXRlbGlzdCBkYW4gbWVtYnVhdCBUYWIgQWRtaW4KICAgIFNrZW5hQWRtaW4u
-QXR0YWNoKFdpbmRvdywge30pCmVsc2UKICAgIHdhcm4oIltTa2VuYVVJIEZh
-bGxiYWNrXSBHYWdhbCBtZW11YXQgQWRtaW4gTW9kdWxlIGF0YXUgQW5kYSB0
-aWRhayBkaS13aGl0ZWxpc3QuIikKICAgIC0tIEJ1YXQgdGFiIGluZm9ybWFz
-aSBqaWthIGJ1a2FuIGFkbWluCiAgICBsb2NhbCBUYWJJbmZvID0gV2luZG93
-OkNyZWF0ZVRhYigiSW5mbyIsICJpbmZvIiwgZmFsc2UpCiAgICBUYWJJbmZv
-OkNyZWF0ZVRleHRSb3coewogICAgICAgIFRleHQgPSAiR2FtZSBpbmkgYmVs
-dW0gZGlkdWt1bmcgb2xlaCBTa2VuYUh1Yi4gSHVidW5naSBkZXZlbG9wZXIg
-dW50dWsgcmVxdWVzdCBkdWt1bmdhbiBnYW1lIGluaS4iCiAgICB9KQplbmQK
+-- ==========================================
+-- SKENA HUB : FALLBACK ADMIN PANEL
+-- Script ini berjalan di game yang belum didukung
+-- ==========================================
+
+-- 1. Load Library
+local SkenaUI
+local success, err = pcall(function()
+    SkenaUI = getgenv().SkenaLoad("SkenaUI_Library.lua")
+end)
+
+if not success or not SkenaUI then
+    warn("[SkenaUI Fallback] Gagal memuat UI Library: ", err)
+    return
+end
+
+local Window = SkenaUI.CreateWindow("SkenaHub", "Unsupported Game (Admin Only)", false)
+
+-- 3. Load Admin Panel
+local adminLoaded, SkenaAdmin = pcall(function()
+    return getgenv().SkenaLoad("SkenaUI_Admin.lua")
+end)
+
+if adminLoaded and SkenaAdmin then
+    -- Attach akan otomatis mengecek whitelist dan membuat Tab Admin
+    SkenaAdmin.Attach(Window, {})
+else
+    warn("[SkenaUI Fallback] Gagal memuat Admin Module atau Anda tidak di-whitelist.")
+    -- Buat tab informasi jika bukan admin
+    local TabInfo = Window:CreateTab("Info", "info", false)
+    TabInfo:CreateTextRow({
+        Text = "Game ini belum didukung oleh SkenaHub. Hubungi developer untuk request dukungan game ini."
+    })
+end

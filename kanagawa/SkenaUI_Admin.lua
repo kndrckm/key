@@ -265,7 +265,7 @@ function SkenaAdmin.Attach(Window, DebugData)
                 if getgenv()._SKENA_ESP_CONN then getgenv()._SKENA_ESP_CONN:Disconnect() end
             end)
             task.wait(0.1)
-            loadstring(game:HttpGet(baseUrl .. "kanagawa/SkenaUI.lua", true))()
+            loadstring(game:HttpGet(baseUrl .. "SkenaUI.lua", true))()
         end
     })
 
@@ -291,14 +291,13 @@ function SkenaAdmin.Attach(Window, DebugData)
         end,
         Callback2 = function(btn)
             local success, err = pcall(function()
-                warn("[Admin] Memulai proses Bypassing...")
+                warn("[Admin] Memuat local Dark Dex...")
                 pcall(function() SkenaLoad("CloneRef.lua") end)
                 pcall(function() SkenaLoad("DexBypasses.lua") end)
-                warn("[Admin] Memuat Dark Dex...")
                 SkenaLoad("CustomDex.lua")
             end)
             if success then
-                warn("[Admin] Bypassed Dark Dex berhasil di-load!")
+                warn("[Admin] Dark Dex berhasil di-load!")
                 animateBtn(btn, true)
             else
                 warn("[Admin] Gagal me-load Dark Dex: " .. tostring(err))
@@ -320,7 +319,7 @@ function SkenaAdmin.Attach(Window, DebugData)
                 warn("[Admin] Xeno RSpy berhasil di-load!")
                 animateBtn(btn, true)
             else
-                warn("[Admin] Gagal me-load Xeno RSpy: " .. tostring(err))
+                warn("[Admin] Gagal me-load RSpy: " .. tostring(err))
                 animateBtn(btn, false)
             end
         end,

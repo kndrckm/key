@@ -3,8 +3,7 @@
 -- Place IDs: 74848159470277, 128981447330754
 -- ==========================================
 
-local SkenaUI_LibURL = "http://192.168.100.40:8000/SkenaUI_Library.lua"
-local SkenaUI = loadstring(game:HttpGet(SkenaUI_LibURL .. "?t=" .. tostring(os.time()), true))()
+local SkenaUI = getgenv().SkenaLoad("SkenaUI_Library.lua")
 
 -- 1. Buat Window
 local Window = SkenaUI.CreateWindow("SkenaHub", "Skena Hub | Levelbound", false)
@@ -329,7 +328,7 @@ end
 -- ==========================================
 task.spawn(function()
     local succ, SkenaAdmin = pcall(function()
-        return loadstring(game:HttpGet("http://192.168.100.40:8000/SkenaUI_Admin.lua?t=" .. tostring(os.time())))()
+        return getgenv().SkenaLoad("SkenaUI_Admin.lua")
     end)
     if succ and SkenaAdmin then
         SkenaAdmin.Attach(Window, {})

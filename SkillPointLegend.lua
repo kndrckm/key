@@ -8,12 +8,7 @@
 --   Mob TIDAK pakai Humanoid (HP server-side via ByteNet)
 --   Attack = client-side click simulation
 
-local SkenaUI_LibURL = "http://192.168.100.40:8000/SkenaUI_Library.lua"
-local cacheBuster = "?t=" .. tostring(os.time())
-local libBody = game:HttpGet(SkenaUI_LibURL .. cacheBuster, true)
-local libFunc, libErr = loadstring(libBody)
-if not libFunc then error("SkenaUI Library Syntax Error: " .. tostring(libErr)) end
-local SkenaUI = libFunc()
+local SkenaUI = getgenv().SkenaLoad("SkenaUI_Library.lua")
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
@@ -668,8 +663,7 @@ TabSettings:CreateInputRow({
 -- ==========================================
 task.spawn(function()
     local succ, SkenaAdmin = pcall(function()
-        local adminCacheBuster = "?t=" .. tostring(os.time())
-        return loadstring(game:HttpGet("http://192.168.100.40:8000/SkenaUI_Admin.lua" .. adminCacheBuster))()
+        return getgenv().SkenaLoad("SkenaUI_Admin.lua")
     end)
     if succ and SkenaAdmin then
         SkenaAdmin.Attach(Window, {})

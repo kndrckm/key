@@ -19,8 +19,7 @@ end)
 local SkenaUI_Loaded = false
 local SkenaUI
 pcall(function()
-    local cacheBuster = "?t=" .. tostring(os.time())
-    SkenaUI = loadstring(game:HttpGet("http://192.168.100.40:8000/SkenaUI_Library.lua" .. cacheBuster))()
+    SkenaUI = getgenv().SkenaLoad("SkenaUI_Library.lua")
     SkenaUI_Loaded = true
 end)
 
@@ -652,8 +651,7 @@ TabSettings:CreateInputRow({
 
 task.spawn(function()
     local succ, SkenaAdmin = pcall(function()
-        local adminCacheBuster = "?t=" .. tostring(os.time())
-        return loadstring(game:HttpGet("http://192.168.100.40:8000/SkenaUI_Admin.lua" .. adminCacheBuster))()
+        return getgenv().SkenaLoad("SkenaUI_Admin.lua")
     end)
     if succ and SkenaAdmin then
         SkenaAdmin.Attach(Window, {})

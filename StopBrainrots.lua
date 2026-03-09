@@ -4,9 +4,7 @@
 -- ==========================================
 
 -- Load Library
-local SkenaUI_LibURL = "http://192.168.100.40:8000/SkenaUI_Library.lua"
-local cacheBuster = "?t=" .. tostring(os.time())
-local SkenaUI = loadstring(game:HttpGet(SkenaUI_LibURL .. cacheBuster, true))()
+local SkenaUI = getgenv().SkenaLoad("SkenaUI_Library.lua")
 
 local player = game.Players.LocalPlayer
 local rs = game:GetService("ReplicatedStorage")
@@ -248,8 +246,7 @@ TabSettings:CreateInputRow({
 -- ==========================================
 task.spawn(function()
     local succ, SkenaAdmin = pcall(function()
-        local adminCacheBuster = "?t=" .. tostring(os.time())
-        return loadstring(game:HttpGet("http://192.168.100.40:8000/SkenaUI_Admin.lua" .. adminCacheBuster))()
+        return getgenv().SkenaLoad("SkenaUI_Admin.lua")
     end)
     if succ and SkenaAdmin then
         SkenaAdmin.Attach(Window, {})

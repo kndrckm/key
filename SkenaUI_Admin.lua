@@ -291,17 +291,13 @@ function SkenaAdmin.Attach(Window, DebugData)
         end,
         Callback2 = function(btn)
             local success, err = pcall(function()
-                warn("[Admin] Memulai proses Bypassing...")
-                pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/main/key/CloneRef.lua", true))() end)
-                pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/main/key/DexBypasses.lua", true))() end)
-                warn("[Admin] Mengunduh Source Code Dark Dex...")
-                local dexSource = game:HttpGet("https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/main/key/CustomDex.lua")
-                local dexFunc, loadErr = loadstring(dexSource)
-                if not dexFunc then error("Gagal mengkompilasi Dex: " .. tostring(loadErr)) end
-                task.spawn(dexFunc)
+                warn("[Admin] Memuat local Dark Dex...")
+                pcall(function() SkenaLoad("CloneRef.lua") end)
+                pcall(function() SkenaLoad("DexBypasses.lua") end)
+                SkenaLoad("CustomDex.lua")
             end)
             if success then
-                warn("[Admin] Bypassed Dark Dex berhasil di-load!")
+                warn("[Admin] Dark Dex berhasil di-load!")
                 animateBtn(btn, true)
             else
                 warn("[Admin] Gagal me-load Dark Dex: " .. tostring(err))
@@ -317,20 +313,20 @@ function SkenaAdmin.Attach(Window, DebugData)
         Callback1 = function(btn)
             local success, err = pcall(function()
                 warn("[Admin] Memuat Xeno RSpy...")
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/main/key/XenoRSpy.lua", true))()
+                SkenaLoad("XenoRSpy.lua")
             end)
             if success then
                 warn("[Admin] Xeno RSpy berhasil di-load!")
                 animateBtn(btn, true)
             else
-                warn("[Admin] Gagal me-load Xeno RSpy: " .. tostring(err))
+                warn("[Admin] Gagal me-load RSpy: " .. tostring(err))
                 animateBtn(btn, false)
             end
         end,
         Callback2 = function(btn)
             local success, err = pcall(function()
                 warn("[Admin] Memuat CobaltSpy...")
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/kndrckm/kndrckm.github.io/main/key/CobaltSpy.lua", true))()
+                SkenaLoad("CobaltSpy.lua")
             end)
             if success then
                 warn("[Admin] CobaltSpy berhasil di-load!")

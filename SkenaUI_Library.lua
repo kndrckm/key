@@ -677,46 +677,6 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 return {Row = Row, StatusLabel = Status, Button = Btn}
             end
 
-            function SkillObj:AddToggleRow(Opt)
-                local Row = Instance.new("Frame", GroupFrame)
-                Row.Size = UDim2.new(1, -16, 0, 32)
-                Row.Position = UDim2.new(0, 8, 0, 0)
-                Row.BackgroundTransparency = 1
-                
-                local Txt = Instance.new("TextLabel", Row)
-                Txt.Size = UDim2.new(0.6, 0, 1, 0)
-                Txt.BackgroundTransparency = 1
-                Txt.Text = Opt.Name or "Toggle"
-                Txt.Font = Enum.Font.Gotham
-                Txt.TextSize = 12
-                Txt.TextColor3 = Palette.TextSecondary
-                Txt.TextXAlignment = Enum.TextXAlignment.Left
-
-                local state = Opt.Default or false
-                local Tgl = Instance.new("TextButton", Row)
-                Tgl.Size = UDim2.new(0, 36, 0, 18)
-                Tgl.Position = UDim2.new(1, -48, 0.5, -9)
-                Tgl.BackgroundColor3 = state and Palette.Accent or Palette.InputHdr
-                Tgl.Text = ""
-                Instance.new("UICorner", Tgl).CornerRadius = UDim.new(1, 0)
-                
-                local Knob = Instance.new("Frame", Tgl)
-                Knob.Size = UDim2.new(0, 14, 0, 14)
-                Knob.Position = state and UDim2.new(1, -18, 0.5, -7) or UDim2.new(0, 4, 0.5, -7)
-                Knob.BackgroundColor3 = state and Color3.fromRGB(0,0,0) or Palette.TextSecondary
-                Instance.new("UICorner", Knob).CornerRadius = UDim.new(1, 0)
-
-                Tgl.MouseButton1Click:Connect(function()
-                    state = not state
-                    TweenService:Create(Tgl, TweenInfo.new(0.2), {BackgroundColor3 = state and Palette.Accent or Palette.InputHdr}):Play()
-                    TweenService:Create(Knob, TweenInfo.new(0.2), {
-                        Position = state and UDim2.new(1, -18, 0.5, -7) or UDim2.new(0, 4, 0.5, -7),
-                        BackgroundColor3 = state and Color3.fromRGB(0,0,0) or Palette.TextSecondary
-                    }):Play()
-                    pcall(Opt.Callback, state)
-                end)
-            end
-
             return SkillObj
         end
 

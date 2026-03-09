@@ -1,270 +1,310 @@
-bG9jYWwgU2tlbmFVSSA9IHt9CmxvY2FsIFR3ZWVuU2VydmljZSA9IGdhbWU6
-R2V0U2VydmljZSgiVHdlZW5TZXJ2aWNlIikKbG9jYWwgVXNlcklucHV0U2Vy
-dmljZSA9IGdhbWU6R2V0U2VydmljZSgiVXNlcklucHV0U2VydmljZSIpCmxv
-Y2FsIENvcmVHdWkgPSBnYW1lOkdldFNlcnZpY2UoIkNvcmVHdWkiKQoKbG9j
-YWwgcGFyZW50VUkgPSBuaWwKaWYgcGNhbGwoZnVuY3Rpb24oKSByZXR1cm4g
-Q29yZUd1aS5Sb2Jsb3hHdWkgZW5kKSB0aGVuCiAgICBwYXJlbnRVSSA9IENv
-cmVHdWkKZWxzZQogICAgcGFyZW50VUkgPSBnYW1lLlBsYXllcnMuTG9jYWxQ
-bGF5ZXI6V2FpdEZvckNoaWxkKCJQbGF5ZXJHdWkiKQplbmQKCmxvY2FsIGZ1
-bmN0aW9uIExvYWRMdWNpZGVJY29ucygpCiAgICBsb2NhbCBzdWNjZXNzLCBy
-ZXN1bHQgPSBwY2FsbChmdW5jdGlvbigpCiAgICAgICAgcmV0dXJuIGxvYWRz
-dHJpbmcoZ2FtZTpIdHRwR2V0KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29u
-dGVudC5jb20vZGF3aWQtc2NyaXB0cy9GbHVlbnQvbWFzdGVyL3NyYy9JY29u
-cy5sdWEiKSkoKQogICAgZW5kKQogICAgaWYgc3VjY2VzcyBhbmQgcmVzdWx0
-IGFuZCByZXN1bHQuYXNzZXRzIHRoZW4KICAgICAgICByZXR1cm4gcmVzdWx0
-LmFzc2V0cwogICAgZW5kCiAgICByZXR1cm4ge30KZW5kCmxvY2FsIEx1Y2lk
-ZUljb25zID0gTG9hZEx1Y2lkZUljb25zKCkKCi0tIFdpbmRvd3MgMTEgRGFy
-ayBNb2RlIFBhbGV0dGUKbG9jYWwgUGFsZXR0ZSA9IHsKICAgIEJhY2tncm91
-bmQgPSBDb2xvcjMuZnJvbVJHQigzMiwgMzIsIDMyKSwKICAgIFNpZGViYXIg
-PSBDb2xvcjMuZnJvbVJHQigzMiwgMzIsIDMyKSwKICAgIENhcmQgPSBDb2xv
-cjMuZnJvbVJHQigzOSwgMzksIDM5KSwKICAgIFJvd0l0ZW0gPSBDb2xvcjMu
-ZnJvbVJHQig0NSwgNDUsIDQ1KSwKICAgIFJvd0hvdmVyID0gQ29sb3IzLmZy
-b21SR0IoNTUsIDU1LCA1NSksCiAgICBUZXh0UHJpbWFyeSA9IENvbG9yMy5m
-cm9tUkdCKDI1NSwgMjU1LCAyNTUpLAogICAgVGV4dFNlY29uZGFyeSA9IENv
-bG9yMy5mcm9tUkdCKDE4MCwgMTgwLCAxODApLAogICAgQWNjZW50ID0gQ29s
-b3IzLmZyb21SR0IoNzYsIDE5NCwgMjU1KSwgLS0gV2luZG93cyAxMSBCbHVl
-CiAgICBBY2NlbnREYXJrID0gQ29sb3IzLmZyb21SR0IoNTAsIDE1MCwgMjEw
-KSwKICAgIEJvcmRlciA9IENvbG9yMy5mcm9tUkdCKDYwLCA2MCwgNjApLAog
-ICAgUmVkSG92ZXIgPSBDb2xvcjMuZnJvbVJHQigyMzIsIDE3LCAzNSksCiAg
-ICBJbnB1dEhkciA9IENvbG9yMy5mcm9tUkdCKDI1LCAyNSwgMjUpCn0KCmZ1
-bmN0aW9uIFNrZW5hVUk6Q3JlYXRlV2luZG93KE9wdGlvbnMsIFRpdGxlLCBJ
-c01vYmlsZSkKICAgIGlmIHR5cGUoT3B0aW9ucykgPT0gInN0cmluZyIgdGhl
-bgogICAgICAgIE9wdGlvbnMgPSB7TmFtZSA9IE9wdGlvbnMsIFRpdGxlID0g
-VGl0bGUsIElzTW9iaWxlID0gSXNNb2JpbGV9CiAgICBlbmQKICAgIE9wdGlv
-bnMgPSBPcHRpb25zIG9yIHt9CiAgICBsb2NhbCBXaW5kb3dOYW1lID0gT3B0
-aW9ucy5OYW1lIG9yICJTa2VuYUh1YiIKICAgIAogICAgaWYgcGFyZW50VUk6
-RmluZEZpcnN0Q2hpbGQoIlNrZW5hSHViX1VJIikgdGhlbgogICAgICAgIHBh
-cmVudFVJLlNrZW5hSHViX1VJOkRlc3Ryb3koKQogICAgZW5kCgogICAgbG9j
-YWwgU0cgPSBJbnN0YW5jZS5uZXcoIlNjcmVlbkd1aSIpCiAgICBTRy5OYW1l
-ID0gIlNrZW5hSHViX1VJIgogICAgU0cuUGFyZW50ID0gcGFyZW50VUkKICAg
-IFNHLlJlc2V0T25TcGF3biA9IGZhbHNlCiAgICBTRy5EaXNwbGF5T3JkZXIg
-PSA5OTk5CiAgICBTRy5aSW5kZXhCZWhhdmlvciA9IEVudW0uWkluZGV4QmVo
-YXZpb3IuR2xvYmFsCgogICAgbG9jYWwgV2luZG93T2JqID0gewogICAgICAg
-IEN1cnJlbnRUYWIgPSBuaWwsCiAgICAgICAgVGFicyA9IHt9LAogICAgICAg
-IFRvZ2dsZUtleSA9IEVudW0uS2V5Q29kZS5aLAogICAgICAgIENvb2xkb3du
-cyA9IHt9CiAgICB9CgogICAgbG9jYWwgRHJhZ0ZyYW1lID0gSW5zdGFuY2Uu
-bmV3KCJGcmFtZSIsIFNHKQogICAgRHJhZ0ZyYW1lLk5hbWUgPSAiRHJhZ0Zy
-YW1lIgogICAgRHJhZ0ZyYW1lLlNpemUgPSBVRGltMi5uZXcoMCwgNDUwLCAw
-LCA0MjApIAogICAgRHJhZ0ZyYW1lLlBvc2l0aW9uID0gVURpbTIubmV3KDAu
-NSwgLTIyNSwgMC41LCAtMjEwKQogICAgRHJhZ0ZyYW1lLkJhY2tncm91bmRU
-cmFuc3BhcmVuY3kgPSAxCiAgICBEcmFnRnJhbWUuQWN0aXZlID0gdHJ1ZQoK
-ICAgIGxvY2FsIE1haW4gPSBJbnN0YW5jZS5uZXcoIkNhbnZhc0dyb3VwIiwg
-RHJhZ0ZyYW1lKQogICAgTWFpbi5OYW1lID0gIk1haW4iCiAgICBNYWluLlNp
-emUgPSBVRGltMi5uZXcoMSwgMCwgMSwgMCkgCiAgICBNYWluLkJhY2tncm91
-bmRDb2xvcjMgPSBQYWxldHRlLkJhY2tncm91bmQKICAgIE1haW4uQm9yZGVy
-U2l6ZVBpeGVsID0gMAogICAgCiAgICBsb2NhbCBNYWluQ29ybmVyID0gSW5z
-dGFuY2UubmV3KCJVSUNvcm5lciIsIE1haW4pCiAgICBNYWluQ29ybmVyLkNv
-cm5lclJhZGl1cyA9IFVEaW0ubmV3KDAsIDgpCiAgICAKICAgIGxvY2FsIE1h
-aW5TdHJva2UgPSBJbnN0YW5jZS5uZXcoIlVJU3Ryb2tlIiwgTWFpbikKICAg
-IE1haW5TdHJva2UuQ29sb3IgPSBQYWxldHRlLkJvcmRlcgogICAgTWFpblN0
-cm9rZS5UaGlja25lc3MgPSAxCgogICAgbG9jYWwgTWFpblNjYWxlID0gSW5z
-dGFuY2UubmV3KCJVSVNjYWxlIiwgTWFpbikKICAgIE1haW5TY2FsZS5TY2Fs
-ZSA9IDAuODUKICAgIAogICAgLS0gSW5pdGlhbCBGYWRlIEluIFBvcC1VcAog
-ICAgTWFpbi5Hcm91cFRyYW5zcGFyZW5jeSA9IDEKICAgIFR3ZWVuU2Vydmlj
-ZTpDcmVhdGUoTWFpbiwgVHdlZW5JbmZvLm5ldygwLjM1LCBFbnVtLkVhc2lu
-Z1N0eWxlLkN1YmljLCBFbnVtLkVhc2luZ0RpcmVjdGlvbi5PdXQpLCB7R3Jv
-dXBUcmFuc3BhcmVuY3kgPSAwfSk6UGxheSgpCiAgICBUd2VlblNlcnZpY2U6
-Q3JlYXRlKE1haW5TY2FsZSwgVHdlZW5JbmZvLm5ldygwLjQsIEVudW0uRWFz
-aW5nU3R5bGUuQmFjaywgRW51bS5FYXNpbmdEaXJlY3Rpb24uT3V0KSwge1Nj
-YWxlID0gMX0pOlBsYXkoKQoKICAgIGxvY2FsIHVpVmlzaWJsZSA9IHRydWUK
-ICAgIGxvY2FsIGlzU2NhbGVkID0gZmFsc2UgLS0gc3RhdGUgdHJhY2sgdW50
-dWsgbG9naWMgb3JpZ2luYWwKICAgIGxvY2FsIGZ1bmN0aW9uIFRvZ2dsZVVJ
-QW5pbSgpCiAgICAgICAgdWlWaXNpYmxlID0gbm90IHVpVmlzaWJsZQogICAg
-ICAgIGlmIHVpVmlzaWJsZSB0aGVuCiAgICAgICAgICAgIFNHLkVuYWJsZWQg
-PSB0cnVlCiAgICAgICAgICAgIE1haW5TY2FsZS5TY2FsZSA9IDAuODUKICAg
-ICAgICAgICAgTWFpbi5Hcm91cFRyYW5zcGFyZW5jeSA9IDEKICAgICAgICAg
-ICAgVHdlZW5TZXJ2aWNlOkNyZWF0ZShNYWluLCBUd2VlbkluZm8ubmV3KDAu
-MywgRW51bS5FYXNpbmdTdHlsZS5DdWJpYywgRW51bS5FYXNpbmdEaXJlY3Rp
-b24uT3V0KSwge0dyb3VwVHJhbnNwYXJlbmN5ID0gMH0pOlBsYXkoKQogICAg
-ICAgICAgICAKICAgICAgICAgICAgLS0gUmVzdG9yZSBrZSBza2FsYSBhc2xp
-bnlhIG1lbnllc3VhaWthbiBrb25kaXNpIHRlcmFraGlyCiAgICAgICAgICAgI
-GxvY2FsIHRhcmdldFNjYWxlID0gaXNTY2FsZWQgYW5kIDAuNzUgb3IgMSAK
-ICAgICAgICAgICAgVHdlZW5TZXJ2aWNlOkNyZWF0ZShNYWluU2NhbGUsIFR3
-ZWVuSW5mby5uZXcoMC40LCBFbnVtLkVhc2luZ1N0eWxlLkJhY2ssIEVudW0u
-RWFzaW5nRGlyZWN0aW9uLk91dCksIHtTY2FsZSA9IHRhcmdldFNjYWxlfSk6
-UGxheSgpCiAgICAgICAgZWxzZQogICAgICAgICAgICBsb2NhbCB0dyA9IFR3
-ZWVuU2VydmljZTpDcmVhdGUoTWFpbiwgVHdlZW5JbmZvLm5ldygwLjIsIEVu
-dW0uRWFzaW5nU3R5bGUuQ3ViaWMsIEVudW0uRWFzaW5nRGlyZWN0aW9uLklu
-KSwge0dyb3VwVHJhbnNwYXJlbmN5ID0gMX0pCiAgICAgICAgICAgIFR3ZWVu
-U2VydmljZTpDcmVhdGUoTWFpblNjYWxlLCBUd2VlbkluZm8ubmV3KDAuMiwg
-RW51bS5FYXNpbmdTdHlsZS5DdWJpYywgRW51bS5FYXNpbmdEaXJlY3Rpb24u
-SW4pLCB7U2NhbGUgPSAwLjl9KTpQbGF5KCkKICAgICAgICAgICAgdHc6UGxh
-eSgpCiAgICAgICAgICAgIHRhc2suZGVsYXkoMC4yLCBmdW5jdGlvbigpCiAg
-ICAgICAgICAgICAgICBpZiBub3QgdWlWaXNpYmxlIHRoZW4gU0cuRW5hYmxl
-ZCA9IGZhbHNlIGVuZAogICAgICAgICAgICBlbmQpCiAgICAgICAgZW5kCiAg
-ICBlbmQKCiAgICAtLSBHbG9iYWwgc2hvcnRjdXQgdG8gdG9nZ2xlIFVJIHcv
-IEFuaW1hdGlvbgogICAgbG9jYWwgdWlUb2dnbGVDb25uZWN0aW9uCiAgICB1
-aVRvZ2dsZUNvbm5lY3Rpb24gPSBVc2VySW5wdXRTZXJ2aWNlLklucHV0QmVn
-YW46Q29ubmVjdChmdW5jdGlvbihpbnB1dCwgZ3ApCiAgICAgICAgaWYgZ3Ag
-dGhlbiByZXR1cm4gZW5kCiAgICAgICAgaWYgaW5wdXQuS2V5Q29kZSA9PSBX
-aW5kb3dPYmouVG9nZ2xlS2V5IHRoZW4KICAgICAgICAgICAgVG9nZ2xlVUlB
-bmltKCkKICAgICAgICBlbmQKICAgIGVuZCkKICAgIAogICAgLS0gV2hlbiBT
-RyBpcyBkZXN0cm95ZWQsIGNsZWFudXAgVG9nZ2xlIHNob3J0Y3V0CiAgICBT
-Ry5EZXN0cm95aW5nOkNvbm5lY3QoZnVuY3Rpb24oKQogICAgICAgIGlmIHVp
-VG9nZ2xlQ29ubmVjdGlvbiB0aGVuIHVpVG9nZ2xlQ29ubmVjdGlvbjpEaXNj
-b25uZWN0KCkgZW5kCiAgICBlbmQpCgogICAgLS0gRHJhZyBMb2dpYwogICAg
-bG9jYWwgZHJhZ2dpbmcsIGRyYWdJbnB1dCwgZHJhZ1N0YXJ0LCBzdGFydFBv
-cwogICAgRHJhZ0ZyYW1lLklucHV0QmVnYW46Q29ubmVjdChmdW5jdGlvbihp
-bnB1dCkKICAgICAgICBpZiBpbnB1dC5Vc2VySW5wdXRUeXBlID09IEVudW0u
-VXNlcklucHV0VHlwZS5Nb3VzZUJ1dHRvbjEgdGhlbgogICAgICAgICAgICBk
-cmFnZ2luZyA9IHRydWU7IGRyYWdTdGFydCA9IGlucHV0LlBvc2l0aW9uOyBz
-dGFydFBvcyA9IERyYWdGcmFtZS5Qb3NpdGlvbgogICAgICAgICAgICBpbnB1
-dC5DaGFuZ2VkOkNvbm5lY3QoZnVuY3Rpb24oKQogICAgICAgICAgICAgICAg
-aWYgaW5wdXQuVXNlcklucHV0U3RhdGUgPT0gRW51bS5Vc2VySW5wdXRTdGF0
-ZS5FbmQgdGhlbiBkcmFnZ2luZyA9IGZhbHNlIGVuZAogICAgICAgICAgICBl
-bmQpCiAgICAgICAgZW5kCiAgICBlbmQpCiAgICBEcmFnRnJhbWUuSW5wdXRD
-aGFuZ2VkOkNvbm5lY3QoZnVuY3Rpb24oaW5wdXQpCiAgICAgICAgaWYgaW5w
-dXQuVXNlcklucHV0VHlwZSA9PSBFbnVtLlVzZXJJbnB1dFR5cGUuTW91c2VN
-b3ZlbWVudCB0aGVuIGRyYWdJbnB1dCA9IGlucHV0IGVuZAogICAgZW5kKQog
-ICAgVXNlcklucHV0U2VydmljZS5JbnB1dENoYW5nZWQ6Q29ubmVjdChmdW5j
-dGlvbihpbnB1dCkKICAgICAgICBpZiBpbnB1dCA9PSBkcmFnSW5wdXQgYW5k
-IGRyYWdnaW5nIHRoZW4KICAgICAgICAgICAgbG9jYWwgZGVsdGEgPSBpbnB1
-dC5Qb3NpdGlvbiAtIGRyYWdTdGFydAogICAgICAgICAgICBEcmFnRnJhbWUu
-UG9zaXRpb24gPSBVRGltMi5uZXcoc3RhcnRQb3MuWC5TY2FsZSwgc3RhcnRQ
-b3MuWC5PZmZzZXQgKyBkZWx0YS5YLCBzdGFydFBvcy5ZLlNjYWxlLCBzdGFy
-dFBvcy5ZLk9mZnNldCArIGRlbHRhLlkpCiAgICAgICAgZW5kCiAgICBlbmQp
-CgogICAgLS0gVG9wIEFyZWEgKFRpdGxlIEJhciBDb250cm9scykKICAgIGxv
-Y2FsIFRpdGxlQmFyID0gSW5zdGFuY2UubmV3KCJGcmFtZSIsIE1haW4pCiAg
-ICBUaXRsZUJhci5TaXplID0gVURpbTIubmV3KDEsIDAsIDAsIDMyKQogICAg
-VGl0bGVCYXIuQmFja2dyb3VuZFRyYW5zcGFyZW5jeSA9IDEKCiAgICBsb2Nh
-bCBUaXRsZVRleHQgPSBJbnN0YW5jZS5uZXcoIlRleHRMYWJlbCIsIFRpdGxl
-QmFyKQogICAgVGl0bGVUZXh0LlNpemUgPSBVRGltMi5uZXcoMSwgLTEwMCwg
-MSwgMCkKICAgIFRpdGxlVGV4dC5Qb3NpdGlvbiA9IFVEaW0yLm5ldygwLCAx
-MiwgMCwgMCkKICAgIFRpdGxlVGV4dC5CYWNrZ3JvdW5kVHJhbnNwYXJlbmN5
-ID0gMQogICAgVGl0bGVUZXh0LlRleHQgPSBXaW5kb3dOYW1lCiAgICBUaXRs
-ZVRleHQuRm9udCA9IEVudW0uRm9udC5Hb3RoYW0KICAgIFRpdGxlVGV4dC5U
-ZXh0U2l6ZSA9IDEyCiAgICBUaXRsZVRleHQuVGV4dENvbG9yMyA9IFBhbGV0
-dGUuVGV4dFNlY29uZGFyeQogICAgVGl0bGVUZXh0LlRleHRYQWxpZ25tZW50
-ID0gRW51bS5UZXh0WEFsaWdubWVudC5MZWZ0CiAgICBXaW5kb3dPYmouVGl0
-bGVUZXh0ID0gVGl0bGVUZXh0CgogICAgbG9jYWwgQ29udHJvbENvbnRhaW5l
-ciA9IEluc3RhbmNlLm5ldygiRnJhbWUiLCBUaXRsZUJhcikKICAgIENvbnRy
-b2xDb250YWluZXIuU2l6ZSA9IFVEaW0yLm5ldygwLCA5NiwgMSwgMCkKICAg
-IENvbnRyb2xDb250YWluZXIuUG9zaXRpb24gPSBVRGltMi5uZXcoMSwgLTEw
-NCwgMCwgMCkKICAgIENvbnRyb2xDb250YWluZXIuQmFja2dyb3VuZFRyYW5z
-cGFyZW5jeSA9IDEKCiAgICAtLSBNb2Rlcm4gZmxvYXRpbmcgd2luZG93IGJ1
-dHRvbnMKICAgIGxvY2FsIFNjYWxlQnRuID0gSW5zdGFuY2UubmV3KCJUZXh0
-QnV0dG9uIiwgQ29udHJvbENvbnRhaW5lcikKICAgIFNjYWxlQnRuLlNpemUg
-PSBVRGltMi5uZXcoMCwgMjYsIDAsIDI2KQogICAgU2NhbGVCdG4uUG9zaXRp
-b24gPSBVRGltMi5uZXcoMCwgMCwgMC41LCAtMTMpCiAgICBTY2FsZUJ0bi5U
-ZXh0ID0gIiIgLS0gUmVwbGFjZWQgYnkgSWNvbgogICAgU2NhbGVCdG4uQmFj
-a2dyb3VuZENvbG9yMyA9IFBhbGV0dGUuQmFja2dyb3VuZAogICAgU2NhbGVC
-dG4uQmFja2dyb3VuZFRyYW5zcGFyZW5jeSA9IDEKICAgIFNjYWxlQnRuLlRl
-eHRDb2xvcjMgPSBQYWxldHRlLlRleHRQcmltYXJ5CiAgICBTY2FsZUJ0bi5G
-b250ID0gRW51bS5Gb250LkdvdGhhbQogICAgU2NhbGVCdG4uVGV4dFNpemUg
-PSAxNAogICAgU2NhbGVCdG4uQm9yZGVyU2l6ZVBpeGVsID0gMAogICAgSW5z
-dGFuY2UubmV3KCJVSUNvcm5lciIsIFNjYWxlQnRuKS5Db3JuZXJSYWRpdXMg
-PSBVRGltLm5ldygwLCA2KQoKICAgIGxvY2FsIFNjYWxlSWNvbiA9IEluc3Rh
-bmNlLm5ldygiSW1hZ2VMYWJlbCIsIFNjYWxlQnRuKQogICAgU2NhbGVJY29u
-LlNpemUgPSBVRGltMi5uZXcoMCwgMTQsIDAsIDE0KQogICAgU2NhbGVJY29u
-LlBvc2l0aW9uID0gVURpbTIubmV3KDAuNSwgLTcsIDAuNSwgLTcpCiAgICBT
-Y2FsZUljb24uQmFja2dyb3VuZFRyYW5zcGFyZW5jeSA9IDEKICAgIFNjYWxl
-SWNvbi5JbWFnZSA9ICJyYnhhc3NldGlkOi8vMTA3MzQ4ODY3MzUiIC0tIGx1
-Y2lkZS1tYXhpbWl6ZQogICAgU2NhbGVJY29uLkltYWdlQ29sb3IzID0gUGFs
-ZXR0ZS5UZXh0UHJpbWFyeQoKICAgIGxvY2FsIE1pbmlidG4gPSBJbnN0YW5j
-ZS5uZXcoIlRleHRCdXR0b24iLCBDb250cm9sQ29udGFpbmVyKQogICAgTWlu
-aWJ0bi5TaXplID0gVURpbTIubmV3KDAsIDI2LCAwLCAyNikKICAgIE1pbmli
-dG4uUG9zaXRpb24gPSBVRGltMi5uZXcoMCwgMzIsIDAuNSwgLTEzKQogICAg
-TWluaWJ0bi5UZXh0ID0gIi0iCiAgICBNaW5pYnRuLkJhY2tncm91bmRDb2xv
-cjMgPSBQYWxldHRlLkJhY2tncm91bmQKICAgIE1pbmlidG4uQmFja2dyb3Vu
-ZFRyYW5zcGFyZW5jeSA9IDEKICAgIE1pbmlidG4uVGV4dENvbG9yMyA9IFBh
-bGV0dGUuVGV4dFByaW1hcnkKICAgIE1pbmlidG4uRm9udCA9IEVudW0uRm9u
-dC5Hb3RoYW0KICAgIE1pbmlidG4uVGV4dFNpemUgPSAxNAogICAgTWluaWJ0
-bi5Cb3JkZXJTaXplUGl4ZWwgPSAwCiAgICBJbnN0YW5jZS5uZXcoIlVJQ29y
-bmVyIiwgTWluaWJ0bikuQ29ybmVyUmFkaXVzID0gVURpbS5uZXcoMCwgNikK
-CiAgICBsb2NhbCBDbG9zZUJ0biA9IEluc3RhbmNlLm5ldygiVGV4dEJ1dHRv
-biIsIENvbnRyb2xDb250YWluZXIpCiAgICBDbG9zZUJ0bi5TaXplID0gVURp
-bTIubmV3KDAsIDI2LCAwLCAyNikKICAgIENsb3NlQnRuLlBvc2l0aW9uID0g
-VURpbTIubmV3KDAsIDY0LCAwLjUsIC0xMykKICAgIENsb3NlQnRuLlRleHQg
-PSAiWCIKICAgIENsb3NlQnRuLkJhY2tncm91bmRDb2xvcjMgPSBQYWxldHRl
-LkJhY2tncm91bmQKICAgIENsb3NlQnRuLkJhY2tncm91bmRUcmFuc3BhcmVu
-Y3kgPSAxCiAgICBDbG9zZUJ0bi5UZXh0Q29sb3IzID0gUGFsZXR0ZS5UZXh0
-UHJpbWFyeQogICAgQ2xvc2VCdG4uRm9udCA9IEVudW0uRm9udC5Hb3RoYW0K
-ICAgIENsb3NlQnRuLlRleHRTaXplID0gMTQKICAgIENsb3NlQnRuLkJvcmRl
-clNpemVQaXhlbCA9IDAKICAgIEluc3RhbmNlLm5ldygiVUlDb3JuZXIiLCBD
-bG9zZUJ0bikuQ29ybmVyUmFkaXVzID0gVURpbS5uZXcoMCwgNikKCiAgICAt
-LSBIb3ZlciBsb2dpYyBmb3Igd2luZG93IGNvbnRyb2xzCiAgICBTY2FsZUJ0
-bi5Nb3VzZUVudGVyOkNvbm5lY3QoZnVuY3Rpb24oKSBTY2FsZUJ0bi5CYWNr
-Z3JvdW5kVHJhbnNwYXJlbmN5ID0gMDsgU2NhbGVCdG4uQmFja2dyb3VuZENv
-bG9yMyA9IFBhbGV0dGUuUm93SG92ZXIgZW5kKQogICAgU2NhbGVCdG4uTW91
-c2VMZWF2ZTpDb25uZWN0KGZ1bmN0aW9uKCkgU2NhbGVCdG4uQmFja2dyb3Vu
-ZFRyYW5zcGFyZW5jeSA9IDEgZW5kKQogICAgTWluaWJ0bi5Nb3VzZUVudGVy
-OkNvbm5lY3QoZnVuY3Rpb24oKSBNaW5pYnRuLkJhY2tncm91bmRUcmFuc3Bh
-cmVuY3kgPSAwOyBNaW5pYnRuLkJhY2tncm91bmRDb2xvcjMgPSBQYWxldHRl
-LlJvd0hvdmVyIGVuZCkKICAgIE1pbmlidG4uTW91c2VMZWF2ZTpDb25uZWN0
-KGZ1bmN0aW9uKCkgTWluaWJ0bi5CYWNrZ3JvdW5kVHJhbnNwYXJlbmN5ID0g
-MSBlbmQpCiAgICBDbG9zZUJ0bi5Nb3VzZUVudGVyOkNvbm5lY3QoZnVuY3Rp
-b24oKSBDbG9zZUJ0bi5CYWNrZ3JvdW5kVHJhbnNwYXJlbmN5ID0gMDsgQ2xv
-c2VCdG4uQmFja2dyb3VuZENvbG9yMyA9IFBhbGV0dGUuUmVkSG92ZXIgZW5k
-KQogICAgQ2xvc2VCdG4uTW91c2VMZWF2ZTpDb25uZWN0KGZ1bmN0aW9uKCkg
-Q2xvc2VCdG4uQmFja2dyb3VuZFRyYW5zcGFyZW5jeSA9IDEgZW5kKQoKICAg
-IFNjYWxlQnRuLk1vdXNlQnV0dG9uMUNsaWNrOkNvbm5lY3QoZnVuY3Rpb24o
-KQogICAgICAgIGlzU2NhbGVkID0gbm90IGlzU2NhbGVkCiAgICAgICAgbG9j
-YWwgdGFyZ2V0U2NhbGUgPSBpc1NjYWxlZCBhbmQgMC43NSBvciAxCiAgICAg
-ICAgVHdlZW5TZXJ2aWNlOkNyZWF0ZShNYWluU2NhbGUsIFR3ZWVuSW5mby5u
-ZXcoMC4zLCBFbnVtLkVhc2luZ1N0eWxlLkN1YmljLCBFbnVtLkVhc2luZ0Rp
-cmVjdGlvbi5PdXQpLCB7U2NhbGUgPSB0YXJnZXRTY2FsZX0pOlBsYXkoKQog
-ICAgZW5kKQoKICAgIE1pbmlidG4uTW91c2VCdXR0b24xQ2xpY2s6Q29ubmVj
-dChmdW5jdGlvbigpCiAgICAgICAgVG9nZ2xlVUlBbmltKCkKICAgIGVuZCkK
-CiAgICBDbG9zZUJ0bi5Nb3VzZUJ1dHRvbjFDbGljazpDb25uZWN0KGZ1bmN0
-aW9uKCkgU0c6RGVzdHJveSgpIGVuZCkKCiAgICAtLSBVbmRlciBUaXRsZSBC
-YXIKICAgIGxvY2FsIEJvZHlGcmFtZSA9IEluc3RhbmNlLm5ldygiRnJhbWUi
-LCBNYWluKQogICAgQm9keUZyYW1lLlNpemUgPSBVRGltMi5uZXcoMSwgMCwg
-MSwgLTMyKQogICAgQm9keUZyYW1lLlBvc2l0aW9uID0gVURpbTIubmV3KDAs
-IDAsIDAsIDMyKQogICAgQm9keUZyYW1lLkJhY2tncm91bmRUcmFuc3BhcmVu
-Y3kgPSAxCiAgICAKICAgIGxvY2FsIEJvZHlQYWRkaW5nID0gSW5zdGFuY2Uu
-bmV3KCJVSVBhZGRpbmciLCBCb2R5RnJhbWUpCiAgICBCb2R5UGFkZGluZy5Q
-YWRkaW5nQm90dG9tID0gVURpbS5uZXcoMCwgOCkKCiAgICAtLSBTaWRlYmFy
-IChMZWZ0KQogICAgbG9jYWwgU2lkZWJhciA9IEluc3RhbmNlLm5ldygiRnJh
-bWUiLCBCb2R5RnJhbWUpCiAgICBTaWRlYmFyLlNpemUgPSBVRGltMi5uZXco
-MCwgNDUsIDEsIDApCiAgICBTaWRlYmFyLlBvc2l0aW9uID0gVURpbTIubmV3
-KDAsIDUsIDAsIDApCiAgICBTaWRlYmFyLkJhY2tncm91bmRUcmFuc3BhcmVu
-Y3kgPSAxCgogICAgbG9jYWwgU2lkZWJhclRvcCA9IEluc3RhbmNlLm5ldygi
-RnJhbWUiLCBTaWRlYmFyKQogICAgU2lkZWJhclRvcC5TaXplID0gVURpbTIu
-bmV3KDEsIDAsIDAsIDApCiAgICBTaWRlYmFyVG9wLkF1dG9tYXRpY1NpemUg
-PSBFbnVtLkF1dG9tYXRpY1NpemUuWQogICAgU2lkZWJhclRvcC5CYWNrZ3Jv
-dW5kVHJhbnNwYXJlbmN5ID0gMQogICAgbG9jYWwgU1RMYXlvdXQgPSBJbnN0
-YW5jZS5uZXcoIlVJTGlzdExheW91dCIsIFNpZGViYXJUb3ApCiAgICBTVExh
-eW91dC5Ib3Jpem9udGFsQWxpZ25tZW50ID0gRW51bS5Ib3Jpem9udGFsQWxp
-Z25tZW50LkNlbnRlcgogICAgU1RMYXlvdXQuU29ydE9yZGVyID0gRW51bS5T
-b3J0T3JkZXIuTGF5b3V0T3JkZXIKICAgIFNUTGF5b3V0LlBhZGRpbmcgPSBV
-RGltLm5ldygwLCA4KQoKICAgIGxvY2FsIFNpZGViYXJCb3R0b20gPSBJbnN0
-YW5jZS5uZXcoIkZyYW1lIiwgU2lkZWJhcikKICAgIFNpZGViYXJCb3R0b20u
-U2l6ZSA9IFVEaW0yLm5ldygxLCAwLCAxLCAwKQogICAgU2lkZWJhckJvdHRv
-bS5CYWNrZ3JvdW5kVHJhbnNwYXJlbmN5ID0gMQogICAgbG9jYWwgU0JMYXlv
-dXQgPSBJbnN0YW5jZS5uZXcoIlVJTGlzdExheW91dCIsIFNpZGViYXJCb3R0
-b20pCiAgICBTQkxheW91dC5Ib3Jpem9udGFsQWxpZ25tZW50ID0gRW51bS5I
-b3Jpem9udGFsQWxpZ25tZW50LkNlbnRlcgogICAgU0JMYXlvdXQuVmVydGlj
-YWxBbGlnbm1lbnQgPSBFbnVtLlZlcnRpY2FsQWxpZ25tZW50LkJvdHRvbQog
-ICAgU0JMYXlvdXQuU29ydE9yZGVyID0gRW51bS5Tb3J0T3JkZXIuTGF5b3V0
-T3JkZXIKICAgIFNCTGF5b3V0LlBhZGRpbmcgPSBVRGltLm5ldygwLCA4KQoK
-ICAgIC0tIElubmVyIENhcmQgKFJpZ2h0KQogICAgbG9jYWwgQ2FyZCA9IElu
-c3RhbmNlLm5ldygiRnJhbWUiLCBCb2R5RnJhbWUpCiAgICBDYXJkLlNpemUg
-PSBVRGltMi5uZXcoMSwgLTYwLCAxLCAtOCkKICAgIENhcmQuUG9zaXRpb24g
-PSBVRGltMi5uZXcoMCwgNTUsIDAsIDApCiAgICBDYXJkLkJhY2tncm91bmRD
-b2xvcjMgPSBQYWxldHRlLkNhcmQKICAgIENhcmQuQm9yZGVyU2l6ZVBpeGVs
-ID0gMAogICAgQ2FyZC5DbGlwc0Rlc2NlbmRhbnRzID0gdHJ1ZQoKICAgIGxv
-Y2FsIENhcmRDb3JuZXIgPSBJbnN0YW5jZS5uZXcoIlVJQ29ybmVyIiwgQ2Fy
-ZCkKICAgIENhcmRDb3JuZXIuQ29ybmVyUmFkaXVzID0gVURpbS5uZXcoMCwg
-OCkKICAgIAogICAgbG9jYWwgQ2FyZFN0cm9rZSA9IEluc3RhbmNlLm5ldygi
-VUlTdHJva2UiLCBDYXJkKQogICAgQ2FyZFN0cm9rZS5Db2xvciA9IFBhbGV0
-dGUuQm9yZGVyCiAgICBDYXJkU3Ryb2tlLlRoaWNrbmVzcyA9IDEKCiAgICAt
-LSBTY3JvbGxpbmdGcmFtZSBpbnNpZGUgQ2FyZAogICAgbG9jYWwgQ2FyZFNj
-cm9sbCA9IEluc3RhbmNlLm5ldygiU2Nyb2xsaW5nRnJhbWUiLCBDYXJkKQog
-ICAgQ2FyZFNjcm9sbC5TaXplID0gVURpbTIubmV3KDEsIDAsIDEsIDApCiAg
-ICBDYXJkU2Nyb2xsLkJhY2tncm91bmRUcmFuc3BhcmVuY3kgPSAxCiAgICBD
-YXJkU2Nyb2xsLkJvcmRlclNpemVQaXhlbCA9IDAKICAgIENhcmRTY3JvbGwu
-U2Nyb2xsQmFyVGhpY2tuZXNzID0gMwogICAgQ2FyZFNjcm9sbC5TY3JvbGxC
-YXJJbWFnZUNvbG9yMyA9IFBhbGV0dGUuQWNjZW50CiAgICBDYXJkU2Nyb2xs
-LkNhbnZhc1NpemUgPSBVRGltMi5uZXcoMCwgMCwgMCwgMCkKICAgIENhcmRT
-Y3JvbGwuQXV0b21hdGljQ2FudmFzU2l6ZSA9IEVudW0uQXV0b21hdGljU2l6
-ZS5ZCiAgICBDYXJkU2Nyb2xsLlNjcm9sbGluZ0RpcmVjdGlvbiA9IEVudW0u
-U2Nyb2xsaW5nRGlyZWN0aW9uLlkKICAgIAogICAgbG9jYWwgU2Nyb2xsUGFk
-ZGluZyA9IEluc3RhbmNlLm5ldygiVUlQYWRkaW5nIiwgQ2FyZFNjcm9sbCkK
-ICAgIFNjcm9sbFBhZGRpbmcuUGFkZGluZ1RvcCA9IFVEaW0ubmV3KDAsIDgp
-CiAgICBTY3JvbGxQYWRkaW5nLlBhZGRpbmdCb3R0b20gPSBVRGltLm5ldygw
-LCA4KQogICAgU2Nyb2xsUGFkZGluZy5QYWRkaW5nTGVmdCA9IFVEaW0ubmV3
-KDAsIDgpCiAgICBTY3JvbGxQYWRkaW5nLlBhZGRpbmdSaWdodCA9IFVEaW0u
-bmV3KDAsIDE2KQoKICAgIGxvY2FsIFRhYkNvbnRhaW5lciA9IEluc3RhbmNl
-Lm5ldygiRm9sZGVyIiwgQ2FyZFNjcm9sbCkKICAgIFRhYkNvbnRhaW5lci5O
-YW1lID0gIlRhYnMiCiAgICByZXR1cm4gV2luZG93T2JqCmVuZAoKcmV0dXJu
-IFNrZW5hVUkK
+local SkenaUI = {}
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local CoreGui = game:GetService("CoreGui")
+
+local parentUI = nil
+if pcall(function() return CoreGui.RobloxGui end) then
+    parentUI = CoreGui
+else
+    parentUI = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+end
+
+local function LoadLucideIcons()
+    local success, result = pcall(function()
+        return loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/src/Icons.lua"))()
+    end)
+    if success and result and result.assets then
+        return result.assets
+    end
+    return {}
+end
+local LucideIcons = LoadLucideIcons()
+
+-- One Dark Palette
+local Palette = {
+    Background  = Color3.fromRGB(40, 44, 52),
+    Sidebar     = Color3.fromRGB(40, 44, 52),
+    Card        = Color3.fromRGB(44, 49, 59),
+    RowItem     = Color3.fromRGB(44, 49, 59),
+    RowHover    = Color3.fromRGB(53, 59, 69),
+    TextPrimary = Color3.fromRGB(171, 178, 191),
+    TextSecondary = Color3.fromRGB(92, 99, 112),
+    Accent      = Color3.fromRGB(97, 175, 239),
+    AccentDark  = Color3.fromRGB(78, 150, 210),
+    Border      = Color3.fromRGB(60, 65, 75),
+    RedHover    = Color3.fromRGB(224, 108, 117),
+    InputHdr    = Color3.fromRGB(33, 37, 43),
+    Green       = Color3.fromRGB(152, 195, 121),
+    Yellow      = Color3.fromRGB(229, 192, 123),
+    Purple      = Color3.fromRGB(198, 120, 221),
+    Cyan        = Color3.fromRGB(86, 182, 194),
+    GlassBorder = Color3.fromRGB(255, 255, 255),
+}
+
+function SkenaUI:CreateWindow(Options, Title, IsMobile)
+    if type(Options) == "string" then
+        Options = {Name = Options, Title = Title, IsMobile = IsMobile}
+    end
+    Options = Options or {}
+    local WindowName = Options.Name or "SkenaHub"
+    
+    if parentUI:FindFirstChild("SkenaHub_UI") then
+        parentUI.SkenaHub_UI:Destroy()
+    end
+
+    local SG = Instance.new("ScreenGui")
+    SG.Name = "SkenaHub_UI"
+    SG.Parent = parentUI
+    SG.ResetOnSpawn = false
+    SG.DisplayOrder = 9999
+    SG.ZIndexBehavior = Enum.ZIndexBehavior.Global
+
+    local WindowObj = {
+        CurrentTab = nil,
+        Tabs = {},
+        ToggleKey = Enum.KeyCode.Z,
+        Cooldowns = {}
+    }
+
+    local DragFrame = Instance.new("Frame", SG)
+    DragFrame.Name = "DragFrame"
+    DragFrame.Size = UDim2.new(0, 450, 0, 420) 
+    DragFrame.Position = UDim2.new(0.5, -225, 0.5, -210)
+    DragFrame.BackgroundTransparency = 1
+    DragFrame.Active = true
+
+    local Main = Instance.new("CanvasGroup", DragFrame)
+    Main.Name = "Main"
+    Main.Size = UDim2.new(1, 0, 1, 0) 
+    Main.BackgroundColor3 = Palette.Background
+    Main.BorderSizePixel = 0
+    
+    local MainCorner = Instance.new("UICorner", Main)
+    MainCorner.CornerRadius = UDim.new(0, 8)
+    
+    local MainStroke = Instance.new("UIStroke", Main)
+    MainStroke.Color = Palette.Border
+    MainStroke.Thickness = 1
+
+    local MainScale = Instance.new("UIScale", Main)
+    MainScale.Scale = 0.85
+    
+    -- Initial Fade In Pop-Up
+    Main.GroupTransparency = 1
+    TweenService:Create(Main, TweenInfo.new(0.35, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {GroupTransparency = 0}):Play()
+    TweenService:Create(MainScale, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1}):Play()
+
+    local uiVisible = true
+    local isScaled = false -- state track untuk logic original
+    local function ToggleUIAnim()
+        uiVisible = not uiVisible
+        if uiVisible then
+            SG.Enabled = true
+            MainScale.Scale = 0.85
+            Main.GroupTransparency = 1
+            TweenService:Create(Main, TweenInfo.new(0.3, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {GroupTransparency = 0}):Play()
+            
+            -- Restore ke skala aslinya menyesuaikan kondisi terakhir
+            local targetScale = isScaled and 0.75 or 1 
+            TweenService:Create(MainScale, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = targetScale}):Play()
+        else
+            local tw = TweenService:Create(Main, TweenInfo.new(0.2, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {GroupTransparency = 1})
+            TweenService:Create(MainScale, TweenInfo.new(0.2, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {Scale = 0.9}):Play()
+            tw:Play()
+            task.delay(0.2, function()
+                if not uiVisible then SG.Enabled = false end
+            end)
+        end
+    end
+
+    -- Global shortcut to toggle UI w/ Animation
+    local uiToggleConnection
+    uiToggleConnection = UserInputService.InputBegan:Connect(function(input, gp)
+        if gp then return end
+        if input.KeyCode == WindowObj.ToggleKey then
+            ToggleUIAnim()
+        end
+    end)
+    
+    -- When SG is destroyed, cleanup Toggle shortcut
+    SG.Destroying:Connect(function()
+        if uiToggleConnection then uiToggleConnection:Disconnect() end
+    end)
+
+    -- Drag Logic
+    local dragging, dragInput, dragStart, startPos
+    DragFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true; dragStart = input.Position; startPos = DragFrame.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then dragging = false end
+            end)
+        end
+    end)
+    DragFrame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then dragInput = input end
+    end)
+    UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - dragStart
+            DragFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+
+    -- Top Area (Title Bar Controls)
+    local TitleBar = Instance.new("Frame", Main)
+    TitleBar.Size = UDim2.new(1, 0, 0, 32)
+    TitleBar.BackgroundTransparency = 1
+
+    local TitleText = Instance.new("TextLabel", TitleBar)
+    TitleText.Size = UDim2.new(1, -100, 1, 0)
+    TitleText.Position = UDim2.new(0, 12, 0, 0)
+    TitleText.BackgroundTransparency = 1
+    TitleText.Text = WindowName
+    TitleText.Font = Enum.Font.Gotham
+    TitleText.TextSize = 12
+    TitleText.TextColor3 = Palette.TextSecondary
+    TitleText.TextXAlignment = Enum.TextXAlignment.Left
+    WindowObj.TitleText = TitleText
+
+    local ControlContainer = Instance.new("Frame", TitleBar)
+    ControlContainer.Size = UDim2.new(0, 96, 1, 0)
+    ControlContainer.Position = UDim2.new(1, -104, 0, 0)
+    ControlContainer.BackgroundTransparency = 1
+
+    -- Modern floating window buttons
+    local ScaleBtn = Instance.new("TextButton", ControlContainer)
+    ScaleBtn.Size = UDim2.new(0, 26, 0, 26)
+    ScaleBtn.Position = UDim2.new(0, 0, 0.5, -13)
+    ScaleBtn.Text = "" -- Replaced by Icon
+    ScaleBtn.BackgroundColor3 = Palette.Background
+    ScaleBtn.BackgroundTransparency = 1
+    ScaleBtn.TextColor3 = Palette.TextPrimary
+    ScaleBtn.Font = Enum.Font.Gotham
+    ScaleBtn.TextSize = 14
+    ScaleBtn.BorderSizePixel = 0
+    Instance.new("UICorner", ScaleBtn).CornerRadius = UDim.new(0, 6)
+
+    local ScaleIcon = Instance.new("ImageLabel", ScaleBtn)
+    ScaleIcon.Size = UDim2.new(0, 14, 0, 14)
+    ScaleIcon.Position = UDim2.new(0.5, -7, 0.5, -7)
+    ScaleIcon.BackgroundTransparency = 1
+    ScaleIcon.Image = "rbxassetid://10734886735" -- lucide-maximize
+    ScaleIcon.ImageColor3 = Palette.TextPrimary
+
+    local Minibtn = Instance.new("TextButton", ControlContainer)
+    Minibtn.Size = UDim2.new(0, 26, 0, 26)
+    Minibtn.Position = UDim2.new(0, 32, 0.5, -13)
+    Minibtn.Text = "-"
+    Minibtn.BackgroundColor3 = Palette.Background
+    Minibtn.BackgroundTransparency = 1
+    Minibtn.TextColor3 = Palette.TextPrimary
+    Minibtn.Font = Enum.Font.Gotham
+    Minibtn.TextSize = 14
+    Minibtn.BorderSizePixel = 0
+    Instance.new("UICorner", Minibtn).CornerRadius = UDim.new(0, 6)
+
+    local CloseBtn = Instance.new("TextButton", ControlContainer)
+    CloseBtn.Size = UDim2.new(0, 26, 0, 26)
+    CloseBtn.Position = UDim2.new(0, 64, 0.5, -13)
+    CloseBtn.Text = "X"
+    CloseBtn.BackgroundColor3 = Palette.Background
+    CloseBtn.BackgroundTransparency = 1
+    CloseBtn.TextColor3 = Palette.TextPrimary
+    CloseBtn.Font = Enum.Font.Gotham
+    CloseBtn.TextSize = 14
+    CloseBtn.BorderSizePixel = 0
+    Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 6)
+
+    -- Hover logic for window controls
+    ScaleBtn.MouseEnter:Connect(function() ScaleBtn.BackgroundTransparency = 0; ScaleBtn.BackgroundColor3 = Palette.RowHover end)
+    ScaleBtn.MouseLeave:Connect(function() ScaleBtn.BackgroundTransparency = 1 end)
+    Minibtn.MouseEnter:Connect(function() Minibtn.BackgroundTransparency = 0; Minibtn.BackgroundColor3 = Palette.RowHover end)
+    Minibtn.MouseLeave:Connect(function() Minibtn.BackgroundTransparency = 1 end)
+    CloseBtn.MouseEnter:Connect(function() CloseBtn.BackgroundTransparency = 0; CloseBtn.BackgroundColor3 = Palette.RedHover end)
+    CloseBtn.MouseLeave:Connect(function() CloseBtn.BackgroundTransparency = 1 end)
+
+    ScaleBtn.MouseButton1Click:Connect(function()
+        isScaled = not isScaled
+        local targetScale = isScaled and 0.75 or 1
+        TweenService:Create(MainScale, TweenInfo.new(0.3, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {Scale = targetScale}):Play()
+    end)
+
+    Minibtn.MouseButton1Click:Connect(function()
+        ToggleUIAnim()
+    end)
+
+    CloseBtn.MouseButton1Click:Connect(function() SG:Destroy() end)
+
+    -- Under Title Bar
+    local BodyFrame = Instance.new("Frame", Main)
+    BodyFrame.Size = UDim2.new(1, 0, 1, -32)
+    BodyFrame.Position = UDim2.new(0, 0, 0, 32)
+    BodyFrame.BackgroundTransparency = 1
+    
+    local BodyPadding = Instance.new("UIPadding", BodyFrame)
+    BodyPadding.PaddingBottom = UDim.new(0, 8)
+
+    -- Sidebar (Left)
+    local Sidebar = Instance.new("Frame", BodyFrame)
+    Sidebar.Size = UDim2.new(0, 45, 1, 0)
+    Sidebar.Position = UDim2.new(0, 5, 0, 0)
+    Sidebar.BackgroundTransparency = 1
+
+    local SidebarTop = Instance.new("Frame", Sidebar)
+    SidebarTop.Size = UDim2.new(1, 0, 0, 0)
+    SidebarTop.AutomaticSize = Enum.AutomaticSize.Y
+    SidebarTop.BackgroundTransparency = 1
+    local STLayout = Instance.new("UIListLayout", SidebarTop)
+    STLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    STLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    STLayout.Padding = UDim.new(0, 8)
+
+    local SidebarBottom = Instance.new("Frame", Sidebar)
+    SidebarBottom.Size = UDim2.new(1, 0, 1, 0)
+    SidebarBottom.BackgroundTransparency = 1
+    local SBLayout = Instance.new("UIListLayout", SidebarBottom)
+    SBLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    SBLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+    SBLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    SBLayout.Padding = UDim.new(0, 8)
+
+    -- Inner Card (Right)
+    local Card = Instance.new("Frame", BodyFrame)
+    Card.Size = UDim2.new(1, -60, 1, -8)
+    Card.Position = UDim2.new(0, 55, 0, 0)
+    Card.BackgroundColor3 = Palette.Card
+    Card.BorderSizePixel = 0
+    Card.ClipsDescendants = true
+
+    local CardCorner = Instance.new("UICorner", Card)
+    CardCorner.CornerRadius = UDim.new(0, 8)
+    
+    local CardStroke = Instance.new("UIStroke", Card)
+    CardStroke.Color = Palette.Border
+    CardStroke.Thickness = 1
+
+    -- ScrollingFrame inside Card
+    local CardScroll = Instance.new("ScrollingFrame", Card)
+    CardScroll.Size = UDim2.new(1, 0, 1, 0)
+    CardScroll.BackgroundTransparency = 1
+    CardScroll.BorderSizePixel = 0
+    CardScroll.ScrollBarThickness = 3
+    CardScroll.ScrollBarImageColor3 = Palette.Accent
+    CardScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+    CardScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    CardScroll.ScrollingDirection = Enum.ScrollingDirection.Y
+    
+    local ScrollPadding = Instance.new("UIPadding", CardScroll)
+    ScrollPadding.PaddingTop = UDim.new(0, 8)
+    ScrollPadding.PaddingBottom = UDim.new(0, 8)
+    ScrollPadding.PaddingLeft = UDim.new(0, 8)
+    ScrollPadding.PaddingRight = UDim.new(0, 16)
+
+    local TabContainer = Instance.new("Folder", CardScroll)
+    TabContainer.Name = "Tabs"
+    return WindowObj
+end
+
+return SkenaUI

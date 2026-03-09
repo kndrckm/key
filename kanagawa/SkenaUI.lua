@@ -34,13 +34,13 @@ elseif PlaceId == 135668295983945 then
 elseif PlaceId == 99248392277037 then
     SkenaHub_CoreURL = SkenaHub_CoreURL .. "UntitledMeleeRNG.lua"
 elseif PlaceId == 135707546762730 then
-    SkenaHu_CoreURL = SkenaHub_CoreURL .. "UnboxYourTank.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "UnboxYourTank.lua"
 elseif PlaceId == 102669100769936 or PlaceId == 97689234675651 then
     SkenaHub_CoreURL = SkenaHub_CoreURL .. "DefendYourBase67.lua"
 elseif PlaceId == 74848159470277 or PlaceId == 128981447330754 then
     SkenaHub_CoreURL = SkenaHub_CoreURL .. "levelbound.lua"
 elseif PlaceId == 118433033586507 then
-    SkenaTdiub_CoreURL = SkenaHub_CoreURL .. "SimpleSpells.lua"
+    SkenaHub_CoreURL = SkenaHub_CoreURL .. "SimpleSpells.lua"
 else
     -- Game tidak disupport: Load Fallback Admin (untuk di-test / bypass oleh admin)
     SkenaHub_CoreURL = SkenaHub_CoreURL .. "kanagawa/FallbackAdmin.lua"

@@ -21,87 +21,47 @@ local function LoadLucideIcons()
 end
 local LucideIcons = LoadLucideIcons()
 
--- Kanagawa Dragon Palette
+-- Kanagawa Neumorphic Palette
 local Palette = {
-    Background  = Color3.fromRGB(31, 31, 40),   -- sumiInk0
-    Sidebar     = Color3.fromRGB(22, 22, 29),   -- sumiInk1 (darker panel)
-    Card        = Color3.fromRGB(31, 31, 40),   -- sumiInk3
-    RowItem     = Color3.fromRGB(31, 31, 40),
-    RowHover    = Color3.fromRGB(49, 49, 63),   -- sumiInk4
-    TextPrimary = Color3.fromRGB(220, 215, 186), -- fujiWhite
-    TextSecondary = Color3.fromRGB(147, 151, 166), -- fujiGray
-    Accent      = Color3.fromRGB(127, 180, 202), -- crystalBlue
-    AccentDark  = Color3.fromRGB(114, 152, 179), -- springBlue
-    Border      = Color3.fromRGB(84, 84, 109),   -- sumiInk6
-    RedHover    = Color3.fromRGB(195, 64, 67),   -- samuraiRed
-    InputHdr    = Color3.fromRGB(22, 22, 29),   -- sumiInk1
-    ShadowLight = Color3.fromRGB(49, 49, 63),   -- highlight layer
-    ShadowDark  = Color3.fromRGB(16, 16, 22),   -- deep shadow
+    Background  = Color3.fromRGB(31,  31,  40),   -- Sumi-ink base
+    Sidebar     = Color3.fromRGB(31,  31,  40),
+    Card        = Color3.fromRGB(42,  42,  55),   -- slightly raised
+    RowItem     = Color3.fromRGB(38,  38,  50),
+    RowHover    = Color3.fromRGB(54,  54,  70),
+    TextPrimary = Color3.fromRGB(220, 215, 186),  -- Fuji White
+    TextSecondary=Color3.fromRGB(114, 113, 105),  -- Fuji Gray
+    Accent      = Color3.fromRGB(126, 156, 216),  -- Crystal Blue
+    AccentDark  = Color3.fromRGB(149, 127, 184),  -- Oni Violet
+    Border      = Color3.fromRGB(54,  54,  70),   -- subtle, nearly invisible
+    RedHover    = Color3.fromRGB(195,  64,  67),  -- Peach Red
+    InputHdr    = Color3.fromRGB(22,  22,  29),   -- recessed inset bg
+    ShadowLight = Color3.fromRGB(52,  52,  67),   -- highlight shadow
+    ShadowDark  = Color3.fromRGB(18,  18,  24),   -- depth shadow
 }
 
-
-local NEU_OFFSET = 4        -- pixel offset for shadows
-local NEU_SIZE   = 8        -- shadow frame size extension
-local NEU_TRANS_DARK  = 0.55  -- transparency for dark shadow (more opaque = deeper)
-local NEU_TRANS_LIGHT = 0.72  -- transparency for light shadow (more transparent = subtler)
-
-local function ApplyNeuShadow(parent, raised)
-    -- raised=true: element pops OUT (buttons, cards, rows)
-    -- raised=false: element presses IN (inputs, active states)
-
-    -- Remove existing neu shadow frames
-    for _, child in ipairs(parent:GetChildren()) do
-        if child.Name == "_NeuDark" or child.Name == "_NeuLight" then
-            child:Destroy()
-        end
-    end
-
-    local offsetDir = raised and 1 or -1
-
-    -- DARK shadow frame (bottom-right for raised, top-left for inset)
-    local darkFrame = Instance.new("Frame")
-    darkFrame.Name = "_NeuDark"
-    darkFrame.BackgroundColor3 = Palette.ShadowDark
-    darkFrame.BackgroundTransparency = NEU_TRANS_DARK
-    darkFrame.BorderSizePixel = 0
-    darkFrame.Size = UDim2.new(1, NEU_SIZE * 2, 1, NEU_SIZE * 2)
-    darkFrame.Position = UDim2.new(0, offsetDir * NEU_OFFSET - NEU_SIZE, 0, offsetDir * NEU_OFFSET - NEU_SIZE)
-    darkFrame.ZIndex = parent.ZIndex - 1
-    darkFrame.Parent = parent.Parent
-    local darkCorner = Instance.new("UICorner")
-    darkCorner.CornerRadius = UDim.new(0, 12)
-    darkCorner.Parent = darkFrame
-    local darkBlur = Instance.new("UIGradient")
-    darkBlur.Transparency = NumberSequence.new({
-        NumberSequenceKeypoint.new(0, 0),
-        NumberSequenceKeypoint.new(0.4, 0.2),
-        NumberSequenceKeypoint.new(1, 1)
-    })
-    darkBlur.Rotation = raised and 135 or 315
-    darkBlur.Parent = darkFrame
-
-    -- LIGHT shadow frame (top-left for raised, bottom-right for inset)
-    local lightFrame = Instance.new("Frame")
-    lightFrame.Name = "_NeuLight"
-    lightFrame.BackgroundColor3 = Palette.ShadowLight
-    lightFrame.BackgroundTransparency = NEU_TRANS_LIGHT
-    lightFrame.BorderSizePixel = 0
-    lightFrame.Size = UDim2.new(1, NEU_SIZE * 2, 1, NEU_SIZE * 2)
-    lightFrame.Position = UDim2.new(0, -offsetDir * NEU_OFFSET - NEU_SIZE, 0, -offsetDir * NEU_OFFSET - NEU_SIZE)
-    lightFrame.ZIndex = parent.ZIndex - 1
-    lightFrame.Parent = parent.Parent
-    local lightCorner = Instance.new("UICorner")
-    lightCorner.CornerRadius = UDim.new(0, 12)
-    lightCorner.Parent = lightFrame
-    local lightBlur = Instance.new("UIGradient")
-    lightBlur.Transparency = NumberSequence.new({
-        NumberSequenceKeypoint.new(0, 0),
-        NumberSequenceKeypoint.new(0.4, 0.3),
-        NumberSequenceKeypoint.new(1, 1)
-    })
-    lightBlur.Rotation = raised and 315 or 135
-    lightBlur.Parent = lightFrame
+-- Neumorphic shadow simulation using two layered frames
+local function AddNeumorphicShadow(parent, radius)
+    radius = radius or 10
+    -- Dark shadow (bottom-right depth)
+    local shadowDark = Instance.new("Frame", parent)
+    shadowDark.Name = "_NeuShadowDark"
+    shadowDark.Size = UDim2.new(1, 4, 1, 4)
+    shadowDark.Position = UDim2.new(0, 2, 0, 2)
+    shadowDark.BackgroundColor3 = Palette.ShadowDark
+    shadowDark.BorderSizePixel = 0
+    shadowDark.ZIndex = (parent.ZIndex or 1) - 1
+    Instance.new("UICorner", shadowDark).CornerRadius = UDim.new(0, radius + 1)
+    -- Light shadow (top-left highlight)
+    local shadowLight = Instance.new("Frame", parent)
+    shadowLight.Name = "_NeuShadowLight"
+    shadowLight.Size = UDim2.new(1, 4, 1, 4)
+    shadowLight.Position = UDim2.new(0, -2, 0, -2)
+    shadowLight.BackgroundColor3 = Palette.ShadowLight
+    shadowLight.BorderSizePixel = 0
+    shadowLight.ZIndex = (parent.ZIndex or 1) - 1
+    Instance.new("UICorner", shadowLight).CornerRadius = UDim.new(0, radius + 1)
 end
+
 
 function SkenaUI:CreateWindow(Options, Title, IsMobile)
     if type(Options) == "string" then
@@ -143,8 +103,11 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     
     local MainCorner = Instance.new("UICorner", Main)
     MainCorner.CornerRadius = UDim.new(0, 12)
-    ApplyNeuShadow(Main, true)
+    AddNeumorphicShadow(Main, 12)
     
+    local MainStroke = Instance.new("UIStroke", Main)
+    MainStroke.Color = Palette.Border
+    MainStroke.Thickness = 0
 
     local MainScale = Instance.new("UIScale", Main)
     MainScale.Scale = 0.85
@@ -244,7 +207,6 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     ScaleBtn.TextSize = 14
     ScaleBtn.BorderSizePixel = 0
     Instance.new("UICorner", ScaleBtn).CornerRadius = UDim.new(0, 10)
-    ApplyNeuShadow(ScaleBtn, true) -- raised button
 
     local ScaleIcon = Instance.new("ImageLabel", ScaleBtn)
     ScaleIcon.Size = UDim2.new(0, 14, 0, 14)
@@ -264,7 +226,6 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     Minibtn.TextSize = 14
     Minibtn.BorderSizePixel = 0
     Instance.new("UICorner", Minibtn).CornerRadius = UDim.new(0, 10)
-    ApplyNeuShadow(Minibtn, true) -- raised button
 
     local CloseBtn = Instance.new("TextButton", ControlContainer)
     CloseBtn.Size = UDim2.new(0, 26, 0, 26)
@@ -277,7 +238,6 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     CloseBtn.TextSize = 14
     CloseBtn.BorderSizePixel = 0
     Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 10)
-    ApplyNeuShadow(CloseBtn, true) -- raised button
 
     -- Hover logic for window controls
     ScaleBtn.MouseEnter:Connect(function() ScaleBtn.BackgroundTransparency = 0; ScaleBtn.BackgroundColor3 = Palette.RowHover end)
@@ -306,7 +266,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     BodyFrame.BackgroundTransparency = 1
     
     local BodyPadding = Instance.new("UIPadding", BodyFrame)
-    BodyPadding.PaddingBottom = UDim.new(0, 12)
+    BodyPadding.PaddingBottom = UDim.new(0, 8)
 
     -- Sidebar (Left)
     local Sidebar = Instance.new("Frame", BodyFrame)
@@ -321,7 +281,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     local STLayout = Instance.new("UIListLayout", SidebarTop)
     STLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
     STLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    STLayout.Padding = UDim.new(0, 12)
+    STLayout.Padding = UDim.new(0, 8)
 
     local SidebarBottom = Instance.new("Frame", Sidebar)
     SidebarBottom.Size = UDim2.new(1, 0, 1, 0)
@@ -330,19 +290,22 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     SBLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
     SBLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
     SBLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    SBLayout.Padding = UDim.new(0, 12)
+    SBLayout.Padding = UDim.new(0, 8)
 
     -- Inner Card (Right)
     local Card = Instance.new("Frame", BodyFrame)
     Card.Size = UDim2.new(1, -60, 1, -8)
     Card.Position = UDim2.new(0, 55, 0, 0)
-    Card.BackgroundColor3 = Palette.Background
+    Card.BackgroundColor3 = Palette.Card
     Card.BorderSizePixel = 0
     Card.ClipsDescendants = true
 
     local CardCorner = Instance.new("UICorner", Card)
     CardCorner.CornerRadius = UDim.new(0, 12)
     
+    local CardStroke = Instance.new("UIStroke", Card)
+    CardStroke.Color = Palette.Border
+    CardStroke.Thickness = 0
 
     -- ScrollingFrame inside Card
     local CardScroll = Instance.new("ScrollingFrame", Card)
@@ -356,9 +319,9 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     CardScroll.ScrollingDirection = Enum.ScrollingDirection.Y
     
     local ScrollPadding = Instance.new("UIPadding", CardScroll)
-    ScrollPadding.PaddingTop = UDim.new(0, 12)
-    ScrollPadding.PaddingBottom = UDim.new(0, 12)
-    ScrollPadding.PaddingLeft = UDim.new(0, 12)
+    ScrollPadding.PaddingTop = UDim.new(0, 8)
+    ScrollPadding.PaddingBottom = UDim.new(0, 8)
+    ScrollPadding.PaddingLeft = UDim.new(0, 8)
     ScrollPadding.PaddingRight = UDim.new(0, 16)
 
     local TabContainer = Instance.new("Folder", CardScroll)
@@ -407,14 +370,17 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
         Tooltip.Size = UDim2.new(0, 0, 0, 24)
         Tooltip.Position = UDim2.new(1, 10, 0.5, -12)
         Tooltip.AutomaticSize = Enum.AutomaticSize.X
-        Tooltip.BackgroundColor3 = Palette.Background
+        Tooltip.BackgroundColor3 = Palette.Card
         Tooltip.TextColor3 = Palette.TextPrimary
         Tooltip.Text = " " .. TabName .. " "
         Tooltip.Font = Enum.Font.Gotham
         Tooltip.TextSize = 11
         Tooltip.Visible = false
         Tooltip.ZIndex = 50
-        Instance.new("UICorner", Tooltip).CornerRadius = UDim.new(0, 4)
+        Instance.new("UICorner", Tooltip).CornerRadius = UDim.new(0, 8)
+        local TTStroke = Instance.new("UIStroke", Tooltip)
+        TTStroke.Color = Palette.Border
+        TTStroke.Thickness = 1
 
         TabBtn.MouseEnter:Connect(function()
             if WindowObj.CurrentTab ~= TabName then
@@ -472,14 +438,16 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local Box = Instance.new("TextBox", Row)
             Box.Size = UDim2.new(0, 100, 0, 24)
             Box.Position = UDim2.new(1, -112, 0.5, -12)
-            Box.BackgroundColor3 = Palette.Background
+            Box.BackgroundColor3 = Palette.InputHdr
             Box.Text = tostring(Default)
             Box.PlaceholderText = Placeholder
             Box.TextColor3 = Palette.TextPrimary
             Box.Font = Enum.Font.Gotham
             Box.TextSize = 12
             Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 8)
-            ApplyNeuShadow(Box, false) -- inset input
+            local BStroke = Instance.new("UIStroke", Box)
+            BStroke.Color = Palette.Border
+            BStroke.Thickness = 0
             
             Box.FocusLost:Connect(function()
                 pcall(cb, Box.Text)
@@ -495,15 +463,17 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local GroupFrame = Instance.new("Frame", Page)
             GroupFrame.Size = UDim2.new(1, 0, 0, 0)
             GroupFrame.AutomaticSize = Enum.AutomaticSize.Y
-            GroupFrame.BackgroundColor3 = Palette.Background
+            GroupFrame.BackgroundColor3 = Palette.Card
             GroupFrame.BorderSizePixel = 0
             Instance.new("UICorner", GroupFrame).CornerRadius = UDim.new(0, 12)
-            ApplyNeuShadow(GroupFrame, true) -- raised group
+            local GStroke = Instance.new("UIStroke", GroupFrame)
+            GStroke.Color = Palette.Border
+            GStroke.Thickness = 0
             
             local GLayout = Instance.new("UIListLayout", GroupFrame)
             GLayout.SortOrder = Enum.SortOrder.LayoutOrder
             GLayout.Padding = UDim.new(0, 4)
-            Instance.new("UIPadding", GroupFrame).PaddingBottom = UDim.new(0, 12)
+            Instance.new("UIPadding", GroupFrame).PaddingBottom = UDim.new(0, 8)
 
             local Header = Instance.new("Frame", GroupFrame)
             Header.Size = UDim2.new(1, 0, 0, 36)
@@ -524,10 +494,9 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 local MToggle = Instance.new("TextButton", Header)
                 MToggle.Size = UDim2.new(0, 40, 0, 20)
                 MToggle.Position = UDim2.new(1, -52, 0.5, -10)
-                MToggle.BackgroundColor3 = Palette.Background
+                MToggle.BackgroundColor3 = Palette.InputHdr
                 MToggle.Text = ""
                 Instance.new("UICorner", MToggle).CornerRadius = UDim.new(1, 0)
-                ApplyNeuShadow(MToggle, false) -- inset/pressed look
                 local MKnob = Instance.new("Frame", MToggle)
                 MKnob.Size = UDim2.new(0, 14, 0, 14)
                 MKnob.Position = UDim2.new(0, 3, 0.5, -7)
@@ -576,13 +545,12 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 local Box = Instance.new("TextBox", Row)
                 Box.Size = UDim2.new(0, 40, 0, 20)
                 Box.Position = UDim2.new(1, -45, 0.5, -10)
-                Box.BackgroundColor3 = Palette.Background
+                Box.BackgroundColor3 = Palette.InputHdr
                 Box.Text = "10"
                 Box.TextColor3 = Palette.TextPrimary
                 Box.Font = Enum.Font.Gotham
                 Box.TextSize = 11
                 Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 8)
-                ApplyNeuShadow(Box, false) -- inset/pressed look
                 
                 Box.FocusLost:Connect(function()
                     pcall(OnDelay, Box.Text)
@@ -630,14 +598,13 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
 
                     local Box = Instance.new("TextBox", SkillBox)
                     Box.Size = UDim2.new(0, 24, 0, 20)
-                    Box.BackgroundColor3 = Palette.Background
+                    Box.BackgroundColor3 = Palette.InputHdr
                     Box.Text = tostring(data.DefaultDelay or "10")
                     Box.TextColor3 = Palette.TextPrimary
                     Box.Font = Enum.Font.Gotham
                     Box.TextSize = 10
                     Box.LayoutOrder = 2
                     Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 8)
-                    ApplyNeuShadow(Box, false) -- inset input
                     Box.FocusLost:Connect(function() pcall(data.OnDelay, Box.Text) end)
 
                     local Sec = Instance.new("TextLabel", SkillBox)
@@ -663,7 +630,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 Left.BackgroundTransparency = 1
                 local LLayout = Instance.new("UIListLayout", Left)
                 LLayout.FillDirection = Enum.FillDirection.Horizontal
-                LLayout.Padding = UDim.new(0, 10)
+                LLayout.Padding = UDim.new(0, 6)
                 LLayout.VerticalAlignment = Enum.VerticalAlignment.Center
                 LLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
@@ -677,7 +644,6 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 TglBtn.TextSize = 10
                 TglBtn.LayoutOrder = 1
                 Instance.new("UICorner", TglBtn).CornerRadius = UDim.new(0, 8)
-                ApplyNeuShadow(TglBtn, true) -- raised button
                 TglBtn.MouseButton1Click:Connect(function()
                     state = not state
                     TglBtn.BackgroundColor3 = state and Palette.Accent or Palette.InputHdr
@@ -686,14 +652,13 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
 
                 local Box = Instance.new("TextBox", Left)
                 Box.Size = UDim2.new(0, 32, 0, 20)
-                Box.BackgroundColor3 = Palette.Background
+                Box.BackgroundColor3 = Palette.InputHdr
                 Box.Text = Opt.InputDefault or ""
                 Box.TextColor3 = Palette.TextPrimary
                 Box.Font = Enum.Font.Gotham
                 Box.TextSize = 11
                 Box.LayoutOrder = 2
                 Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 8)
-                ApplyNeuShadow(Box, false) -- inset input
                 Box.FocusLost:Connect(function() pcall(Opt.Callback, Box.Text) end)
 
                 local Sec = Instance.new("TextLabel", Left)
@@ -714,7 +679,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 local RLayout = Instance.new("UIListLayout", Right)
                 RLayout.FillDirection = Enum.FillDirection.Horizontal
                 RLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
-                RLayout.Padding = UDim.new(0, 12)
+                RLayout.Padding = UDim.new(0, 8)
                 RLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 
                 local Status = Instance.new("TextLabel", Right)
@@ -728,13 +693,12 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
 
                 local Btn = Instance.new("TextButton", Right)
                 Btn.Size = UDim2.new(0, 90, 0, 20)
-                Btn.BackgroundColor3 = Palette.Background
+                Btn.BackgroundColor3 = Palette.InputHdr
                 Btn.Text = Opt.ButtonText or "Action"
                 Btn.TextColor3 = Palette.TextPrimary
                 Btn.Font = Enum.Font.Gotham
                 Btn.TextSize = 11
                 Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 8)
-                ApplyNeuShadow(Btn, false) -- inset/pressed look
                 Btn.MouseButton1Click:Connect(function() pcall(Opt.OnButton) end)
                 
                 return {Row = Row, StatusLabel = Status, Button = Btn}
@@ -763,10 +727,12 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
         local function AddRowContainer()
             local Row = Instance.new("Frame", Page)
             Row.Size = UDim2.new(1, 0, 0, 44)
-            Row.BackgroundColor3 = Palette.Background
+            Row.BackgroundColor3 = Palette.RowItem
             Row.BorderSizePixel = 0
             Instance.new("UICorner", Row).CornerRadius = UDim.new(0, 10)
-            ApplyNeuShadow(Row, true) -- raised row/group
+            local Stroke = Instance.new("UIStroke", Row)
+            Stroke.Color = Palette.Border
+            Stroke.Thickness = 0
             return Row
         end
 
@@ -794,18 +760,20 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             RCLayout.FillDirection = Enum.FillDirection.Horizontal
             RCLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
             RCLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-            RCLayout.Padding = UDim.new(0, 12)
+            RCLayout.Padding = UDim.new(0, 8)
             RCLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
             -- Toggle Button
             local ToggleBg = Instance.new("TextButton", RightContainer)
             ToggleBg.Size = UDim2.new(0, 44, 0, 22)
-            ToggleBg.BackgroundColor3 = Palette.Background
+            ToggleBg.BackgroundColor3 = Palette.InputHdr
             ToggleBg.Text = ""
             ToggleBg.AutoButtonColor = false
             ToggleBg.LayoutOrder = 10
             Instance.new("UICorner", ToggleBg).CornerRadius = UDim.new(1, 0)
-            ApplyNeuShadow(ToggleBg, false) -- inset/pressed look
+            local TStroke = Instance.new("UIStroke", ToggleBg)
+            TStroke.Color = Palette.Border
+            TStroke.Thickness = 0
 
             local Knob = Instance.new("Frame", ToggleBg)
             Knob.Size = UDim2.new(0, 14, 0, 14)
@@ -816,7 +784,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local state = Options.Default or false
 
             local function UpdateToggleRender(noAnim)
-                local targetColor = state and Color3.fromRGB(40, 60, 80) or Palette.InputHdr
+                local targetColor = state and Palette.Accent or Palette.InputHdr
                 local knobColor = state and Palette.Accent or Palette.TextSecondary
                 local knobPos = state and UDim2.new(1, -18, 0.5, -7) or UDim2.new(0, 4, 0.5, -7)
                 
@@ -880,14 +848,16 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
 
                 local Box = Instance.new("TextBox", container)
                 Box.Size = UDim2.new(0, width, 0, 24)
-                Box.BackgroundColor3 = Palette.Background
+                Box.BackgroundColor3 = Palette.InputHdr
                 Box.Text = tostring(defaultVal or "")
                 Box.PlaceholderText = placeholder
                 Box.TextColor3 = Palette.TextPrimary
                 Box.Font = Enum.Font.Gotham
                 Box.TextSize = 12
                 Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 8)
-                ApplyNeuShadow(Box, false) -- inset input
+                local BStroke = Instance.new("UIStroke", Box)
+                BStroke.Color = Palette.Border
+                BStroke.Thickness = 0
                 
                 Box.FocusLost:Connect(function()
                     pcall(callback, Box.Text)
@@ -976,9 +946,11 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local SlideTrack = Instance.new("Frame", SlideBg)
             SlideTrack.Size = UDim2.new(1, 0, 0, 6)
             SlideTrack.Position = UDim2.new(0, 0, 0.5, -3)
-            SlideTrack.BackgroundColor3 = Palette.Background
+            SlideTrack.BackgroundColor3 = Palette.InputHdr
             Instance.new("UICorner", SlideTrack).CornerRadius = UDim.new(1,0)
-            ApplyNeuShadow(SlideTrack, false) -- inset/pressed look
+            local SStroke = Instance.new("UIStroke", SlideTrack)
+            SStroke.Color = Palette.Border
+            SStroke.Thickness = 0
 
             -- Isi bar slider
             local SlideFill = Instance.new("Frame", SlideTrack)
@@ -992,8 +964,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             SlideKnob.Position = UDim2.new(1, -6, 0.5, -8)
             SlideKnob.BackgroundColor3 = Palette.TextPrimary
             local KnobCorner = Instance.new("UICorner", SlideKnob)
-            KnobCorner.CornerRadius = UDim.new(0, 4)
-            ApplyNeuShadow(SlideKnob, true) -- raised knob
+            KnobCorner.CornerRadius = UDim.new(0, 8)
 
             local dragging = false
             local function update(input)
@@ -1065,17 +1036,19 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local ExecBtn = Instance.new("TextButton", Row)
             ExecBtn.Size = UDim2.new(0, 80, 0, 24)
             ExecBtn.Position = UDim2.new(1, -92, 0.5, -12)
-            ExecBtn.BackgroundColor3 = Palette.Background
+            ExecBtn.BackgroundColor3 = Palette.InputHdr
             ExecBtn.Text = BtnText
             ExecBtn.TextColor3 = Palette.TextPrimary
             ExecBtn.Font = Enum.Font.Gotham
             ExecBtn.TextSize = 12
             ExecBtn.AutoButtonColor = false
             Instance.new("UICorner", ExecBtn).CornerRadius = UDim.new(0, 8)
-            ApplyNeuShadow(ExecBtn, true) -- raised button
+            local BStroke = Instance.new("UIStroke", ExecBtn)
+            BStroke.Color = Palette.Border
+            BStroke.Thickness = 0
 
             ExecBtn.MouseEnter:Connect(function() TweenService:Create(ExecBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.RowHover}):Play() end)
-            ExecBtn.MouseLeave:Connect(function() TweenService:Create(ExecBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.Background}):Play() end)
+            ExecBtn.MouseLeave:Connect(function() TweenService:Create(ExecBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.InputHdr}):Play() end)
             ExecBtn.MouseButton1Click:Connect(function() pcall(cb, ExecBtn) end)
             
             return { Row = Row, Button = ExecBtn }
@@ -1103,11 +1076,10 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local ToggleBg = Instance.new("TextButton", Row)
             ToggleBg.Size = UDim2.new(0, 36, 0, 18)
             ToggleBg.Position = UDim2.new(0.35, 12, 0.5, -9)
-            ToggleBg.BackgroundColor3 = Palette.Background
+            ToggleBg.BackgroundColor3 = Palette.InputHdr
             ToggleBg.Text = ""
             ToggleBg.AutoButtonColor = false
             Instance.new("UICorner", ToggleBg).CornerRadius = UDim.new(1, 0)
-            ApplyNeuShadow(ToggleBg, false) -- inset/pressed look
 
             local Knob = Instance.new("Frame", ToggleBg)
             Knob.Size = UDim2.new(0, 14, 0, 14)
@@ -1118,7 +1090,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local state = Options.Default or false
 
             local function UpdateToggleRender(noAnim)
-                local targetColor = state and Color3.fromRGB(40, 60, 80) or Palette.InputHdr
+                local targetColor = state and Palette.Accent or Palette.InputHdr
                 local knobColor = state and Palette.Accent or Palette.TextSecondary
                 local knobPos = state and UDim2.new(1, -18, 0.5, -7) or UDim2.new(0, 4, 0.5, -7)
                 if noAnim then
@@ -1143,17 +1115,19 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local ExecBtn = Instance.new("TextButton", Row)
             ExecBtn.Size = UDim2.new(0, 64, 0, 24)
             ExecBtn.Position = UDim2.new(1, -76, 0.5, -12)
-            ExecBtn.BackgroundColor3 = Palette.Background
+            ExecBtn.BackgroundColor3 = Palette.InputHdr
             ExecBtn.Text = BtnText
             ExecBtn.TextColor3 = Palette.TextPrimary
             ExecBtn.Font = Enum.Font.Gotham
             ExecBtn.TextSize = 12
             ExecBtn.AutoButtonColor = false
             Instance.new("UICorner", ExecBtn).CornerRadius = UDim.new(0, 8)
-            ApplyNeuShadow(ExecBtn, true) -- raised button
+            local BStroke = Instance.new("UIStroke", ExecBtn)
+            BStroke.Color = Palette.Border
+            BStroke.Thickness = 0
 
             ExecBtn.MouseEnter:Connect(function() TweenService:Create(ExecBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.RowHover}):Play() end)
-            ExecBtn.MouseLeave:Connect(function() TweenService:Create(ExecBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.Background}):Play() end)
+            ExecBtn.MouseLeave:Connect(function() TweenService:Create(ExecBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.InputHdr}):Play() end)
             ExecBtn.MouseButton1Click:Connect(function() pcall(cbButton, ExecBtn) end)
 
             return { Row = Row, Button = ExecBtn, ToggleState = function(s) state=s; UpdateToggleRender(true) end }
@@ -1186,13 +1160,13 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             RCLayout.FillDirection = Enum.FillDirection.Horizontal
             RCLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
             RCLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-            RCLayout.Padding = UDim.new(0, 12)
+            RCLayout.Padding = UDim.new(0, 8)
             RCLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
             local function SetupBtn(txt, callback, order)
                 local btn = Instance.new("TextButton", RightContainer)
                 btn.Size = UDim2.new(0, 80, 0, 24)
-                btn.BackgroundColor3 = Palette.Background
+                btn.BackgroundColor3 = Palette.InputHdr
                 btn.Text = txt
                 btn.TextColor3 = Palette.TextPrimary
                 btn.Font = Enum.Font.Gotham
@@ -1200,9 +1174,12 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 btn.AutoButtonColor = false
                 btn.LayoutOrder = order
                 Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)
+                local BStroke = Instance.new("UIStroke", btn)
+                BStroke.Color = Palette.Border
+                BStroke.Thickness = 0
 
                 btn.MouseEnter:Connect(function() TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.RowHover}):Play() end)
-                btn.MouseLeave:Connect(function() TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.Background}):Play() end)
+                btn.MouseLeave:Connect(function() TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.InputHdr}):Play() end)
                 btn.MouseButton1Click:Connect(function() pcall(callback) end)
             end
             
@@ -1221,10 +1198,12 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local Row = Instance.new("Frame", Page)
             Row.Size = UDim2.new(1, 0, 0, 0)
             Row.AutomaticSize = Enum.AutomaticSize.Y
-            Row.BackgroundColor3 = Palette.Background
+            Row.BackgroundColor3 = Palette.RowItem
             Row.BorderSizePixel = 0
             Instance.new("UICorner", Row).CornerRadius = UDim.new(0, 10)
-            ApplyNeuShadow(Row, true) -- raised row/group
+            local Stroke = Instance.new("UIStroke", Row)
+            Stroke.Color = Palette.Border
+            Stroke.Thickness = 0
             
             local Header = Instance.new("Frame", Row)
             Header.Size = UDim2.new(1, 0, 0, 44)
@@ -1248,17 +1227,19 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             RCLayout.FillDirection = Enum.FillDirection.Horizontal
             RCLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
             RCLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-            RCLayout.Padding = UDim.new(0, 12)
+            RCLayout.Padding = UDim.new(0, 8)
             
             local DropLabel = Instance.new("TextLabel", RightContainer)
             DropLabel.Size = UDim2.new(0, 100, 0, 24)
-            DropLabel.BackgroundColor3 = Palette.Background
+            DropLabel.BackgroundColor3 = Palette.InputHdr
             DropLabel.Text = "Select v"
             DropLabel.TextColor3 = Palette.TextSecondary
             DropLabel.Font = Enum.Font.Gotham
             DropLabel.TextSize = 12
-            Instance.new("UICorner", DropLabel).CornerRadius = UDim.new(0, 4)
-            ApplyNeuShadow(DropLabel, false) -- inset/pressed look
+            Instance.new("UICorner", DropLabel).CornerRadius = UDim.new(0, 8)
+            local EStroke = Instance.new("UIStroke", DropLabel)
+            EStroke.Color = Palette.Border
+            EStroke.Thickness = 1
             
             local ExpandBtn = Instance.new("TextButton", DropLabel)
             ExpandBtn.Size = UDim2.new(1, 0, 1, 0)
@@ -1266,7 +1247,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             ExpandBtn.Text = ""
             
             ExpandBtn.MouseEnter:Connect(function() TweenService:Create(DropLabel, TweenInfo.new(0.2), {BackgroundColor3 = Palette.RowHover}):Play() end)
-            ExpandBtn.MouseLeave:Connect(function() TweenService:Create(DropLabel, TweenInfo.new(0.2), {BackgroundColor3 = Palette.Background}):Play() end)
+            ExpandBtn.MouseLeave:Connect(function() TweenService:Create(DropLabel, TweenInfo.new(0.2), {BackgroundColor3 = Palette.InputHdr}):Play() end)
 
             local DropFrame = Instance.new("Frame", Row)
             DropFrame.Size = UDim2.new(1, 0, 0, 0)
@@ -1332,7 +1313,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 
                 Itm.MouseButton1Click:Connect(function()
                     for _, data in ipairs(out.Items) do
-                        data.Btn.BackgroundColor3 = Palette.Background
+                        data.Btn.BackgroundColor3 = Palette.InputHdr
                         data.Btn.TextColor3 = Palette.TextSecondary
                     end
                     Itm.BackgroundColor3 = Palette.AccentDark
@@ -1379,10 +1360,12 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local Row = Instance.new("Frame", Page)
             Row.Size = UDim2.new(1, 0, 0, 0)
             Row.AutomaticSize = Enum.AutomaticSize.Y
-            Row.BackgroundColor3 = Palette.Background
+            Row.BackgroundColor3 = Palette.RowItem
             Row.BorderSizePixel = 0
             Instance.new("UICorner", Row).CornerRadius = UDim.new(0, 10)
-            ApplyNeuShadow(Row, true) -- raised row/group
+            local Stroke = Instance.new("UIStroke", Row)
+            Stroke.Color = Palette.Border
+            Stroke.Thickness = 0
             
             local Header = Instance.new("Frame", Row)
             Header.Size = UDim2.new(1, 0, 0, 44)
@@ -1408,16 +1391,18 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             RCLayout.FillDirection = Enum.FillDirection.Horizontal
             RCLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
             RCLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-            RCLayout.Padding = UDim.new(0, 12)
+            RCLayout.Padding = UDim.new(0, 8)
             
             -- Right side: Toggle
             local ToggleBg = Instance.new("TextButton", RightContainer)
             ToggleBg.Size = UDim2.new(0, 44, 0, 22)
-            ToggleBg.BackgroundColor3 = Palette.Background
+            ToggleBg.BackgroundColor3 = Palette.InputHdr
             ToggleBg.Text = ""
             ToggleBg.AutoButtonColor = false
             Instance.new("UICorner", ToggleBg).CornerRadius = UDim.new(1, 0)
-            ApplyNeuShadow(ToggleBg, false) -- inset/pressed look
+            local TStroke = Instance.new("UIStroke", ToggleBg)
+            TStroke.Color = Palette.Border
+            TStroke.Thickness = 0
 
             local Knob = Instance.new("Frame", ToggleBg)
             Knob.Size = UDim2.new(0, 14, 0, 14)
@@ -1428,7 +1413,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local mainState = false
             local function UpdateMainToggle(noAnim)
                 local targetColor = mainState and Palette.Accent or Palette.InputHdr
-                local knobColor = mainState and Color3.fromRGB(0,0,0) or Palette.TextSecondary
+                local knobColor = mainState and Palette.Accent or Palette.TextSecondary
                 local knobPos = mainState and UDim2.new(1, -18, 0.5, -7) or UDim2.new(0, 4, 0.5, -7)
                 if noAnim then
                     ToggleBg.BackgroundColor3 = targetColor
@@ -1448,13 +1433,15 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             
             local DropLabel = Instance.new("TextLabel", RightContainer)
             DropLabel.Size = UDim2.new(0, 110, 0, 24)
-            DropLabel.BackgroundColor3 = Palette.Background
+            DropLabel.BackgroundColor3 = Palette.InputHdr
             DropLabel.Text = "Select v"
             DropLabel.TextColor3 = Palette.TextSecondary
             DropLabel.Font = Enum.Font.Gotham
             DropLabel.TextSize = 12
-            Instance.new("UICorner", DropLabel).CornerRadius = UDim.new(0, 4)
-            ApplyNeuShadow(DropLabel, false) -- inset/pressed look
+            Instance.new("UICorner", DropLabel).CornerRadius = UDim.new(0, 8)
+            local EStroke = Instance.new("UIStroke", DropLabel)
+            EStroke.Color = Palette.Border
+            EStroke.Thickness = 1
             
             local ExpandBtn = Instance.new("TextButton", DropLabel)
             ExpandBtn.Size = UDim2.new(1, 0, 1, 0)
@@ -1462,7 +1449,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             ExpandBtn.Text = ""
             
             ExpandBtn.MouseEnter:Connect(function() TweenService:Create(DropLabel, TweenInfo.new(0.2), {BackgroundColor3 = Palette.RowHover}):Play() end)
-            ExpandBtn.MouseLeave:Connect(function() TweenService:Create(DropLabel, TweenInfo.new(0.2), {BackgroundColor3 = Palette.Background}):Play() end)
+            ExpandBtn.MouseLeave:Connect(function() TweenService:Create(DropLabel, TweenInfo.new(0.2), {BackgroundColor3 = Palette.InputHdr}):Play() end)
 
             local DropFrame = Instance.new("Frame", Row)
             DropFrame.Size = UDim2.new(1, 0, 0, 0)
@@ -1528,7 +1515,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 
                 Itm.MouseButton1Click:Connect(function()
                     for _, data in ipairs(out.Items) do
-                        data.Btn.BackgroundColor3 = Palette.Background
+                        data.Btn.BackgroundColor3 = Palette.InputHdr
                         data.Btn.TextColor3 = Palette.TextSecondary
                     end
                     Itm.BackgroundColor3 = Palette.AccentDark
@@ -1574,10 +1561,12 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local Row = Instance.new("Frame", Page)
             Row.Size = UDim2.new(1, 0, 0, 0)
             Row.AutomaticSize = Enum.AutomaticSize.Y
-            Row.BackgroundColor3 = Palette.Background
+            Row.BackgroundColor3 = Palette.RowItem
             Row.BorderSizePixel = 0
             Instance.new("UICorner", Row).CornerRadius = UDim.new(0, 10)
-            ApplyNeuShadow(Row, true) -- raised row/group
+            local Stroke = Instance.new("UIStroke", Row)
+            Stroke.Color = Palette.Border
+            Stroke.Thickness = 0
             
             local Header = Instance.new("Frame", Row)
             Header.Size = UDim2.new(1, 0, 0, 44)
@@ -1603,33 +1592,37 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             RCLayout.FillDirection = Enum.FillDirection.Horizontal
             RCLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
             RCLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-            RCLayout.Padding = UDim.new(0, 12)
+            RCLayout.Padding = UDim.new(0, 8)
             
             -- Right side: Button
             local ActionBtn = Instance.new("TextButton", RightContainer)
             ActionBtn.Size = UDim2.new(0, 50, 0, 24)
-            ActionBtn.BackgroundColor3 = Palette.Background
+            ActionBtn.BackgroundColor3 = Palette.InputHdr
             ActionBtn.Text = btnText
             ActionBtn.TextColor3 = Palette.TextSecondary
             ActionBtn.Font = Enum.Font.Gotham
             ActionBtn.TextSize = 12
             ActionBtn.AutoButtonColor = false
             Instance.new("UICorner", ActionBtn).CornerRadius = UDim.new(0, 8)
-            ApplyNeuShadow(ActionBtn, true) -- raised button
+            local AStroke = Instance.new("UIStroke", ActionBtn)
+            AStroke.Color = Palette.Border
+            AStroke.Thickness = 0
 
             ActionBtn.MouseEnter:Connect(function() TweenService:Create(ActionBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.RowHover}):Play() end)
-            ActionBtn.MouseLeave:Connect(function() TweenService:Create(ActionBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.Background}):Play() end)
+            ActionBtn.MouseLeave:Connect(function() TweenService:Create(ActionBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.InputHdr}):Play() end)
             ActionBtn.MouseButton1Click:Connect(function() pcall(bcb) end)
             
             local DropLabel = Instance.new("TextLabel", RightContainer)
             DropLabel.Size = UDim2.new(0, 110, 0, 24)
-            DropLabel.BackgroundColor3 = Palette.Background
+            DropLabel.BackgroundColor3 = Palette.InputHdr
             DropLabel.Text = "Select v"
             DropLabel.TextColor3 = Palette.TextSecondary
             DropLabel.Font = Enum.Font.Gotham
             DropLabel.TextSize = 12
-            Instance.new("UICorner", DropLabel).CornerRadius = UDim.new(0, 4)
-            ApplyNeuShadow(DropLabel, false) -- inset/pressed look
+            Instance.new("UICorner", DropLabel).CornerRadius = UDim.new(0, 8)
+            local EStroke = Instance.new("UIStroke", DropLabel)
+            EStroke.Color = Palette.Border
+            EStroke.Thickness = 1
             
             local ExpandBtn = Instance.new("TextButton", DropLabel)
             ExpandBtn.Size = UDim2.new(1, 0, 1, 0)
@@ -1637,7 +1630,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             ExpandBtn.Text = ""
             
             ExpandBtn.MouseEnter:Connect(function() TweenService:Create(DropLabel, TweenInfo.new(0.2), {BackgroundColor3 = Palette.RowHover}):Play() end)
-            ExpandBtn.MouseLeave:Connect(function() TweenService:Create(DropLabel, TweenInfo.new(0.2), {BackgroundColor3 = Palette.Background}):Play() end)
+            ExpandBtn.MouseLeave:Connect(function() TweenService:Create(DropLabel, TweenInfo.new(0.2), {BackgroundColor3 = Palette.InputHdr}):Play() end)
 
             local DropFrame = Instance.new("Frame", Row)
             DropFrame.Size = UDim2.new(1, 0, 0, 0)
@@ -1703,7 +1696,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 
                 Itm.MouseButton1Click:Connect(function()
                     for _, data in ipairs(out.Items) do
-                        data.Btn.BackgroundColor3 = Palette.Background
+                        data.Btn.BackgroundColor3 = Palette.InputHdr
                         data.Btn.TextColor3 = Palette.TextSecondary
                     end
                     Itm.BackgroundColor3 = Palette.AccentDark
@@ -1742,10 +1735,12 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local Row = Instance.new("Frame", Page)
             Row.Size = UDim2.new(1, 0, 0, 0)
             Row.AutomaticSize = Enum.AutomaticSize.Y
-            Row.BackgroundColor3 = Palette.Background
+            Row.BackgroundColor3 = Palette.RowItem
             Row.BorderSizePixel = 0
             Instance.new("UICorner", Row).CornerRadius = UDim.new(0, 10)
-            ApplyNeuShadow(Row, true) -- raised row/group
+            local Stroke = Instance.new("UIStroke", Row)
+            Stroke.Color = Palette.Border
+            Stroke.Thickness = 0
             
             local Header = Instance.new("Frame", Row)
             Header.Size = UDim2.new(1, 0, 0, 44)
@@ -1769,17 +1764,19 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             RCLayout.FillDirection = Enum.FillDirection.Horizontal
             RCLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
             RCLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-            RCLayout.Padding = UDim.new(0, 12)
+            RCLayout.Padding = UDim.new(0, 8)
             
             local ToggleBg, Knob, mainState
             if Options.HasMainToggle then
                 ToggleBg = Instance.new("TextButton", RightContainer)
                 ToggleBg.Size = UDim2.new(0, 44, 0, 22)
-                ToggleBg.BackgroundColor3 = Palette.Background
+                ToggleBg.BackgroundColor3 = Palette.InputHdr
                 ToggleBg.Text = ""
                 ToggleBg.AutoButtonColor = false
                 Instance.new("UICorner", ToggleBg).CornerRadius = UDim.new(1, 0)
-                ApplyNeuShadow(ToggleBg, false) -- inset/pressed look
+                local TStroke = Instance.new("UIStroke", ToggleBg)
+                TStroke.Color = Palette.Border
+                TStroke.Thickness = 0
 
                 Knob = Instance.new("Frame", ToggleBg)
                 Knob.Size = UDim2.new(0, 14, 0, 14)
@@ -1790,7 +1787,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
                 mainState = false
                 local function UpdateMainToggle(noAnim)
                     local targetColor = mainState and Palette.Accent or Palette.InputHdr
-                    local knobColor = mainState and Color3.fromRGB(0,0,0) or Palette.TextSecondary
+                    local knobColor = mainState and Palette.Accent or Palette.TextSecondary
                     local knobPos = mainState and UDim2.new(1, -18, 0.5, -7) or UDim2.new(0, 4, 0.5, -7)
                     if noAnim then
                         ToggleBg.BackgroundColor3 = targetColor
@@ -1811,15 +1808,18 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
 
             local ExpandBtn = Instance.new("TextButton", RightContainer)
             ExpandBtn.Size = UDim2.new(0, 100, 0, 24)
-            ExpandBtn.BackgroundColor3 = Palette.Background
+            ExpandBtn.BackgroundColor3 = Palette.InputHdr
             ExpandBtn.Text = "Filter v"
             ExpandBtn.TextColor3 = Palette.TextSecondary
             ExpandBtn.Font = Enum.Font.Gotham
             ExpandBtn.TextSize = 12
             ExpandBtn.AutoButtonColor = false
-            Instance.new("UICorner", ExpandBtn).CornerRadius = UDim.new(0, 4)
+            Instance.new("UICorner", ExpandBtn).CornerRadius = UDim.new(0, 8)
+            local EStroke = Instance.new("UIStroke", ExpandBtn)
+            EStroke.Color = Palette.Border
+            EStroke.Thickness = 1
             ExpandBtn.MouseEnter:Connect(function() TweenService:Create(ExpandBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.RowHover}):Play() end)
-            ExpandBtn.MouseLeave:Connect(function() TweenService:Create(ExpandBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.Background}):Play() end)
+            ExpandBtn.MouseLeave:Connect(function() TweenService:Create(ExpandBtn, TweenInfo.new(0.2), {BackgroundColor3 = Palette.InputHdr}):Play() end)
 
             local DropFrame = Instance.new("Frame", Row)
             DropFrame.Size = UDim2.new(1, 0, 0, 0)
@@ -1899,14 +1899,16 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             local Box = Instance.new("TextBox", Row)
             Box.Size = UDim2.new(0, 80, 0, 24)
             Box.Position = UDim2.new(1, -92, 0.5, -12)
-            Box.BackgroundColor3 = Palette.Background
+            Box.BackgroundColor3 = Palette.InputHdr
             Box.Text = tostring(Default)
             Box.PlaceholderText = Placeholder
             Box.TextColor3 = Palette.TextPrimary
             Box.Font = Enum.Font.Gotham
             Box.TextSize = 12
             Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 8)
-            ApplyNeuShadow(Box, false) -- inset input
+            local BStroke = Instance.new("UIStroke", Box)
+            BStroke.Color = Palette.Border
+            BStroke.Thickness = 0
 
             Box.FocusLost:Connect(function()
                 pcall(cb, Box.Text)
@@ -1941,19 +1943,20 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             ExecBtn.TextSize = 12
             ExecBtn.TextColor3 = Color3.new(1, 1, 1)
             Instance.new("UICorner", ExecBtn).CornerRadius = UDim.new(0, 8)
-            ApplyNeuShadow(ExecBtn, true) -- raised button
 
             local Box = Instance.new("TextBox", Row)
             Box.Size = UDim2.new(0, 40, 0, 24)
             Box.Position = UDim2.new(1, -108, 0.5, -12)
-            Box.BackgroundColor3 = Palette.Background
+            Box.BackgroundColor3 = Palette.InputHdr
             Box.Text = tostring(Default)
             Box.PlaceholderText = Placeholder
             Box.TextColor3 = Palette.TextPrimary
             Box.Font = Enum.Font.Gotham
             Box.TextSize = 12
             Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 8)
-            ApplyNeuShadow(Box, false) -- inset input
+            local BStroke = Instance.new("UIStroke", Box)
+            BStroke.Color = Palette.Border
+            BStroke.Thickness = 0
 
             ExecBtn.MouseEnter:Connect(function() ExecBtn.BackgroundColor3 = Palette.AccentDark end)
             ExecBtn.MouseLeave:Connect(function() ExecBtn.BackgroundColor3 = Palette.Accent end)
@@ -2038,6 +2041,8 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
             Item.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
             Item.GroupTransparency = 1
             Instance.new("UICorner", Item).CornerRadius = UDim.new(0, 10)
+            Instance.new("UIStroke", Item).Color = Palette.Border
+            Instance.new("UIStroke", Item).Thickness = 0
             
             local Label = Instance.new("TextLabel", Item)
             Label.Name = "Label"
@@ -2069,15 +2074,6 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     end
     
     return WindowObj
-end
-end
-end
-end
-end
-end
-end
-end
-end
 end
 
 return SkenaUI

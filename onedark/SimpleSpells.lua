@@ -164,7 +164,7 @@ local buyDrop = TabMain:CreateDropdownButton({
         local data = spellMap[selectedSpell]
         local ballName = data and data.ball
         local targetBall = ballName and workspace:FindFirstChild(ballName)
-
+        
         if targetBall then
             warn("[Skena] Membeli " .. selectedSpell)
             -- Kita set angka terakhir jadi 1 (1x open) sesuai permintaan
@@ -217,7 +217,7 @@ local skillEntries = {}
 for i = 1, 4 do
     local id = tostring(i)
     local data = spellStates[id]
-
+    
     task.spawn(function()
         while true do
             if autoFarmEnabled and data.enabled then
@@ -225,7 +225,7 @@ for i = 1, 4 do
                     Window:UpdateCooldown("Skill " .. id, 0)
                     while isSelling and autoFarmEnabled and data.enabled do task.wait(0.5) end
                 end
-
+                
                 if autoFarmEnabled and data.enabled then
                     local char = game.Players.LocalPlayer.Character
                     local hrp = char and char:FindFirstChild("HumanoidRootPart")
@@ -234,7 +234,7 @@ for i = 1, 4 do
                         local targetPos = (myCF * CFrame.new(0, 0, -10)).Position
                         secureRemoteFire("UseSpell", id, myCF, targetPos, true)
                     end
-
+                    
                     local remaining = data.delay
                     while remaining > 0 and autoFarmEnabled and data.enabled and not isSelling do
                         Window:UpdateCooldown("Skill " .. id, remaining)
@@ -269,12 +269,12 @@ local function updateSpotButton(obj, success)
     local oldColor = btn.BackgroundColor3
     btn.Text = success and "Saved!" or "Error"
     btn.BackgroundColor3 = success and Color3.fromRGB(0, 150, 80) or Color3.fromRGB(180, 50, 50)
-
+    
     if success then
         status.Text = "Saved"
         status.TextColor3 = Color3.fromRGB(0, 255, 120)
     end
-
+    
     task.delay(1.5, function()
         btn.Text = oldText
         btn.BackgroundColor3 = oldColor
@@ -361,16 +361,16 @@ task.spawn(function()
         if autoFarmEnabled and autoSellConfig.enabled then
             local char = game.Players.LocalPlayer.Character
             local hrp = char and char:FindFirstChild("HumanoidRootPart")
-
+            
             if hrp then
                 isSelling = true
                 -- 1. Simpan Lokasi Sementara (Safety)
                 local oldCF = hrp.CFrame
                 local safetyCF = oldCF + Vector3.new(0, 1, 0)
-
+                
                 -- 2. Teleport ke Area Jual
                 hrp.CFrame = CFrame.new(935.876, 132.344, -52.726)
-
+                
                 -- 3. Tunggu Proses (5 detik)
                 local sellTimer = 5
                 while sellTimer > 0 and autoFarmEnabled and autoSellConfig.enabled do
@@ -379,17 +379,17 @@ task.spawn(function()
                     sellTimer = sellTimer - 0.1
                 end
                 Window:UpdateCooldown("Selling...", 0)
-
+                
                 -- 4. Kembali ke Spot (Rotation Logic)
                 if autoFarmEnabled and autoSellConfig.enabled then
                     local targetCF = safetyCF
-
+                    
                     local activeSpots = {}
                     if savedFarmLocation1 then table.insert(activeSpots, 1) end
                     if savedFarmLocation2 then table.insert(activeSpots, 2) end
                     if savedFarmLocation3 then table.insert(activeSpots, 3) end
                     if savedFarmLocation4 then table.insert(activeSpots, 4) end
-
+                    
                     if #activeSpots > 0 then
                         -- Find next active spot in rotation
                         local foundNext = false
@@ -400,24 +400,24 @@ task.spawn(function()
                                 break
                             end
                         end
-
+                        
                         -- If none found higher than current, wrap back to the first active spot
                         if not foundNext then
                             currentSpotIndex = activeSpots[1]
                         end
-
+                        
                         -- Set target
                         if currentSpotIndex == 1 then targetCF = savedFarmLocation1
                         elseif currentSpotIndex == 2 then targetCF = savedFarmLocation2
                         elseif currentSpotIndex == 3 then targetCF = savedFarmLocation3
                         elseif currentSpotIndex == 4 then targetCF = savedFarmLocation4 end
                     end
-
+                    
                     hrp.CFrame = targetCF
                 end
                 isSelling = false
             end
-
+            
             -- Cooldown
             local cdRemaining = autoSellConfig.cooldown
             while cdRemaining > 0 and autoFarmEnabled and autoSellConfig.enabled do
@@ -441,7 +441,7 @@ task.spawn(function()
         if autoFarmEnabled then
             local char = game.Players.LocalPlayer.Character
             local hrp = char and char:FindFirstChild("HumanoidRootPart")
-
+            
             if hrp and hrp.Position.Y <= 15 then
                 -- Anti-Void Triggered
                 if isSelling then
@@ -462,7 +462,7 @@ task.spawn(function()
                         -- Fallback to any saved spot
                         targetCF = savedFarmLocation1 or savedFarmLocation2 or savedFarmLocation3 or savedFarmLocation4
                     end
-
+                    
                     if targetCF then
                         hrp.CFrame = targetCF
                     end
@@ -491,12 +491,12 @@ local zoneDropdown
 
 local function applyItemESP(obj, name)
     if not obj or not obj.Parent then return end
-
+    
     local filterState = dynamicFilters[name]
     local shouldEnable = dynamicESPEnabled and (filterState ~= false)
-
+    
     local hl = obj:FindFirstChild("SkenaItemESP")
-
+    
     -- Distance check
     if shouldEnable and dynamicRadius > 0 then
         local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
@@ -525,7 +525,7 @@ local function applyItemESP(obj, name)
         hl.OutlineColor = Color3.fromRGB(255, 255, 255)
         hl.Enabled = false -- Start disabled
         hl.Parent = obj
-
+        
         local bb = Instance.new("BillboardGui")
         bb.Name = "SkenaItemTag"
         bb.Adornee = obj
@@ -543,7 +543,7 @@ local function applyItemESP(obj, name)
         tl.TextSize = 10
         tl.Parent = bb
     end
-
+    
     if not hl.Enabled then
         hl.Enabled = true
         local tag = hl:FindFirstChild("SkenaItemTag")
@@ -553,7 +553,7 @@ end
 
 local function checkItem(obj)
     if not (obj:IsA("BasePart") or obj:IsA("Model")) then return end
-
+    
     local name = obj.Name
     if not discoveredItems[name] then
         discoveredItems[name] = {}
@@ -567,7 +567,7 @@ local function checkItem(obj)
             end
         end)
     end
-
+    
     local found = false
     for _, v in ipairs(discoveredItems[name]) do if v == obj then found = true break end end
     if not found then table.insert(discoveredItems[name], obj) end
@@ -607,9 +607,9 @@ local function applyZoneESP(obj, name)
     if not obj or not obj.Parent then return end
     local filterState = zoneFilters[name]
     local shouldEnable = zoneESPEnabled and (filterState ~= false)
-
+    
     local hl = obj:FindFirstChild("SkenaZoneESP")
-
+    
     -- Distance check (Zones use same radius for now)
     if shouldEnable and dynamicRadius > 0 then
         local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
@@ -637,7 +637,7 @@ local function applyZoneESP(obj, name)
         hl.FillColor = Color3.fromRGB(200, 100, 255) -- Purple for Zones
         hl.OutlineColor = Color3.fromRGB(255, 255, 255)
         hl.Parent = obj
-
+        
         local bb = Instance.new("BillboardGui")
         bb.Name = "SkenaItemTag"
         bb.Adornee = obj
@@ -654,7 +654,7 @@ local function applyZoneESP(obj, name)
         tl.TextSize = 10
         tl.Parent = bb
     end
-
+    
     hl.Enabled = true
     if hl:FindFirstChild("SkenaItemTag") then hl.SkenaItemTag.Enabled = true end
 end
@@ -671,7 +671,7 @@ local function checkZoneItem(obj)
             end
         end)
     end
-
+    
     local found = false
     for _, v in ipairs(zoneDiscoveredItems[name]) do if v == obj then found = true break end end
     if not found then table.insert(zoneDiscoveredItems[name], obj) end
@@ -703,11 +703,11 @@ task.spawn(function()
         if not dynamicESPEnabled then return end
         local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if not hrp then return end
-
+        
         local params = OverlapParams.new()
         params.FilterType = Enum.RaycastFilterType.Include
         params.FilterDescendantsInstances = {root}
-
+        
         local parts = workspace:GetPartBoundsInRadius(hrp.Position, dynamicRadius, params)
         local seenInTick = {}
 
@@ -717,7 +717,7 @@ task.spawn(function()
             if part.Parent:IsA("Model") then
                 item = part.Parent
             end
-
+            
             -- Must be inside ObjectsToDestroy and NOT a structural folder
             if item ~= root and not (item:IsA("Folder") and item.Parent == root) then
                 if not seenInTick[item] then
@@ -750,20 +750,20 @@ task.spawn(function()
             end
         end
     end)
-
+    
     -- Periodic Refresher & Discovery
     while task.wait(1) do
         if dynamicESPEnabled then
-            runSpatialScan()
-
+            runSpatialScan() 
+            
             local categories = 0
             for name, list in pairs(discoveredItems) do
                 if dynamicFilters[name] ~= false then
                     categories = categories + 1
                     for i, v in ipairs(list) do
-                        if v and v.Parent then
-                            applyItemESP(v, name)
-                            if i % 100 == 0 then task.wait() end
+                        if v and v.Parent then 
+                            applyItemESP(v, name) 
+                            if i % 100 == 0 then task.wait() end 
                         end
                     end
                     if categories % 3 == 0 then task.wait() end -- Throttle between groups
@@ -780,7 +780,7 @@ task.spawn(function()
 
     local function runZoneScan()
         if not zoneESPEnabled then return end
-
+        
         -- Kita scan semua folder di dalam ZoneDoors (seperti Frozen Lands)
         for _, zoneFolder in ipairs(zoneRoot:GetChildren()) do
             if zoneFolder:IsA("Folder") or zoneFolder:IsA("Model") then
@@ -804,6 +804,7 @@ task.spawn(function()
     end
 end)
 
+
 -- ==========================================
 -- ATTACH ADMIN MODULE
 -- ==========================================
@@ -815,3 +816,4 @@ task.spawn(function()
         SkenaAdmin.Attach(Window, {})
     end
 end)
+

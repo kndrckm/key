@@ -1,1 +1,420 @@
-{"name": "SurvivetheCold.lua", "path": "SurvivetheCold.lua", "sha": "e1dc4c8d197651e3eafa758201045b374f6b42c2", "size": 14527, "url": "https://api.github.com/repos/kndrckm/key/contents/SurvivetheCold.lua?ref=main", "html_url": "https://github.com/kndrckm/key/blob/main/SurvivetheCold.lua", "git_url": "https://api.github.com/repos/kndrckm/key/git/blobs/e1dc4c8d197651e3eafa758201045b374f6b42c2", "download_url": "https://raw.githubusercontent.com/kndrckm/key/main/SurvivetheCold.lua", "type": "file", "content": "bG9jYWwgUGxheWVycyA9IGdhbWU6R2V0U2VydmljZSgiUGxheWVycyIpCmxv\nY2FsIFR3ZWVuU2VydmljZSA9IGdhbWU6R2V0U2VydmljZSgiVHdlZW5TZXJ2\naWNlIikKbG9jYWwgVXNlcklucHV0U2VydmljZSA9IGdhbWU6R2V0U2Vydmlj\nZSgiVXNlcklucHV0U2VydmljZSIpCmxvY2FsIFJ1blNlcnZpY2UgPSBnYW1l\nOkdldFNlcnZpY2UoIlJ1blNlcnZpY2UiKQpsb2NhbCBDb3JlR3VpID0gZ2Ft\nZTpHZXRTZXJ2aWNlKCJDb3JlR3VpIikKbG9jYWwgTWFya2V0cGxhY2VTZXJ2\naWNlID0gZ2FtZTpHZXRTZXJ2aWNlKCJNYXJrZXRwbGFjZVNlcnZpY2UiKQoK\nbG9jYWwgcGxheWVyID0gUGxheWVycy5Mb2NhbFBsYXllcgoKLS0gPT09PT09\nPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tIENMRUFV\nUCBQUkVWSU9VUyBMT0dJQwotLSA9PT09PT09PT09PT09PT09PT09PT09PT09\nPT09PT09PT09PT09PT09PT0KaWYgZ2V0Z2VudigpLlNrZW5hSHViX1N1cnZp\ndmVDb2xkX0Nvbm5lY3Rpb25zIHRoZW4KICAgIGZvciBfLCBjIGluIHBhaXJz\nKGdldGdlbnYoKS5Ta2VuYUh1Yl9TdXJ2aXZlQ29sZF9Db25uZWN0aW9ucykg\nZG8KICAgICAgICBwY2FsbChmdW5jdGlvbigpIGM6RGlzY29ubmVjdCgpIGVu\nZCkKICAgIGVuZAplbmQKZ2V0Z2VudigpLlNrZW5hSHViX1N1cnZpdmVDb2xk\nX0Nvbm5lY3Rpb25zID0ge30KbG9jYWwgY29ucyA9IGdldGdlbnYoKS5Ta2Vu\nYUh1Yl9TdXJ2aXZlQ29sZF9Db25uZWN0aW9ucwoKaWYgZ2V0Z2VudigpLlNr\nZW5hSHViX1N1cnZpdmVDb2xkX0xvb3BBY3RpdmUgfj0gbmlsIHRoZW4KICAg\nIGdldGdlbnYoKS5Ta2VuYUh1Yl9TdXJ2aXZlQ29sZF9Mb29wQWN0aXZlID0g\nZmFsc2UgCmVuZApnZXRnZW52KCkuU2tlbmFIdWJfU3Vydml2ZUNvbGRfTG9v\ncEFjdGl2ZSA9IHRydWUKCmlmIENvcmVHdWk6RmluZEZpcnN0Q2hpbGQoIkV6\nU3Vydml2ZUVTUCIpIHRoZW4KICAgIENvcmVHdWkuRXpTdXJ2aXZlRVNQOkRl\nc3Ryb3koKQplbmQKCi0tID09PT09PT09PT09PT09PT09PT09PT09PT09PT09\nPT09PT09PT09PT09PQotLSBWQVJJQUJMRVMKLS0gPT09PT09PT09PT09PT09\nPT09PT09PT09PT09PT09PT09PT09PT09PT09CmxvY2FsIFRQX0ZPT0RfUE9T\nID0gVmVjdG9yMy5uZXcoODQ4LjAwNCwgLTE1LjExNiwgMjMwLjM3MSkKbG9j\nYWwgVFBfQ0xPVEhFU19QT1MgPSBWZWN0b3IzLm5ldyg1OTEuNzQ1LCAtMTUu\nMTMwLCAxODE4LjQ3OSkKbG9jYWwgVFBfU1BFRUQgPSA2MApsb2NhbCBXQUxL\nX1NQRUVEID0gMzgKbG9jYWwgUlVOX1NQRUVEID0gNzYKCmxvY2FsIHNwZWVk\nRW5hYmxlZCA9IGZhbHNlCmxvY2FsIGluZkp1bXBFbmFibGVkID0gZmFsc2UK\nbG9jYWwgZXNwRW5hYmxlZCA9IGZhbHNlCgpsb2NhbCBlc3BGb2xkZXIgPSBu\naWwKbG9jYWwgYWN0aXZlVHdlZW4gPSBuaWwKbG9jYWwgc3BlZWRLZXkgPSBF\nbnVtLktleUNvZGUuWApsb2NhbCBpdGVtRmlsdGVycyA9IHt9CmxvY2FsIGVz\ncERyb3Bkb3duT2JqID0gbmlsCmxvY2FsIGNhcHR1cmVkUGF0aHMgPSB7fQoK\nbG9jYWwgQkxBQ0tMSVNUID0gewogICAgIkh1bWFub2lkUm9vdFBhcnQiLCAi\nVG9yc28iLCAiQm9hcmQiLCAiUHJveGltaXR5IiwgIk1lc2hlc19jYXJ0ZWxs\nb19jdWJlIiwgCiAgICAiQ2FtcGZpcmUiLCAiUG9zdCIsICJXaW5kb3ciLCAi\nQ2hlc3QiLCAibWVzaGVzL2NhcnRlbGxvIiwgIkFjaGlldmVtZW50RnJhbWUi\nLCAiU25pcGVyUmlmbGUiLAogICAgIjJ4U3BlZWQiLCAiSGVhZCIsICJMZWZ0\nIEFybSIsICJSaWdodCBBcm0iLCAiTGVmdCBMZWciLCAiUmlnaHQgTGVnIiwg\nCiAgICAiRW1wdHlIb3VzZU5QQyIsICJPdXRmaXROUEMiLCAiQ3JhZnRpbmdO\nUEMiLCAiQXZhdGFyIiwgIkJyb2tlbldhbGwiLCAiY2FydGVsbG8iLCJLZXli\nb2FyZCIsIkRvb3IiLAogICAgIk1haW5Eb29yUGFydCIsICJTY2F2ZW5nZXIi\nLCAiUmVsaWMgTWFjaGluZSIKfQoKbG9jYWwgRVhBQ1RfQkxBQ0tMSVNUID0g\newogICAgIlBhcnQiLCAiR1VJU2lnbjEiLCAiR1VJU2lnbjIiLCAiUGxhbmsi\nLCAiQmFzZSIsICJCYXNlcGxhdGUiLCAiU3Bhd25Mb2NhdGlvbiIsICJGb2xk\nZXIiLCAiTW9kZWwiLAogICAgIlNpZ24iLCAiVGl0bGUiLCAiUm9vZiIsICJF\nbnRyYW5jZSIsICJDYXJwZXQiLCAiQ2FycGV0MiIsICJSZWQgQ2FycGV0Iiwg\nIlNtYWxsIFJlZCBDYXJwZXQiLCAKICAgICJQbGFjZWRQbGFuayIsICJIQiIK\nfQoKLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09\nPT09Ci0tIEVTUCAmIExPR0lDIEZVTkNUSU9OUwotLSA9PT09PT09PT09PT09\nPT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KbG9jYWwgZnVuY3Rpb24g\nZ2V0Q2xlYW5OYW1lKG4sIG9iakNvbnRleHQpIAogICAgaWYgc3RyaW5nLm1h\ndGNoKG4sICJeQnJva2VuV2FsbCVkKyQiKSB0aGVuIHJldHVybiAiQnJva2Vu\nV2FsbCIgZW5kCiAgICBpZiBzdHJpbmcubWF0Y2gobiwgIl5DdWJlJS4lZCsk\nIikgdGhlbiByZXR1cm4gIkN1YmUiIGVuZAogICAgCiAgICBsb2NhbCBjbGVh\nbiA9IG46c3BsaXQoIl8iKVsxXSBvciBuIAogICAgCiAgICAtLSBKYXJpbmcg\na29udGVrcyB1bnR1ayBuYW1hLW5hbWEgZ2VuZXJpawogICAgaWYgb2JqQ29u\ndGV4dCBhbmQgb2JqQ29udGV4dC5QYXJlbnQgYW5kIG9iakNvbnRleHQuUGFy\nZW50IH49IHdvcmtzcGFjZSB0aGVuCiAgICAgICAgbG9jYWwgbG4gPSBzdHJp\nbmcubG93ZXIoY2xlYW4pCiAgICAgICAgbG9jYWwgZ2VuZXJpY05hbWVzID0g\newogICAgICAgICAgICB5ZWxsb3cgPSB0cnVlLCBncmVlbiA9IHRydWUsIHJl\nZCA9IHRydWUsIGJsdWUgPSB0cnVlLCBwdXJwbGUgPSB0cnVlLAogICAgICAg\nICAgICB0dXRvcmlhbCA9IHRydWUsIHBhcnQgPSB0cnVlLCBzcGhlcmUgPSB0\ncnVlLCBibG9jayA9IHRydWUsIGN5bGluZGVyID0gdHJ1ZSwKICAgICAgICAg\nICAgd2VkZ2UgPSB0cnVlLCBtZXNocGFydCA9IHRydWUsIG1lc2ggPSB0cnVl\nLCBoYW5kbGUgPSB0cnVlLAogICAgICAgICAgICBbIjEiXSA9IHRydWUsIFsi\nMiJdID0gdHJ1ZSwgWyIzIl0gPSB0cnVlLCBbIjQiXSA9IHRydWUsIFsiNSJd\nID0gdHJ1ZQogICAgICAgIH0KICAgICAgICAKICAgICAgICBpZiBnZW5lcmlj\nTmFtZXNbbG5dIHRoZW4KICAgICAgICAgICAgbG9jYWwgcE5hbWUgPSBvYmpD\nb250ZXh0LlBhcmVudC5OYW1lCiAgICAgICAgICAgIGlmIHBOYW1lIH49ICJX\nb3Jrc3BhY2UiIGFuZCBub3Qgc3RyaW5nLm1hdGNoKHBOYW1lLCAiRm9sZGVy\nIikgYW5kIG5vdCBzdHJpbmcubWF0Y2gocE5hbWUsICJeTW9kZWwkIikgdGhl\nbgogICAgICAgICAgICAgICAgcmV0dXJuICJbIiAuLiBwTmFtZSAuLiAiXSAi\nIC4uIGNsZWFuCiAgICAgICAgICAgIGVuZAogICAgICAgIGVuZAogICAgZW5k\nCiAgICAKICAgIHJldHVybiBjbGVhbgplbmQKCmxvY2FsIGZ1bmN0aW9uIGlz\nQmxhY2tsaXN0ZWQobikgCiAgICBpZiBzdHJpbmcubWF0Y2gobiwgIl5BdmF0\nYXIlZCskIikgdGhlbiByZXR1cm4gdHJ1ZSBlbmQKICAgIGlmIHN0cmluZy5t\nYXRjaChuLCAiXkN1YmUlLiVkKyQiKSB0aGVuIHJldHVybiB0cnVlIGVuZAog\nICAgaWYgc3RyaW5nLmxvd2VyKG4pID09ICJjdWJlIiB0aGVuIHJldHVybiB0\ncnVlIGVuZAogICAgaWYgc3RyaW5nLm1hdGNoKG4sICIlW3glZCslXSIpIHRo\nZW4gcmV0dXJuIHRydWUgZW5kCiAgICAKICAgIGZvciBfLCBiIGluIGlwYWly\ncyhFWEFDVF9CTEFDS0xJU1QpIGRvCiAgICAgICAgaWYgbiA9PSBiIHRoZW4g\ncmV0dXJuIHRydWUgZW5kCiAgICAgICAgaWYgc3RyaW5nLmxvd2VyKG4pID09\nIHN0cmluZy5sb3dlcihiKSB0aGVuIHJldHVybiB0cnVlIGVuZAogICAgZW5k\nCiAgICAKICAgIGZvciBfLCBiIGluIGlwYWlycyhCTEFDS0xJU1QpIGRvIAog\nICAgICAgIGlmIHN0cmluZy5maW5kKG4sIGIpIHRoZW4gcmV0dXJuIHRydWUg\nZW5kIAogICAgZW5kCiAgICByZXR1cm4gZmFsc2UgCmVuZAoKbG9jYWwgZnVu\nY3Rpb24gY2xlYXJFU1AoKSAKICAgIGlmIGVzcEZvbGRlciB0aGVuIAogICAg\nICAgIGVzcEZvbGRlcjpEZXN0cm95KCkgCiAgICBlbmQKICAgIGVzcEZvbGRl\nciA9IG5pbCAKZW5kCgpsb2NhbCBmdW5jdGlvbiBhZGRIaWdobGlnaHQodGFy\nZ2V0LCBjTmFtZSwgck5hbWUpCiAgICBpZiBub3QgZXNwRm9sZGVyIHRoZW4g\ncmV0dXJuIGVuZAogICAgbG9jYWwgaGxOYW1lID0gck5hbWUgLi4gIl9FU1Bf\nSURfIiAuLiB0b3N0cmluZyh0YXJnZXQ6R2V0RGVidWdJZCgpKQogICAgCiAg\nICBpZiBub3QgZXNwRm9sZGVyOkZpbmRGaXJzdENoaWxkKGhsTmFtZSkgdGhl\nbgogICAgICAgIGxvY2FsIGhsID0gSW5zdGFuY2UubmV3KCJIaWdobGlnaHQi\nKQogICAgICAgIGhsLk5hbWUgPSBobE5hbWUKICAgICAgICBobC5BZG9ybmVl\nID0gdGFyZ2V0CiAgICAgICAgaGwuRmlsbFRyYW5zcGFyZW5jeSA9IDEKICAg\nICAgICBobC5PdXRsaW5lVHJhbnNwYXJlbmN5ID0gMAogICAgICAgIGhsLk91\ndGxpbmVDb2xvciA9IENvbG9yMy5mcm9tUkdCKDUyLCAxOTksIDg5KSAtLSBp\nT1MgR3JlZW4gZnJvbSBvcmlnaW5hbCBzY3JpcHQKICAgICAgICAKICAgICAg\nICBpZiBpdGVtRmlsdGVyc1tjTmFtZV0gPT0gZmFsc2UgdGhlbgogICAgICAg\nICAgICBobC5FbmFibGVkID0gZmFsc2UKICAgICAgICBlbHNlCiAgICAgICAg\nICAgIGhsLkVuYWJsZWQgPSB0cnVlCiAgICAgICAgZW5kCiAgICAgICAgaGwu\nUGFyZW50ID0gZXNwRm9sZGVyCiAgICAgICAgCiAgICAgICAgbG9jYWwgYmIg\nPSBJbnN0YW5jZS5uZXcoIkJpbGxib2FyZEd1aSIpCiAgICAgICAgYmIuTmFt\nZSA9ICJOYW1lVGFnIgogICAgICAgIGJiLkFkb3JuZWUgPSB0YXJnZXQKICAg\nICAgICBiYi5TaXplID0gVURpbTIubmV3KDAsIDEwMCwgMCwgMjApCiAgICAg\nICAgYmIuU3R1ZHNPZmZzZXQgPSBWZWN0b3IzLm5ldygwLCAyLCAwKQogICAg\nICAgIGJiLkFsd2F5c09uVG9wID0gdHJ1ZQogICAgICAgIGJiLkVuYWJsZWQg\nPSBobC5FbmFibGVkCiAgICAgICAgYmIuUGFyZW50ID0gaGwKICAgICAgICAK\nICAgICAgICBsb2NhbCB0bCA9IEluc3RhbmNlLm5ldygiVGV4dExhYmVsIikK\nICAgICAgICB0bC5TaXplID0gVURpbTIubmV3KDEsIDAsIDEsIDApCiAgICAg\nICAgdGwuQmFja2dyb3VuZFRyYW5zcGFyZW5jeSA9IDEKICAgICAgICB0bC5U\nZXh0ID0gY05hbWUKICAgICAgICB0bC5UZXh0Q29sb3IzID0gQ29sb3IzLmZy\nb21SR0IoMjU1LCAyNTUsIDI1NSkKICAgICAgICB0bC5UZXh0U3Ryb2tlVHJh\nbnNwYXJlbmN5ID0gMAogICAgICAgIHRsLkZvbnQgPSBFbnVtLkZvbnQuR290\naGFtQm9sZAogICAgICAgIHRsLlRleHRTaXplID0gMTIKICAgICAgICB0bC5Q\nYXJlbnQgPSBiYgogICAgZW5kCmVuZAoKbG9jYWwgZnVuY3Rpb24gY2hlY2tP\nYmplY3QobykKICAgIGlmIG5vdCBvIHRoZW4gcmV0dXJuIGVuZAogICAgbG9j\nYWwgdCwgck4gPSBuaWwsICIiCiAgICAKICAgIGlmIG86SXNBKCJQcm94aW1p\ndHlQcm9tcHQiKSBvciBvOklzQSgiQ2xpY2tEZXRlY3RvciIpIHRoZW4gCiAg\nICAgICAgbG9jYWwgcCA9IG8uUGFyZW50CiAgICAgICAgaWYgcCBhbmQgcDpJ\nc0EoIkF0dGFjaG1lbnQiKSB0aGVuIHAgPSBwLlBhcmVudCBlbmQKICAgICAg\nICBpZiBwIGFuZCAocDpJc0EoIkJhc2VQYXJ0Iikgb3IgcDpJc0EoIk1vZGVs\nIikpIGFuZCBwIH49IHdvcmtzcGFjZSB0aGVuCiAgICAgICAgICAgIHQsIHJO\nID0gcCwgcC5OYW1lCiAgICAgICAgZW5kCiAgICBlbHNlaWYgbzpJc0EoIkJp\nbGxib2FyZEd1aSIpIG9yIG86SXNBKCJTdXJmYWNlR3VpIikgdGhlbgogICAg\nICAgIGlmIG5vdCBvOkZpbmRGaXJzdEFuY2VzdG9yKCJFelN1cnZpdmVFU1Ai\nKSBhbmQgby5OYW1lIH49ICJOYW1lVGFnIiBhbmQgby5OYW1lIH49ICJDaGF0\nIiBhbmQgby5OYW1lIH49ICJIZWFsdGhCYXIiIHRoZW4KICAgICAgICAgICAg\nbG9jYWwgcCA9IG8uQWRvcm5lZSBvciBvLlBhcmVudAogICAgICAgICAgICBp\nZiBwIGFuZCBwOklzQSgiQXR0YWNobWVudCIpIHRoZW4gcCA9IHAuUGFyZW50\nIGVuZAogICAgICAgICAgICBpZiBwIGFuZCAocDpJc0EoIkJhc2VQYXJ0Iikg\nb3IgcDpJc0EoIk1vZGVsIikpIGFuZCBwIH49IHdvcmtzcGFjZSBhbmQgbm90\nIHA6RmluZEZpcnN0Q2hpbGQoIkh1bWFub2lkIikgdGhlbgogICAgICAgICAg\nICAgICAgdCwgck4gPSBwLCBwLk5hbWUKICAgICAgICAgICAgZW5kCiAgICAg\nICAgZW5kCiAgICBlbHNlaWYgbzpJc0EoIlRvb2wiKSBhbmQgby5QYXJlbnQg\nfj0gcGxheWVyLkNoYXJhY3RlciBhbmQgby5QYXJlbnQgfj0gcGxheWVyLkJh\nY2twYWNrIHRoZW4KICAgICAgICB0LCByTiA9IG8uUHJpbWFyeVBhcnQgb3Ig\nbzpGaW5kRmlyc3RDaGlsZFdoaWNoSXNBKCJCYXNlUGFydCIpIG9yIG8sIG8u\nTmFtZQogICAgZWxzZWlmIG86SXNBKCJNb2RlbCIpIGFuZCBvLk5hbWUgfj0g\nIldvcmtzcGFjZSIgYW5kIG8uTmFtZSB+PSBwbGF5ZXIuTmFtZSB0aGVuIAog\nICAgICAgIGlmIG86RmluZEZpcnN0Q2hpbGQoIkh1bWFub2lkIikgdGhlbgog\nICAgICAgICAgICB0LCByTiA9IG8sIG8uTmFtZQogICAgICAgIGVsc2VpZiBv\nLlByaW1hcnlQYXJ0IGFuZCBub3Qgby5QcmltYXJ5UGFydC5BbmNob3JlZCBh\nbmQgby5QYXJlbnQgfj0gcGxheWVyLkNoYXJhY3RlciB0aGVuCiAgICAgICAg\nICAgIC0tIEJlbmRhIG1vZGVsIG11cm5pIGxlcGFzIChtaXMuIEtvdGFrIHN1\ncHBseSBhdGF1IGRyb3AgaXRlbSBrb21wbGVrcykKICAgICAgICAgICAgdCwg\nck4gPSBvLCBvLk5hbWUKICAgICAgICBlbmQKICAgIGVsc2VpZiAobzpJc0Eo\nIlBhcnQiKSBvciBvOklzQSgiTWVzaFBhcnQiKSBvciBvOklzQSgiVW5pb25P\ncGVyYXRpb24iKSkgYW5kIG8uUGFyZW50IH49IHBsYXllci5DaGFyYWN0ZXIg\ndGhlbgogICAgICAgIGlmIG8uQ2FuVG91Y2ggYW5kIG5vdCBvLkFuY2hvcmVk\nIGFuZCBub3QgbzpGaW5kRmlyc3RBbmNlc3Rvck9mQ2xhc3MoIk1vZGVsIikg\nYW5kIG5vdCBvOkZpbmRGaXJzdEFuY2VzdG9yT2ZDbGFzcygiVG9vbCIpIHRo\nZW4gCiAgICAgICAgICAgIHQsIHJOID0gbywgby5OYW1lIAogICAgICAgIGVu\nZAogICAgZW5kCiAgICAKICAgIC0tIEphcmluZyBla3N0cmEgYXN1cmFuc2kg\ndW50dWsgYmVuZGEgZGVuZ2FuIGthdGEga3VuY2kgcGVudGluZyAoamFnYS1q\nYWdhIGRldmVsb3Blcm55YSBpc2VuZykKICAgIGlmIG5vdCB0IGFuZCAobzpJ\nc0EoIkJhc2VQYXJ0Iikgb3IgbzpJc0EoIk1vZGVsIikpIGFuZCBvLlBhcmVu\ndCB+PSBwbGF5ZXIuQ2hhcmFjdGVyIGFuZCBvIH49IHdvcmtzcGFjZSBhbmQg\nby5OYW1lIH49IHBsYXllci5OYW1lIHRoZW4KICAgICAgICBsb2NhbCBsbiA9\nIHN0cmluZy5sb3dlcihvLk5hbWUpCiAgICAgICAgaWYgc3RyaW5nLmZpbmQo\nbG4sICJwZXQiKSB0aGVuCiAgICAgICAgICAgIHQsIHJOID0gbywgby5OYW1l\nCiAgICAgICAgZW5kCiAgICBlbmQKICAgIAogICAgaWYgdCBhbmQgck4gfj0g\nIiIgYW5kIG5vdCBpc0JsYWNrbGlzdGVkKHJOKSB0aGVuCiAgICAgICAgbG9j\nYWwgY04gPSBnZXRDbGVhbk5hbWUock4sIHQpCiAgICAgICAgaWYgbm90IGlz\nQmxhY2tsaXN0ZWQoY04pIHRoZW4gCiAgICAgICAgICAgIGNhcHR1cmVkUGF0\naHNbdDpHZXRGdWxsTmFtZSgpXSA9IGNOCiAgICAgICAgICAgIGlmIGVzcERy\nb3Bkb3duT2JqIHRoZW4KICAgICAgICAgICAgICAgIGVzcERyb3Bkb3duT2Jq\nOkFkZEl0ZW0oY04sIHRydWUsIGZ1bmN0aW9uKHN0YXRlKQogICAgICAgICAg\nICAgICAgICAgIGl0ZW1GaWx0ZXJzW2NOXSA9IHN0YXRlCiAgICAgICAgICAg\nICAgICAgICAgaWYgZXNwRm9sZGVyIHRoZW4KICAgICAgICAgICAgICAgICAg\nICAgICAgZm9yIF8sIGhsIGluIHBhaXJzKGVzcEZvbGRlcjpHZXRDaGlsZHJl\nbigpKSBkbwogICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgaGw6SXNB\nKCJIaWdobGlnaHQiKSBhbmQgaGw6RmluZEZpcnN0Q2hpbGQoIk5hbWVUYWci\nKSB0aGVuCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgaGwu\nTmFtZVRhZy5UZXh0TGFiZWwuVGV4dCA9PSBjTiB0aGVuCiAgICAgICAgICAg\nICAgICAgICAgICAgICAgICAgICAgICAgIGhsLkVuYWJsZWQgPSBzdGF0ZQog\nICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBobC5OYW1lVGFn\nLkVuYWJsZWQgPSBzdGF0ZQogICAgICAgICAgICAgICAgICAgICAgICAgICAg\nICAgIGVuZAogICAgICAgICAgICAgICAgICAgICAgICAgICAgZW5kCiAgICAg\nICAgICAgICAgICAgICAgICAgIGVuZAogICAgICAgICAgICAgICAgICAgIGVu\nZAogICAgICAgICAgICAgICAgZW5kKQogICAgICAgICAgICBlbmQKICAgICAg\nICAgICAgaWYgaXRlbUZpbHRlcnNbY05dID09IG5pbCB0aGVuIGl0ZW1GaWx0\nZXJzW2NOXSA9IHRydWUgZW5kCiAgICAgICAgICAgIGlmIGVzcEVuYWJsZWQg\ndGhlbiBhZGRIaWdobGlnaHQodCwgY04sIHJOKSBlbmQgCiAgICAgICAgZW5k\nCiAgICBlbmQKZW5kCgpsb2NhbCBjdXJyZW50TW92ZVRhcmdldCA9IG5pbAps\nb2NhbCBmdW5jdGlvbiBtb3ZlVG9Qb3ModFBvcykKICAgIGxvY2FsIGhycCA9\nIHBsYXllci5DaGFyYWN0ZXIgYW5kIHBsYXllci5DaGFyYWN0ZXI6RmluZEZp\ncnN0Q2hpbGQoIkh1bWFub2lkUm9vdFBhcnQiKQogICAgbG9jYWwgaHVtID0g\ncGxheWVyLkNoYXJhY3RlciBhbmQgcGxheWVyLkNoYXJhY3RlcjpGaW5kRmly\nc3RDaGlsZCgiSHVtYW5vaWQiKQogICAgaWYgaHJwIGFuZCBodW0gdGhlbgog\nICAgICAgIGlmIGh1bS5TaXQgdGhlbiBodW0uU2l0ID0gZmFsc2UgZW5kCiAg\nICAgICAgaWYgYWN0aXZlVHdlZW4gdGhlbiBhY3RpdmVUd2VlbjpDYW5jZWwo\nKSBhY3RpdmVUd2VlbiA9IG5pbCBlbmQKICAgICAgICBjdXJyZW50TW92ZVRh\ncmdldCA9IHRQb3MKICAgICAgICBodW06TW92ZVRvKHRQb3MpCiAgICAgICAg\nCiAgICAgICAgdGFzay5zcGF3bihmdW5jdGlvbigpCiAgICAgICAgICAgIGxv\nY2FsIGxvb3BDb3VudCA9IDAKICAgICAgICAgICAgd2hpbGUgY3VycmVudE1v\ndmVUYXJnZXQgPT0gdFBvcyBhbmQgaHVtLlBhcmVudCBhbmQgaHJwLlBhcmVu\ndCBkbwogICAgICAgICAgICAgICAgbG9jYWwgZGlzdCA9IChocnAuUG9zaXRp\nb24gKiBWZWN0b3IzLm5ldygxLDAsMSkgLSB0UG9zICogVmVjdG9yMy5uZXco\nMSwwLDEpKS5NYWduaXR1ZGUKICAgICAgICAgICAgICAgIGlmIGRpc3QgPCA1\nIHRoZW4KICAgICAgICAgICAgICAgICAgICBjdXJyZW50TW92ZVRhcmdldCA9\nIG5pbAogICAgICAgICAgICAgICAgICAgIGJyZWFrCiAgICAgICAgICAgICAg\nICBlbmQKICAgICAgICAgICAgICAgIC0tIENvYmEgcGFzdGlrYW4ga2FyYWt0\nZXIgdGVydXMgbWVuZ2VqYXIKICAgICAgICAgICAgICAgIGlmIGxvb3BDb3Vu\ndCAlIDUgPT0gMCB0aGVuCiAgICAgICAgICAgICAgICAgICAgaHVtOk1vdmVU\nbyh0UG9zKQogICAgICAgICAgICAgICAgZW5kCiAgICAgICAgICAgICAgICB0\nYXNrLndhaXQoMC4yKQogICAgICAgICAgICAgICAgbG9vcENvdW50ID0gbG9v\ncENvdW50ICsgMQogICAgICAgICAgICBlbmQKICAgICAgICBlbmQpCiAgICBl\nbmQKZW5kCgotLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09\nPT09PT09PT0KLS0gSU5JVCBTS0VOQSBVSQotLSA9PT09PT09PT09PT09PT09\nPT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0gV2FpdCB1bnRpbCBTa2Vu\nYVVJX0xpYnJhcnkgaXMgbG9hZGVkIGZyb20gR2l0aHViIHByb3Blcmx5Cmxv\nY2FsIFNrZW5hVUlfTG9hZGVkID0gZmFsc2UKbG9jYWwgU2tlbmFVSQpwY2Fs\nbChmdW5jdGlvbigpCiAgICBTa2VuYVVJID0gZ2V0Z2VudigpLlNrZW5hTG9h\nZCgiU2tlbmFVSV9MaWJyYXJ5Lmx1YSIpCiAgICBTa2VuYVVJX0xvYWRlZCA9\nIHRydWUKZW5kKQoKaWYgbm90IFNrZW5hVUlfTG9hZGVkIHRoZW4KICAgIHdh\ncm4oIktvbmVrc2kgZ2FnYWwga2UgU2tlbmFVSV9MaWJyYXJ5LiBIdWJ1bmdr\nYW4ga2UgSW50ZXJuZXQuIikKICAgIHJldHVybgplbmQKCi0tIEZhbGxiYWNr\nIE5hbWUgamlrYSBnYWdhbCBmZXRjaApsb2NhbCBHYW1lTmFtZSA9ICJTdXJ2\naXZlIHRoZSBDb2xkIEhlbHBlciIKbG9jYWwgc3VjY2VzcywgaW5mbyA9IHBj\nYWxsKGZ1bmN0aW9uKCkKICAgIHJldHVybiBNYXJrZXRwbGFjZVNlcnZpY2U6\nR2V0UHJvZHVjdEluZm8oZ2FtZS5QbGFjZUlkKQplbmQpCmlmIHN1Y2Nlc3Mg\nYW5kIGluZm8gYW5kIGluZm8uTmFtZSB0aGVuCiAgICBHYW1lTmFtZSA9IGlu\nZm8uTmFtZSAuLiAiIEhlbHBlciIKZW5kCgpsb2NhbCBXaW5kb3cgPSBTa2Vu\nYVVJOkNyZWF0ZVdpbmRvdyh7CiAgICBOYW1lID0gIlNrZW5hSHViIC0gIiAu\nLiBHYW1lTmFtZQp9KQoKbG9jYWwgVGFiTW9kcyA9IFdpbmRvdzpDcmVhdGVU\nYWIoIk1vZHMiLCAiZ2FtZXBhZC0yIikgCmxvY2FsIFRhYlNldHRpbmdzID0g\nV2luZG93OkNyZWF0ZVRhYigiU2V0dGluZ3MiLCAic2V0dGluZ3MiLCB0cnVl\nKSAKCi0tIFJPVyAxOiBTUEVFRCBNT0QKbG9jYWwgU3BlZWRSb3dTdGF0ZQpT\ncGVlZFJvd1N0YXRlID0gVGFiTW9kczpDcmVhdGVUb2dnbGVSb3coewogICAg\nTmFtZSA9ICJTcGVlZCBNb2QiLAogICAgSGFzS2V5ID0gdHJ1ZSwKICAgIERl\nZmF1bHRLZXkgPSAiWCIsCiAgICBPbktleUNoYW5nZSA9IGZ1bmN0aW9uKG5l\nd0tleVN0cmluZykKICAgICAgICBsb2NhbCBwYXJzZWQgPSBFbnVtLktleUNv\nZGVbc3RyaW5nLnVwcGVyKG5ld0tleVN0cmluZyldCiAgICAgICAgaWYgcGFy\nc2VkIHRoZW4gc3BlZWRLZXkgPSBwYXJzZWQgZW5kCiAgICBlbmQsCiAgICBP\nblRvZ2dsZSA9IGZ1bmN0aW9uKHN0YXRlKQogICAgICAgIHNwZWVkRW5hYmxl\nZCA9IHN0YXRlCiAgICAgICAgaWYgbm90IHNwZWVkRW5hYmxlZCBhbmQgcGxh\neWVyLkNoYXJhY3RlciBhbmQgcGxheWVyLkNoYXJhY3RlcjpGaW5kRmlyc3RD\naGlsZCgiSHVtYW5vaWQiKSB0aGVuIAogICAgICAgICAgICBwbGF5ZXIuQ2hh\ncmFjdGVyLkh1bWFub2lkLldhbGtTcGVlZCA9IDE2IAogICAgICAgIGVuZAog\nICAgZW5kCn0pCgotLSBST1cgMjogSU5GIEpVTVAKVGFiTW9kczpDcmVhdGVU\nb2dnbGVSb3coewogICAgTmFtZSA9ICJJbmZpbml0ZSBKdW1wIiwKICAgIE9u\nVG9nZ2xlID0gZnVuY3Rpb24oc3RhdGUpCiAgICAgICAgaW5mSnVtcEVuYWJs\nZWQgPSBzdGF0ZQogICAgZW5kCn0pCgotLSBST1cgMzogRVNQICYgRklMVEVS\nCmVzcERyb3Bkb3duT2JqID0gVGFiTW9kczpDcmVhdGVNdWx0aVNlbGVjdERy\nb3Bkb3duKHsKICAgIE5hbWUgPSAiRVNQIEhpZ2hsaWdodCIsCiAgICBIYXNN\nYWluVG9nZ2xlID0gdHJ1ZSwKICAgIE9uTWFpblRvZ2dsZSA9IGZ1bmN0aW9u\nKHN0YXRlKQogICAgICAgIGVzcEVuYWJsZWQgPSBzdGF0ZQogICAgICAgIGNs\nZWFyRVNQKCkKICAgICAgICBpZiBlc3BFbmFibGVkIHRoZW4KICAgICAgICAg\nICAgZXNwRm9sZGVyID0gSW5zdGFuY2UubmV3KCJGb2xkZXIiKQogICAgICAg\nICAgICBlc3BGb2xkZXIuTmFtZSA9ICJFelN1cnZpdmVFU1AiCiAgICAgICAg\nICAgIGVzcEZvbGRlci5QYXJlbnQgPSBDb3JlR3VpCiAgICAgICAgICAgIAog\nICAgICAgICAgICB0YXNrLnNwYXduKGZ1bmN0aW9uKCkKICAgICAgICAgICAg\nICAgIGxvY2FsIGRlc2MgPSB3b3Jrc3BhY2U6R2V0RGVzY2VuZGFudHMoKQog\nICAgICAgICAgICAgICAgZm9yIGk9MSwgI2Rlc2MgZG8KICAgICAgICAgICAg\nICAgICAgICBjaGVja09iamVjdChkZXNjW2ldKQogICAgICAgICAgICAgICAg\nICAgIGlmIGklMTAwMCA9PSAwIHRoZW4gdGFzay53YWl0KCkgZW5kCiAgICAg\nICAgICAgICAgICBlbmQKICAgICAgICAgICAgZW5kKQogICAgICAgIGVuZAog\nICAgZW5kCn0pCgotLSBST1cgNDogRE9VQkxFIFRFTEVQT1JUIEJVVFRPTgpU\nYWJNb2RzOkNyZWF0ZURvdWJsZUJ1dHRvblJvdyh7CiAgICBOYW1lID0gIk1v\ndmUgdG8iLAogICAgQnV0dG9uMVRleHQgPSAiQ2xvdGhlcyIsCiAgICBCdXR0\nb24yVGV4dCA9ICJGb29kIiwKICAgIENhbGxiYWNrMSA9IGZ1bmN0aW9uKCkg\nbW92ZVRvUG9zKFRQX0NMT1RIRVNfUE9TKSBlbmQsCiAgICBDYWxsYmFjazIg\nPSBmdW5jdGlvbigpIG1vdmVUb1BvcyhUUF9GT09EX1BPUykgZW5kCn0pCgot\nLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K\nLS0gSVNJIFRBQiBTRVRUSU5HUwotLSA9PT09PT09PT09PT09PT09PT09PT09\nPT09PT09PT09PT09PT09PT09PT0KVGFiU2V0dGluZ3M6Q3JlYXRlVGV4dFJv\ndyh7CiAgICBUZXh0ID0gZ2V0Z2VudigpLl9TS0VOQV9BTlRJX0FGSyBhbmQg\nIvCfn6IgQW50aS1BRksgQWN0aXZlIiBvciAi8J+UtCBBbnRpLUFGSyBGYWls\nZWQiCn0pCgpUYWJTZXR0aW5nczpDcmVhdGVJbnB1dFJvdyh7CiAgICBOYW1l\nID0gIlVJIFRvZ2dsZSBLZXkiLAogICAgUGxhY2Vob2xkZXIgPSAiWiIsCiAg\nICBEZWZhdWx0ID0gIloiLAogICAgQ2FsbGJhY2sgPSBmdW5jdGlvbihrZXlT\ndHIpCiAgICAgICAgV2luZG93OlNldFRvZ2dsZUtleShrZXlTdHIpCiAgICBl\nbmQKfSkKCi0tID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09\nPT09PT09PQotLSBBVFRBQ0ggQURNSU4gTU9EVUxFIE9OTElORQotLSA9PT09\nPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KdGFzay5z\ncGF3bihmdW5jdGlvbigpCiAgICBsb2NhbCBzdWNjZXNzLCBTa2VuYUFkbWlu\nID0gcGNhbGwoZnVuY3Rpb24oKQogICAgICAgIHJldHVybiBnZXRnZW52KCku\nU2tlbmFMb2FkKCJTa2VuYVVJX0FkbWluLmx1YSIpCiAgICBlbmQpCiAgICBp\nZiBzdWNjZXNzIGFuZCBTa2VuYUFkbWluIHRoZW4KICAgICAgICBTa2VuYUFk\nbWluLkF0dGFjaChXaW5kb3csIHsgQ2FwdHVyZWRQYXRocyA9IGNhcHR1cmVk\nUGF0aHMgfSkKICAgIGVuZAplbmQpCgoKLS0gPT09PT09PT09PT09PT09PT09\nPT09PT09PT09PT09PT09PT09PT09PT09Ci0tIElOVEVSTkFMIExPT1BTICYg\nRVZFTlRTIAotLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09\nPT09PT09PT0KdGFibGUuaW5zZXJ0KGNvbnMsIHdvcmtzcGFjZS5EZXNjZW5k\nYW50QWRkZWQ6Q29ubmVjdChjaGVja09iamVjdCkpCgp0YXNrLnNwYXduKGZ1\nbmN0aW9uKCkKICAgIHdoaWxlIHRhc2sud2FpdCgzKSBhbmQgZ2V0Z2Vudigp\nLlNrZW5hSHViX1N1cnZpdmVDb2xkX0xvb3BBY3RpdmUgZG8gCiAgICAgICAg\naWYgZXNwRW5hYmxlZCB0aGVuIAogICAgICAgICAgICBsb2NhbCBkZXNjID0g\nd29ya3NwYWNlOkdldERlc2NlbmRhbnRzKCk7IAogICAgICAgICAgICBmb3Ig\naT0xLCAjZGVzYyBkbyAKICAgICAgICAgICAgICAgIGlmIG5vdCBnZXRnZW52\nKCkuU2tlbmFIdWJfU3Vydml2ZUNvbGRfTG9vcEFjdGl2ZSB0aGVuIGJyZWFr\nIGVuZAogICAgICAgICAgICAgICAgY2hlY2tPYmplY3QoZGVzY1tpXSk7IAog\nICAgICAgICAgICAgICAgaWYgaSUxMDAwID09IDAgdGhlbiB0YXNrLndhaXQo\nKSBlbmQgCiAgICAgICAgICAgIGVuZCAKICAgICAgICBlbmQgCiAgICBlbmQK\nZW5kKQoKdGFibGUuaW5zZXJ0KGNvbnMsIFVzZXJJbnB1dFNlcnZpY2UuSW5w\ndXRCZWdhbjpDb25uZWN0KGZ1bmN0aW9uKGlucHV0LCBncCkKICAgIGlmIGdw\nIHRoZW4gcmV0dXJuIGVuZAogICAgaWYgaW5wdXQuS2V5Q29kZSA9PSBzcGVl\nZEtleSB0aGVuIAogICAgICAgIHNwZWVkRW5hYmxlZCA9IG5vdCBzcGVlZEVu\nYWJsZWQKICAgICAgICBpZiBTcGVlZFJvd1N0YXRlIGFuZCBTcGVlZFJvd1N0\nYXRlLlRvZ2dsZVN0YXRlIHRoZW4KICAgICAgICAgICAgU3BlZWRSb3dTdGF0\nZS5Ub2dnbGVTdGF0ZShzcGVlZEVuYWJsZWQpCiAgICAgICAgZW5kCiAgICAg\nICAgaWYgbm90IHNwZWVkRW5hYmxlZCBhbmQgcGxheWVyLkNoYXJhY3RlciBh\nbmQgcGxheWVyLkNoYXJhY3RlcjpGaW5kRmlyc3RDaGlsZCgiSHVtYW5vaWQi\nKSB0aGVuCiAgICAgICAgICAgIHBsYXllci5DaGFyYWN0ZXIuSHVtYW5vaWQu\nV2Fsa1NwZWVkID0gMTYgCiAgICAgICAgZW5kCiAgICBlbmQKZW5kKSkKCnRh\nYmxlLmluc2VydChjb25zLCBSdW5TZXJ2aWNlLlJlbmRlclN0ZXBwZWQ6Q29u\nbmVjdChmdW5jdGlvbigpIAogICAgaWYgc3BlZWRFbmFibGVkIGFuZCBwbGF5\nZXIuQ2hhcmFjdGVyIHRoZW4gCiAgICAgICAgbG9jYWwgaHVtID0gcGxheWVy\nLkNoYXJhY3RlcjpGaW5kRmlyc3RDaGlsZCgiSHVtYW5vaWQiKQogICAgICAg\nIGlmIGh1bSB0aGVuIAogICAgICAgICAgICBodW0uV2Fsa1NwZWVkID0gVXNl\ncklucHV0U2VydmljZTpJc0tleURvd24oRW51bS5LZXlDb2RlLkxlZnRTaGlm\ndCkgYW5kIFJVTl9TUEVFRCBvciBXQUxLX1NQRUVEIAogICAgICAgIGVuZCAK\nICAgIGVuZCAKZW5kKSkKCnRhYmxlLmluc2VydChjb25zLCBVc2VySW5wdXRT\nZXJ2aWNlLkp1bXBSZXF1ZXN0OkNvbm5lY3QoZnVuY3Rpb24oKSAKICAgIGlm\nIGluZkp1bXBFbmFibGVkIGFuZCBwbGF5ZXIuQ2hhcmFjdGVyIHRoZW4gCiAg\nICAgICAgbG9jYWwgaHVtID0gcGxheWVyLkNoYXJhY3RlcjpGaW5kRmlyc3RD\naGlsZCgiSHVtYW5vaWQiKQogICAgICAgIGlmIGh1bSB0aGVuIAogICAgICAg\nICAgICBodW06Q2hhbmdlU3RhdGUoRW51bS5IdW1hbm9pZFN0YXRlVHlwZS5K\ndW1waW5nKSAKICAgICAgICBlbmQgCiAgICBlbmQgCmVuZCkpCg==\n", "encoding": "base64", "_links": {"self": "https://api.github.com/repos/kndrckm/key/contents/SurvivetheCold.lua?ref=main", "git": "https://api.github.com/repos/kndrckm/key/git/blobs/e1dc4c8d197651e3eafa758201045b374f6b42c2", "html": "https://github.com/kndrckm/key/blob/main/SurvivetheCold.lua"}}
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local CoreGui = game:GetService("CoreGui")
+local MarketplaceService = game:GetService("MarketplaceService")
+
+local player = Players.LocalPlayer
+
+-- ==========================================
+-- CLEAUP PREVIOUS LOGIC
+-- ==========================================
+if getgenv().SkenaHub_SurviveCold_Connections then
+    for _, c in pairs(getgenv().SkenaHub_SurviveCold_Connections) do
+        pcall(function() c:Disconnect() end)
+    end
+end
+getgenv().SkenaHub_SurviveCold_Connections = {}
+local cons = getgenv().SkenaHub_SurviveCold_Connections
+
+if getgenv().SkenaHub_SurviveCold_LoopActive ~= nil then
+    getgenv().SkenaHub_SurviveCold_LoopActive = false 
+end
+getgenv().SkenaHub_SurviveCold_LoopActive = true
+
+if CoreGui:FindFirstChild("EzSurviveESP") then
+    CoreGui.EzSurviveESP:Destroy()
+end
+
+-- ==========================================
+-- VARIABLES
+-- ==========================================
+local TP_FOOD_POS = Vector3.new(848.004, -15.116, 230.371)
+local TP_CLOTHES_POS = Vector3.new(591.745, -15.130, 1818.479)
+local TP_SPEED = 60
+local WALK_SPEED = 38
+local RUN_SPEED = 76
+
+local speedEnabled = false
+local infJumpEnabled = false
+local espEnabled = false
+
+local espFolder = nil
+local activeTween = nil
+local speedKey = Enum.KeyCode.X
+local itemFilters = {}
+local espDropdownObj = nil
+local capturedPaths = {}
+
+local BLACKLIST = {
+    "HumanoidRootPart", "Torso", "Board", "Proximity", "Meshes_cartello_cube", 
+    "Campfire", "Post", "Window", "Chest", "meshes/cartello", "AchievementFrame", "SniperRifle",
+    "2xSpeed", "Head", "Left Arm", "Right Arm", "Left Leg", "Right Leg", 
+    "EmptyHouseNPC", "OutfitNPC", "CraftingNPC", "Avatar", "BrokenWall", "cartello","Keyboard","Door",
+    "MainDoorPart", "Scavenger", "Relic Machine"
+}
+
+local EXACT_BLACKLIST = {
+    "Part", "GUISign1", "GUISign2", "Plank", "Base", "Baseplate", "SpawnLocation", "Folder", "Model",
+    "Sign", "Title", "Roof", "Entrance", "Carpet", "Carpet2", "Red Carpet", "Small Red Carpet", 
+    "PlacedPlank", "HB"
+}
+
+-- ==========================================
+-- ESP & LOGIC FUNCTIONS
+-- ==========================================
+local function getCleanName(n, objContext) 
+    if string.match(n, "^BrokenWall%d+$") then return "BrokenWall" end
+    if string.match(n, "^Cube%.%d+$") then return "Cube" end
+    
+    local clean = n:split("_")[1] or n 
+    
+    -- Jaring konteks untuk nama-nama generik
+    if objContext and objContext.Parent and objContext.Parent ~= workspace then
+        local ln = string.lower(clean)
+        local genericNames = {
+            yellow = true, green = true, red = true, blue = true, purple = true,
+            tutorial = true, part = true, sphere = true, block = true, cylinder = true,
+            wedge = true, meshpart = true, mesh = true, handle = true,
+            ["1"] = true, ["2"] = true, ["3"] = true, ["4"] = true, ["5"] = true
+        }
+        
+        if genericNames[ln] then
+            local pName = objContext.Parent.Name
+            if pName ~= "Workspace" and not string.match(pName, "Folder") and not string.match(pName, "^Model$") then
+                return "[" .. pName .. "] " .. clean
+            end
+        end
+    end
+    
+    return clean
+end
+
+local function isBlacklisted(n) 
+    if string.match(n, "^Avatar%d+$") then return true end
+    if string.match(n, "^Cube%.%d+$") then return true end
+    if string.lower(n) == "cube" then return true end
+    if string.match(n, "%[x%d+%]") then return true end
+    
+    for _, b in ipairs(EXACT_BLACKLIST) do
+        if n == b then return true end
+        if string.lower(n) == string.lower(b) then return true end
+    end
+    
+    for _, b in ipairs(BLACKLIST) do 
+        if string.find(n, b) then return true end 
+    end
+    return false 
+end
+
+local function clearESP() 
+    if espFolder then 
+        espFolder:Destroy() 
+    end
+    espFolder = nil 
+end
+
+local function addHighlight(target, cName, rName)
+    if not espFolder then return end
+    local hlName = rName .. "_ESP_ID_" .. tostring(target:GetDebugId())
+    
+    if not espFolder:FindFirstChild(hlName) then
+        local hl = Instance.new("Highlight")
+        hl.Name = hlName
+        hl.Adornee = target
+        hl.FillTransparency = 1
+        hl.OutlineTransparency = 0
+        hl.OutlineColor = Color3.fromRGB(52, 199, 89) -- iOS Green from original script
+        
+        if itemFilters[cName] == false then
+            hl.Enabled = false
+        else
+            hl.Enabled = true
+        end
+        hl.Parent = espFolder
+        
+        local bb = Instance.new("BillboardGui")
+        bb.Name = "NameTag"
+        bb.Adornee = target
+        bb.Size = UDim2.new(0, 100, 0, 20)
+        bb.StudsOffset = Vector3.new(0, 2, 0)
+        bb.AlwaysOnTop = true
+        bb.Enabled = hl.Enabled
+        bb.Parent = hl
+        
+        local tl = Instance.new("TextLabel")
+        tl.Size = UDim2.new(1, 0, 1, 0)
+        tl.BackgroundTransparency = 1
+        tl.Text = cName
+        tl.TextColor3 = Color3.fromRGB(255, 255, 255)
+        tl.TextStrokeTransparency = 0
+        tl.Font = Enum.Font.GothamBold
+        tl.TextSize = 12
+        tl.Parent = bb
+    end
+end
+
+local function checkObject(o)
+    if not o then return end
+    local t, rN = nil, ""
+    
+    if o:IsA("ProximityPrompt") or o:IsA("ClickDetector") then 
+        local p = o.Parent
+        if p and p:IsA("Attachment") then p = p.Parent end
+        if p and (p:IsA("BasePart") or p:IsA("Model")) and p ~= workspace then
+            t, rN = p, p.Name
+        end
+    elseif o:IsA("BillboardGui") or o:IsA("SurfaceGui") then
+        if not o:FindFirstAncestor("EzSurviveESP") and o.Name ~= "NameTag" and o.Name ~= "Chat" and o.Name ~= "HealthBar" then
+            local p = o.Adornee or o.Parent
+            if p and p:IsA("Attachment") then p = p.Parent end
+            if p and (p:IsA("BasePart") or p:IsA("Model")) and p ~= workspace and not p:FindFirstChild("Humanoid") then
+                t, rN = p, p.Name
+            end
+        end
+    elseif o:IsA("Tool") and o.Parent ~= player.Character and o.Parent ~= player.Backpack then
+        t, rN = o.PrimaryPart or o:FindFirstChildWhichIsA("BasePart") or o, o.Name
+    elseif o:IsA("Model") and o.Name ~= "Workspace" and o.Name ~= player.Name then 
+        if o:FindFirstChild("Humanoid") then
+            t, rN = o, o.Name
+        elseif o.PrimaryPart and not o.PrimaryPart.Anchored and o.Parent ~= player.Character then
+            -- Benda model murni lepas (mis. Kotak supply atau drop item kompleks)
+            t, rN = o, o.Name
+        end
+    elseif (o:IsA("Part") or o:IsA("MeshPart") or o:IsA("UnionOperation")) and o.Parent ~= player.Character then
+        if o.CanTouch and not o.Anchored and not o:FindFirstAncestorOfClass("Model") and not o:FindFirstAncestorOfClass("Tool") then 
+            t, rN = o, o.Name 
+        end
+    end
+    
+    -- Jaring ekstra asuransi untuk benda dengan kata kunci penting (jaga-jaga developernya iseng)
+    if not t and (o:IsA("BasePart") or o:IsA("Model")) and o.Parent ~= player.Character and o ~= workspace and o.Name ~= player.Name then
+        local ln = string.lower(o.Name)
+        if string.find(ln, "pet") then
+            t, rN = o, o.Name
+        end
+    end
+    
+    if t and rN ~= "" and not isBlacklisted(rN) then
+        local cN = getCleanName(rN, t)
+        if not isBlacklisted(cN) then 
+            capturedPaths[t:GetFullName()] = cN
+            if espDropdownObj then
+                espDropdownObj:AddItem(cN, true, function(state)
+                    itemFilters[cN] = state
+                    if espFolder then
+                        for _, hl in pairs(espFolder:GetChildren()) do
+                            if hl:IsA("Highlight") and hl:FindFirstChild("NameTag") then
+                                if hl.NameTag.TextLabel.Text == cN then
+                                    hl.Enabled = state
+                                    hl.NameTag.Enabled = state
+                                end
+                            end
+                        end
+                    end
+                end)
+            end
+            if itemFilters[cN] == nil then itemFilters[cN] = true end
+            if espEnabled then addHighlight(t, cN, rN) end 
+        end
+    end
+end
+
+local currentMoveTarget = nil
+local function moveToPos(tPos)
+    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    local hum = player.Character and player.Character:FindFirstChild("Humanoid")
+    if hrp and hum then
+        if hum.Sit then hum.Sit = false end
+        if activeTween then activeTween:Cancel() activeTween = nil end
+        currentMoveTarget = tPos
+        hum:MoveTo(tPos)
+        
+        task.spawn(function()
+            local loopCount = 0
+            while currentMoveTarget == tPos and hum.Parent and hrp.Parent do
+                local dist = (hrp.Position * Vector3.new(1,0,1) - tPos * Vector3.new(1,0,1)).Magnitude
+                if dist < 5 then
+                    currentMoveTarget = nil
+                    break
+                end
+                -- Coba pastikan karakter terus mengejar
+                if loopCount % 5 == 0 then
+                    hum:MoveTo(tPos)
+                end
+                task.wait(0.2)
+                loopCount = loopCount + 1
+            end
+        end)
+    end
+end
+
+-- ==========================================
+-- INIT SKENA UI
+-- ==========================================
+-- Wait until SkenaUI_Library is loaded from Github properly
+local SkenaUI_Loaded = false
+local SkenaUI
+pcall(function()
+    SkenaUI = getgenv().SkenaLoad("SkenaUI_Library.lua")
+    SkenaUI_Loaded = true
+end)
+
+if not SkenaUI_Loaded then
+    warn("Koneksi gagal ke SkenaUI_Library. Hubungkan ke Internet.")
+    return
+end
+
+-- Fallback Name jika gagal fetch
+local GameName = "Survive the Cold Helper"
+local success, info = pcall(function()
+    return MarketplaceService:GetProductInfo(game.PlaceId)
+end)
+if success and info and info.Name then
+    GameName = info.Name .. " Helper"
+end
+
+local Window = SkenaUI:CreateWindow({
+    Name = "SkenaHub - " .. GameName
+})
+
+local TabMods = Window:CreateTab("Mods", "gamepad-2") 
+local TabSettings = Window:CreateTab("Settings", "settings", true) 
+
+-- ROW 1: SPEED MOD
+local SpeedRowState
+SpeedRowState = TabMods:CreateToggleRow({
+    Name = "Speed Mod",
+    HasKey = true,
+    DefaultKey = "X",
+    OnKeyChange = function(newKeyString)
+        local parsed = Enum.KeyCode[string.upper(newKeyString)]
+        if parsed then speedKey = parsed end
+    end,
+    OnToggle = function(state)
+        speedEnabled = state
+        if not speedEnabled and player.Character and player.Character:FindFirstChild("Humanoid") then 
+            player.Character.Humanoid.WalkSpeed = 16 
+        end
+    end
+})
+
+-- ROW 2: INF JUMP
+TabMods:CreateToggleRow({
+    Name = "Infinite Jump",
+    OnToggle = function(state)
+        infJumpEnabled = state
+    end
+})
+
+-- ROW 3: ESP & FILTER
+espDropdownObj = TabMods:CreateMultiSelectDropdown({
+    Name = "ESP Highlight",
+    HasMainToggle = true,
+    OnMainToggle = function(state)
+        espEnabled = state
+        clearESP()
+        if espEnabled then
+            espFolder = Instance.new("Folder")
+            espFolder.Name = "EzSurviveESP"
+            espFolder.Parent = CoreGui
+            
+            task.spawn(function()
+                local desc = workspace:GetDescendants()
+                for i=1, #desc do
+                    checkObject(desc[i])
+                    if i%1000 == 0 then task.wait() end
+                end
+            end)
+        end
+    end
+})
+
+-- ROW 4: DOUBLE TELEPORT BUTTON
+TabMods:CreateDoubleButtonRow({
+    Name = "Move to",
+    Button1Text = "Clothes",
+    Button2Text = "Food",
+    Callback1 = function() moveToPos(TP_CLOTHES_POS) end,
+    Callback2 = function() moveToPos(TP_FOOD_POS) end
+})
+
+-- ==========================================
+-- ISI TAB SETTINGS
+-- ==========================================
+TabSettings:CreateTextRow({
+    Text = getgenv()._SKENA_ANTI_AFK and "🟢 Anti-AFK Active" or "🔴 Anti-AFK Failed"
+})
+
+TabSettings:CreateInputRow({
+    Name = "UI Toggle Key",
+    Placeholder = "Z",
+    Default = "Z",
+    Callback = function(keyStr)
+        Window:SetToggleKey(keyStr)
+    end
+})
+
+-- ==========================================
+-- ATTACH ADMIN MODULE ONLINE
+-- ==========================================
+task.spawn(function()
+    local success, SkenaAdmin = pcall(function()
+        return getgenv().SkenaLoad("SkenaUI_Admin.lua")
+    end)
+    if success and SkenaAdmin then
+        SkenaAdmin.Attach(Window, { CapturedPaths = capturedPaths })
+    end
+end)
+
+
+-- ==========================================
+-- INTERNAL LOOPS & EVENTS 
+-- ==========================================
+table.insert(cons, workspace.DescendantAdded:Connect(checkObject))
+
+task.spawn(function()
+    while task.wait(3) and getgenv().SkenaHub_SurviveCold_LoopActive do 
+        if espEnabled then 
+            local desc = workspace:GetDescendants(); 
+            for i=1, #desc do 
+                if not getgenv().SkenaHub_SurviveCold_LoopActive then break end
+                checkObject(desc[i]); 
+                if i%1000 == 0 then task.wait() end 
+            end 
+        end 
+    end
+end)
+
+table.insert(cons, UserInputService.InputBegan:Connect(function(input, gp)
+    if gp then return end
+    if input.KeyCode == speedKey then 
+        speedEnabled = not speedEnabled
+        if SpeedRowState and SpeedRowState.ToggleState then
+            SpeedRowState.ToggleState(speedEnabled)
+        end
+        if not speedEnabled and player.Character and player.Character:FindFirstChild("Humanoid") then
+            player.Character.Humanoid.WalkSpeed = 16 
+        end
+    end
+end))
+
+table.insert(cons, RunService.RenderStepped:Connect(function() 
+    if speedEnabled and player.Character then 
+        local hum = player.Character:FindFirstChild("Humanoid")
+        if hum then 
+            hum.WalkSpeed = UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) and RUN_SPEED or WALK_SPEED 
+        end 
+    end 
+end))
+
+table.insert(cons, UserInputService.JumpRequest:Connect(function() 
+    if infJumpEnabled and player.Character then 
+        local hum = player.Character:FindFirstChild("Humanoid")
+        if hum then 
+            hum:ChangeState(Enum.HumanoidStateType.Jumping) 
+        end 
+    end 
+end))
+

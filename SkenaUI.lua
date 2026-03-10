@@ -24,8 +24,10 @@ getgenv()._SKENA_BASE_URL = SkenaHub_BaseURL
 -- Helper untuk memuat script lain secara lokal / remote
 getgenv().SkenaLoad = function(fileName)
     local url = SkenaHub_BaseURL .. fileName .. "?t=" .. os.time()
+    print("[SkenaUI] Fetching: " .. url)
     local success, body = pcall(game.HttpGet, game, url, true)
-    if success then
+    
+    if success and body and #body > 0 then
         local func, err = loadstring(body)
         if func then
             return func()
@@ -33,7 +35,11 @@ getgenv().SkenaLoad = function(fileName)
             warn("[SkenaUI] Syntax Error in " .. fileName .. ": " .. tostring(err))
         end
     else
-        warn("[SkenaUI] Gagal mengunduh: " .. fileName)
+        local reason = not success and "Network Error" or (not body and "Nil Body" or "Empty Body")
+        warn("[SkenaUI] Gagal mengunduh: " .. fileName .. " (" .. reason .. ")")
+        if getgenv()._SKENA_DEV_MODE then
+            warn("[SkenaUI] Dev Mode aktif. Pastikan server lokal di 192.168.100.40:8000 jalan.")
+        end
     end
 end
 
@@ -64,10 +70,14 @@ else
     SkenaHub_CoreURL = SkenaHub_CoreURL .. "FallbackAdmin.lua"
 end
 
--- Eksekusi script spesifik game (dengan cache buster)1
+-- Eksekusi script spesifik game (dengan cache buster)
 local cacheBuster = "?t=" .. tostring(os.time())
+print("[SkenaUI] Main Load: " .. SkenaHub_CoreURL .. cacheBuster)
 local success, err = pcall(function()
     local scriptBody = game:HttpGet(SkenaHub_CoreURL .. cacheBuster, true)
+    if not scriptBody or #scriptBody == 0 then
+        error("Gagal mengunduh scriptBody (Nil/Empty). URL: " .. SkenaHub_CoreURL)
+    end
     local func, compileErr = loadstring(scriptBody)
     if not func then
         error("Syntax Error: " .. tostring(compileErr))

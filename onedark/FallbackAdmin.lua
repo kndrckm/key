@@ -1,7 +1,7 @@
--- =============================================
+-- ==========================================
 -- SKENA HUB : FALLBACK ADMIN PANEL
 -- Script ini berjalan di game yang belum didukung
--- =============================================
+-- ==========================================
 
 -- 1. Load Library
 local SkenaUI
@@ -14,7 +14,7 @@ if not success or not SkenaUI then
     return
 end
 
-local Window = SkenaUI.CreateWindow("SkenaHub", "SkenaHub", false)
+local Window = SkenaUI.CreateWindow("SkenaHub", "Unsupported Game (Admin Only)", false)
 
 -- 3. Load Admin Panel
 local adminLoaded, SkenaAdmin = pcall(function()

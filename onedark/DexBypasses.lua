@@ -36,10 +36,10 @@ task.spawn(function()
         return floor(OldGcInfo + Formula);
     end
 
-    local Old; Old = hookfunction(getfenv().gcinfo, function(...)
+    local Old; Old = hookfunction(getrenv().gcinfo, function(...)
         return getreturn();
     end)
-    local Old2; Old2 = hookfunction(getfenv().collectgarbage, function(arg, ...)
+    local Old2; Old2 = hookfunction(getrenv().collectgarbage, function(arg, ...)
         local suc, err = pcall(Old2, arg, ...)
         if suc and arg == "count" then
             return getreturn();
@@ -100,93 +100,175 @@ task.spawn(function()
             end
         end
 
-        return _MemBypass(self, ...);
+        return _MemBypass(self,...)
+    end)
+
+    -- Indexed Versions
+    local _MemBypassIndex; _MemBypassIndex = hookfunction(Stats.GetTotalMemoryUsageMb, function(self, ...)
+        if not checkcaller() then
+            if typeof(self) == "Instance" and self.ClassName == "Stats" then
+                return GetReturn();
+            end
+        end
     end)
 end)
 
--- FPS Bypass
+-- Memory Bypass X2 (Newer Method / Func)
 task.spawn(function()
     repeat task.wait() until game:IsLoaded()
 
     local RunService = cloneref(game:GetService("RunService"))
+    local Stats = cloneref(game:GetService("Stats"))
 
-    local FPS = 0
+    local CurrMem = Stats:GetMemoryUsageMbForTag(Enum.DeveloperMemoryTag.Gui);
     local Rand = 0
 
-    RunService.Heartbeat:Connect(function(dt)
-        local random = Random.new()
-        FPS = 1/dt
-        Rand = random:NextNumber(-10, 10)
+    RunService.Stepped:Connect(function()
+    	local random = Random.new()
+    	Rand = random:NextNumber(-0.1, 0.1);
     end)
 
     local function GetReturn()
-        return FPS + Rand
+        return CurrMem + Rand;
     end
 
-    local OldStats
-    OldStats = hookmetamethod(game, "__index", function(self, index)
+    local _MemBypass
+    _MemBypass = hookmetamethod(game, "__namecall", function(self,...)
+        local method = getnamecallmethod();
+
         if not checkcaller() then
-            if typeof(self) == "Instance" and self.ClassName == "Stats" and index == "HeartbeatTimeMs" then
-                return GetReturn()
+            if typeof(self) == "Instance" and (method == "GetMemoryUsageMbForTag" or method == "getMemoryUsageMbForTag") and self.ClassName == "Stats" then
+                return GetReturn();
             end
         end
-        return OldStats(self, index)
+
+        return _MemBypass(self,...)
+    end)
+
+    -- Indexed Versions
+    local _MemBypassIndex; _MemBypassIndex = hookfunction(Stats.GetMemoryUsageMbForTag, function(self, ...)
+        if not checkcaller() then
+            if typeof(self) == "Instance" and self.ClassName == "Stats" then
+                return GetReturn();
+            end
+        end
     end)
 end)
 
--- Ping Bypass
-task.spawn(function()
-    repeat task.wait() until game:IsLoaded()
+-- ContentProvider Bypasses
+local Content = cloneref(game:GetService("ContentProvider"));
+local CoreGui = cloneref(game:GetService("CoreGui"));
+local randomizedCoreGuiTable;
+local randomizedGameTable;
 
-    local Players = cloneref(game:GetService("Players"))
-    local LocalPlayer = Players.LocalPlayer
+local coreguiTable = {}
 
-    local Rand = 0
-    local CurrPing = 0
-
-    game:GetService("RunService").Heartbeat:Connect(function()
-        local random = Random.new()
-        Rand = random:NextNumber(-20, 20)
-    end)
-
-    local function GetReturn()
-        return CurrPing + Rand
-    end
-
-    local OldPing
-    OldPing = hookmetamethod(game, "__index", function(self, index)
-        if not checkcaller() then
-            if typeof(self) == "Instance" and self == LocalPlayer and index == "NetworkPing" then
-                return GetReturn()
-            end
-        end
-        return OldPing(self, index)
-    end)
+game:GetService("ContentProvider"):PreloadAsync({CoreGui}, function(assetId) --use preloadasync to patch preloadasync :troll:
+    if not assetId:find("rbxassetid://") then
+        table.insert(coreguiTable, assetId);
+end
 end)
+local gameTable = {}
 
--- Script Count Bypass (Prevents exploits from having too many loaded scripts)
-task.spawn(function()
-    repeat task.wait() until game:IsLoaded()
+for i, v in pairs(game:GetDescendants()) do
+    if v:IsA("ImageLabel") then
+        if v.Image:find('rbxassetid://') and v:IsDescendantOf(CoreGui) then else
+            table.insert(gameTable, v.Image)
+        end
+    end
+end
 
-    local ScriptCount = #getloadedmodules()
+function randomizeTable(t)
+    local n = #t
+    while n > 0 do
+        local k = math.random(n)
+        t[n], t[k] = t[k], t[n]
+        n = n - 1
+    end
+    return t
+end
 
-    local _ScriptBypass
-    _ScriptBypass = hookmetamethod(game, "__namecall", function(self, ...)
-        local method = getnamecallmethod()
+local ContentProviderBypass
+ContentProviderBypass = hookmetamethod(game, "__namecall", function(self, Instances, ...)
+    local method = getnamecallmethod();
+    local args = ...;
 
-        if not checkcaller() then
-            if typeof(self) == "Instance" and method == "GetDescendants" and self == game then
-                local result = _ScriptBypass(self, ...)
-                local filtered = {}
-                for _, v in ipairs(result) do
-                    if not (v:IsA("LocalScript") or v:IsA("ModuleScript")) then
-                        table.insert(filtered, v)
+    if not checkcaller() and (method == "preloadAsync" or method == "PreloadAsync") then
+        if Instances and Instances[1] and self.ClassName == "ContentProvider" then
+            if Instances ~= nil then
+                if typeof(Instances[1]) == "Instance" and (table.find(Instances, CoreGui) or table.find(Instances, game)) then
+                    if Instances[1] == CoreGui then
+                        randomizedCoreGuiTable = randomizeTable(coreguiTable)
+                        return ContentProviderBypass(self, randomizedCoreGuiTable, ...)
+                    end
+
+                    if Instances[1] == game then
+                        randomizedGameTable = randomizeTable(gameTable)
+                        return ContentProviderBypass(self, randomizedGameTable, ...)
                     end
                 end
-                return filtered
             end
         end
+    end
 
-        return _ScriptBypass(self, ...)
-    end)
+    return ContentProviderBypass(self, Instances, ...)
+end)
+
+local preloadBypass; preloadBypass = hookfunction(Content.PreloadAsync, function(a, b, c)
+    if not checkcaller() then
+        if typeof(a) == "Instance" and tostring(a) == "ContentProvider" and typeof(b) == "table" then
+            if (table.find(b, CoreGui) or table.find(b, game)) and not (table.find(b, true) or table.find(b, false)) then
+                if b[1] == CoreGui then -- Double Check
+                    randomizedCoreGuiTable = randomizeTable(coreguiTable)
+                    return preloadBypass(a, randomizedCoreGuiTable, c)
+                end
+                if b[1] == game then -- Triple Check
+                    randomizedGameTable = randomizeTable(gameTable)
+                    return preloadBypass(a, randomizedGameTable, c)
+                end
+            end
+        end
+    end
+
+    return preloadBypass(a, b, c)
+end)
+
+-- GetFocusedTextBox Bypass
+local _IsDescendantOf = game.IsDescendantOf
+
+local TextboxBypass
+TextboxBypass = hookmetamethod(game, "__namecall", function(self,...)
+    local method = getnamecallmethod();
+    local args = ...;
+
+    if not checkcaller() then
+        if typeof(self) == "Instance" and method == "GetFocusedTextBox" and self.ClassName == "UserInputService" then
+            local Textbox = TextboxBypass(self,...);
+            if Textbox and typeof(Textbox) == "Instance" then
+                local succ,err = pcall(function() _IsDescendantOf(Textbox, Bypassed_Dex) end) -- NOTE: Bypassed_Dex requires the environment sandbox
+
+                if err and err:match("The current identity") then
+                    return nil;
+                end
+            end
+        end
+    end
+
+    return TextboxBypass(self,...);
+end)
+
+--Newproxy Bypass (Stolen from Lego Hacker (V3RM))
+local TableNumbaor001 = {}
+local SomethingOld;
+SomethingOld = hookfunction(getrenv().newproxy, function(...)
+    local proxy = SomethingOld(...)
+    table.insert(TableNumbaor001, proxy)
+    return proxy
+end)
+
+local RunService = cloneref(game:GetService("RunService"))
+RunService.Stepped:Connect(function()
+    for i,v in pairs(TableNumbaor001) do
+        if v == nil then end
+    end
 end)

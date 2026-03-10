@@ -8,8 +8,8 @@ pcall(function()
     getgenv()._SKENA_ANTI_AFK = true
 end)
 
-local GITHUB_URL = "https://raw.githubusercontent.com/kndrckm/key/refs/heads/main/onedark/"
-local LOCAL_URL = "http://192.168.100.40:8000/onedark/"
+local GITHUB_URL = "https://raw.githubusercontent.com/kndrckm/key/refs/heads/main/"
+local LOCAL_URL = "http://192.168.100.40:8000/"
 
 local PlaceId = game.PlaceId
 

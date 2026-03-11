@@ -56,7 +56,7 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
     SG.Parent = parentUI
     SG.ResetOnSpawn = false
     SG.DisplayOrder = 9999
-    SG.ZIndexBehavior = Enum.ZIndexBehavior.Global
+    SG.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
     local WindowObj = {
         CurrentTab = nil,
@@ -67,33 +67,33 @@ function SkenaUI:CreateWindow(Options, Title, IsMobile)
 
     local Container = Instance.new("Frame", SG)
     Container.Name = "Container"
-    Container.Size = UDim2.new(0, 260, 0, 520) -- Taller, closer to reference
-    Container.Position = UDim2.new(0, 15, 0.5, -260) -- Centered left
+    Container.Size = UDim2.new(0, 260, 0, 520) 
+    Container.Position = UDim2.new(0, 15, 0.5, -260)
     Container.BackgroundTransparency = 1
 
-    -- Drop Shadow (Sirius EXACT Implementation)
+    -- Drop Shadow (Enhanced Quality)
     local Shadow = Instance.new("ImageLabel", Container)
     Shadow.Name = "Shadow"
     Shadow.AnchorPoint = Vector2.new(0.5, 0.5)
     Shadow.Position = UDim2.new(0.5, 0, 0.5, 0)
-    Shadow.Size = UDim2.new(1, 47, 1, 47) -- EXACT Sirius spread
+    Shadow.Size = UDim2.new(1, 47, 1, 47) 
     Shadow.BackgroundTransparency = 1
-    Shadow.Image = "rbxassetid://6015667362" -- EXACT Sirius asset
+    Shadow.Image = "rbxassetid://6015667362" 
     Shadow.ScaleType = Enum.ScaleType.Slice
-    Shadow.SliceCenter = Rect.new(47, 47, 450, 450) -- Standard for 512x512 shadows
-    Shadow.ImageColor3 = Color3.new(1, 1, 1) -- Must be white for UIGradient to work
-    Shadow.ImageTransparency = 0.7 
+    Shadow.SliceCenter = Rect.new(47, 47, 465, 465) -- Standard for this shadow asset
+    Shadow.ImageColor3 = Color3.new(1, 1, 1) 
+    Shadow.ImageTransparency = 0.4 -- Less transparent for better depth
     Shadow.ZIndex = 0
 
     local ShadowGradient = Instance.new("UIGradient", Shadow)
     ShadowGradient.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Palette.Background), -- Dark base
-        ColorSequenceKeypoint.new(1, Palette.NeonGradient[2]) -- Neon glow end
+        ColorSequenceKeypoint.new(0, Color3.new(0, 0, 0)), -- Pure black base for depth
+        ColorSequenceKeypoint.new(1, Palette.NeonGradient[2]) 
     })
     ShadowGradient.Rotation = -45
 
-    -- Main Visual Container
-    local Main = Instance.new("Frame", Container)
+    -- Main Visual Container (SWITCHED TO CANVASGROUP)
+    local Main = Instance.new("CanvasGroup", Container)
     Main.Name = "Main"
     Main.Size = UDim2.new(1, 0, 1, 0) 
     Main.BackgroundColor3 = Palette.Background

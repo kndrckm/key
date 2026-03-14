@@ -5,80 +5,221 @@
 
 local Window = SkenaHub.UI
 local Theme = getgenv().SkenaHubTheme
+local TweenService = game:GetService("TweenService")
 
--- 1. Tab: Main (Vibrant Purple)
-local MainElements, MainPage, MainLayout = Window:CreateTab("Main", 10747376565, Color3.fromRGB(160, 80, 255))
+-- Utility Helpers (Local copies since they aren't exported)
+local function getBrighterColor(color)
+    local hue, sat, val = Color3.toHSV(color)
+    return Color3.fromHSV(hue, math.clamp(sat - 0.2, 0, 1), math.clamp(val + 0.4, 0, 1))
+end
+
+local function getDarkerColor(color)
+    local hue, sat, val = Color3.toHSV(color)
+    return Color3.fromHSV(hue, sat, math.clamp(val - 0.2, 0, 1))
+end
+
+-- 1. Tab: Spell (Vibrant Purple)
+local SpellElements, SpellPage, SpellLayout = Window:CreateTab("Spell", 10747376565, Color3.fromRGB(160, 80, 255))
+
+-- SPELL TAB: FEATURES
+-- Row 1: [text "buy spell"] | [button "buy!"] | [single dropdown]
+local BRow1, BRow2, BRow3 = SpellElements:CreateRow(3)
+BRow1.Size = UDim2.new(0, 100, 1, 0)
+BRow2.Size = UDim2.new(0, 60, 1, 0)
+BRow3.Size = UDim2.new(1, -160 - (Theme.Gap * 2), 1, 0)
+
+SpellElements:CreateLabel("buy spell", BRow1)
+SpellElements:CreateButton("buy!", function() warn("Buy Clicked") end, BRow2)
+SpellElements:CreateDropdown("Select Item", {"Common [50 Gold]", "Desert [300 Gold]", "Forest [3,500 Gold]"}, function(val) end, false, BRow3)
+
+-- Row 2: ESP Object to Destroy text, toggle, and dropdown multiple + search
+local BRow3_1, BRow3_2, BRow3_3 = SpellElements:CreateRow(3)
+BRow3_1.Size = UDim2.new(0, 100, 1, 0)
+BRow3_2.Size = UDim2.new(0, 60, 1, 0)
+BRow3_3.Size = UDim2.new(1, -160 - (Theme.Gap * 2), 1, 0)
+
+SpellElements:CreateLabel("ESP Object to Destroy", BRow3_1)
+SpellElements:CreateToggleSwitch("", false, function(s) warn("ESP Toggle: " .. tostring(s)) end, BRow3_2)
+local espMulti = SpellElements:CreateMultiDropdown("Select Objects", {"Part", "Model", "Folder", "MeshPart", "Attachment"}, function(selected)
+    warn("Selected objects: " .. #selected)
+end, true, BRow3_3)
+
+-- Make ESP Dropdown Panel Green
+task.spawn(function()
+    if espMulti and espMulti.Container then
+        local ContainerStroke = espMulti.Container:FindFirstChildOfClass("UIStroke")
+        if ContainerStroke then
+            ContainerStroke.Color = Theme.StatusGreen
+        end
+    end
+end)
+
+-- Row 3: Slider with text (x) ESP Search Radius
+local SliderRow = SpellElements:CreateRow(1, 20)
+SpellElements:CreateSlider("ESP Search Radius", Theme.StatusGreen, 0, 500, 100, function(val)
+    warn("Radius updated: " .. val)
+end, SliderRow)
+
+SpellElements:CreateGap(6)
+
+-- Row 4: Auto Farm + Auto Sell + Settings Trigger
+local Col_AF, Col_AS, Col_Settings = SpellElements:CreateRow(3)
+Col_AF.Size = UDim2.new(0, 105, 1, 0)
+Col_AS.Size = UDim2.new(0, 105, 1, 0)
+Col_Settings.Size = UDim2.new(1, -210 - (Theme.Gap * 2), 1, 0)
+
+local PurpleColor = Color3.fromRGB(160, 80, 255)
+
+-- State for Hard Dropdown
+local dropdownOpen = false
+local DropContainer = Instance.new("Frame")
+DropContainer.Name = "HardDropdown"
+DropContainer.LayoutOrder = 100
+DropContainer.Size = UDim2.new(1, 0, 0, 0)
+DropContainer.BackgroundTransparency = 1
+DropContainer.ClipsDescendants = true
+DropContainer.BorderSizePixel = 0
+DropContainer.Parent = SpellPage
+
+local DropPadding = Instance.new("UIPadding", DropContainer)
+DropPadding.PaddingTop = UDim.new(0, 2)
+DropPadding.PaddingBottom = UDim.new(0, 4)
+DropPadding.PaddingLeft = UDim.new(0, 2)
+DropPadding.PaddingRight = UDim.new(0, 1)
+
+local DropLayout = Instance.new("UIListLayout", DropContainer)
+DropLayout.SortOrder = Enum.SortOrder.LayoutOrder
+DropLayout.Padding = UDim.new(0, Theme.Gap)
+DropLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+-- Placeholder inside Hard Dropdown
+local PlaceholderRow = SpellElements:CreateRow(1, nil, DropContainer)
+SpellElements:CreateButton("Placeholder Button", function() warn("Placeholder Clicked") end, PlaceholderRow)
+
+-- Auto Farm Toggle
+local afData = SpellElements:CreateToggleButton("Auto Farm", false, 10734975692, function(state)
+    warn("Auto Farm: " .. tostring(state))
+end, Col_AF)
+
+-- Auto Sell Toggle
+local asData = SpellElements:CreateToggleButton("", false, nil, function(state)
+    warn("Auto Sell: " .. tostring(state))
+end, Col_AS)
+
+-- Manual refinement for Auto Sell to include TextBox
+if asData and asData.Btn then
+    local Container = Instance.new("Frame")
+    Container.Size = UDim2.new(1, 0, 1, 0)
+    Container.BackgroundTransparency = 1
+    Container.Parent = asData.Btn
+    
+    local Layout = Instance.new("UIListLayout")
+    Layout.FillDirection = Enum.FillDirection.Horizontal
+    Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    Layout.VerticalAlignment = Enum.VerticalAlignment.Center
+    Layout.Padding = UDim.new(0, 4)
+    Layout.Parent = Container
+
+    local InputBg = Instance.new("Frame")
+    InputBg.Size = UDim2.new(0, 22, 0, 16)
+    InputBg.BackgroundColor3 = Theme.HoverColor
+    InputBg.BackgroundTransparency = 0.5
+    InputBg.LayoutOrder = 1
+    InputBg.Parent = Container
+    Instance.new("UICorner", InputBg).CornerRadius = UDim.new(0, 4)
+
+    local ValInput = Instance.new("TextBox")
+    ValInput.Size = UDim2.new(1, 0, 1, 0)
+    ValInput.BackgroundTransparency = 1
+    ValInput.Text = "30"
+    ValInput.TextColor3 = Theme.TextPrimary
+    ValInput.FontFace = Theme.Fonts.Regular
+    ValInput.TextSize = 11
+    ValInput.ClearTextOnFocus = true
+    ValInput.Parent = InputBg
+
+    local RightLabel = Instance.new("TextLabel")
+    RightLabel.BackgroundTransparency = 1
+    RightLabel.Text = "sec Autosell"
+    RightLabel.TextColor3 = Theme.TextMuted
+    RightLabel.FontFace = Theme.Fonts.SemiBold
+    RightLabel.TextSize = 12
+    RightLabel.LayoutOrder = 2
+    RightLabel.AutomaticSize = Enum.AutomaticSize.X
+    RightLabel.Size = UDim2.new(0, 0, 1, 0)
+    RightLabel.Parent = Container
+
+    -- Tie label colors to the toggle state
+    asData.Btn.MouseButton1Click:Connect(function()
+        local isToggled = asData.Stroke.Transparency == 0 -- Simple check for toggled state
+        RightLabel.TextColor3 = isToggled and Theme.TextPrimary or Theme.TextMuted
+    end)
+    
+    -- Sync hover color
+    asData.Btn.MouseEnter:Connect(function()
+        RightLabel.TextColor3 = Theme.TextPrimary
+    end)
+    asData.Btn.MouseLeave:Connect(function()
+        local isToggled = asData.Stroke.Transparency == 0
+        if not isToggled then
+            RightLabel.TextColor3 = Theme.TextMuted
+        end
+    end)
+end
+
+-- Settings Trigger (Merged Text + Button)
+local vTrigger = Instance.new("TextButton")
+vTrigger.Size = UDim2.new(1, 0, 1, 0)
+vTrigger.BackgroundTransparency = 1
+vTrigger.Text = "" -- Using a separate label for more control
+vTrigger.Parent = Col_Settings
+
+local vLabel = Instance.new("TextLabel")
+vLabel.Size = UDim2.new(1, -22, 1, 0) -- Leave 22px room for the icon
+vLabel.Position = UDim2.new(0, 0, 0, 0)
+vLabel.BackgroundTransparency = 1
+vLabel.Text = "Open Settings"
+vLabel.TextColor3 = Theme.TextMuted
+vLabel.FontFace = Theme.Fonts.SemiBold
+vLabel.TextSize = 12
+vLabel.TextXAlignment = Enum.TextXAlignment.Right
+vLabel.Parent = vTrigger
+
+local vIcon = Instance.new("ImageLabel")
+vIcon.Size = UDim2.new(0, 16, 0, 16)
+vIcon.Position = UDim2.new(1, -16, 0.5, -8)
+vIcon.BackgroundTransparency = 1
+vIcon.Image = "rbxassetid://10709790948"
+vIcon.ImageColor3 = Theme.TextPrimary
+vIcon.Parent = vTrigger
+
+vTrigger.MouseButton1Click:Connect(function()
+    dropdownOpen = not dropdownOpen
+    
+    TweenService:Create(vIcon, TweenInfo.new(0.4, Enum.EasingStyle.Back), {
+        Rotation = dropdownOpen and 180 or 0
+    }):Play()
+    
+    if dropdownOpen then
+        DropContainer.Visible = true
+        TweenService:Create(DropContainer, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {
+            Size = UDim2.new(1, 0, 0, DropLayout.AbsoluteContentSize.Y + 10)
+        }):Play()
+    else
+        local t = TweenService:Create(DropContainer, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {
+            Size = UDim2.new(1, 0, 0, 0)
+        })
+        t:Play()
+        t.Completed:Connect(function() 
+            if not dropdownOpen then DropContainer.Visible = false end 
+        end)
+    end
+end)
 
 -- 2. Tab: Teleport (Ocean Blue)
 local TeleElements, TelePage, TeleLayout = Window:CreateTab("Teleport", 10734886004, Color3.fromRGB(50, 150, 255))
 
--- ==========================================
--- SHARED STATE & LOOPS
--- ==========================================
-local autoFarmEnabled = false
-local isSelling = false
-local savedFarmLocations = {nil, nil, nil, nil}
-local currentSpotIndex = 1
-local autoSellConfig = { cooldown = 60, enabled = true }
-local spellStates = {
-    ["1"] = { enabled = false, delay = 10 },
-    ["2"] = { enabled = false, delay = 10 },
-    ["3"] = { enabled = false, delay = 10 },
-    ["4"] = { enabled = false, delay = 10 },
-}
-
-local function secureRemoteFire(...)
-    local remoteNames = {"RemoteEvent_1", "RemoteEvent_2", "RemoteEvent_3", "RemoteEvent_4"}
-    for _, name in ipairs(remoteNames) do
-        local remote = game:GetService("ReplicatedStorage"):FindFirstChild(name)
-        if remote and remote:IsA("RemoteEvent") then
-            remote:FireServer(...)
-        end
-    end
-end
-
--- ==========================================
--- MAIN TAB: FEATURES
--- ==========================================
-
--- 1. Buy Spell Row
-local BuyRowL, BuyRowM, BuyRowR = MainElements:CreateRow(3)
-BuyRowL.Size = UDim2.new(0, 171, 1, 0) -- Label slot
-BuyRowM.Size = UDim2.new(0, 126, 1, 0) -- Dropdown slot (3 slots + gaps)
-BuyRowR.Size = UDim2.new(0, 36, 1, 0)  -- Ghost Button slot
-
-local selectedSpell = "Common [50 Gold]"
-local spellMap = {
-    ["Common [50 Gold]"] = {ball = "CrystallBall_1"},
-    ["Desert [300 Gold]"] = {ball = "CrystallBall_2"},
-    ["Forest [3,500 Gold]"] = {ball = "CrystallBall_3"},
-    ["Frozen [25,000 Gold]"] = {ball = "CrystallBall_4"},
-    ["Volcanic [100,000 Gold]"] = {ball = "CrystallBall_5"},
-}
-
-MainElements:CreateLabel("Buy Spell", BuyRowL)
-local buyDrop = MainElements:CreateDropdown("Select Spell", nil, function(item)
-    selectedSpell = item
-end, BuyRowM)
-
-buyDrop:AddItem("Common [50 Gold]", true)
-buyDrop:AddItem("Desert [300 Gold]")
-buyDrop:AddItem("Forest [3,500 Gold]")
-buyDrop:AddItem("Frozen [25,000 Gold]")
-buyDrop:AddItem("Volcanic [100,000 Gold]")
-
-MainElements:CreateCircleButton("rbxassetid://10709791437", function()
-    local data = spellMap[selectedSpell]
-    local ballName = data and data.ball
-    local targetBall = ballName and workspace:FindFirstChild(ballName)
-    if targetBall then
-        secureRemoteFire("BuyCrystalBall", targetBall, 1)
-    end
-end, BuyRowR, true)
-
--- ==========================================
--- TELEPORT TAB REDESIGN (3-Column)
--- ==========================================
+-- TELEPORT TAB: FEATURES
 local zoneData = {
     {"Common", CFrame.new(853.272, 132.774, -114.176)},
     {"Desert", CFrame.new(508.961, 126.700, 135.752)},
@@ -97,7 +238,9 @@ local function CreateTeleportSection(title, data)
     TeleElements:CreateSection(title)
     
     for i = 1, #data, 3 do
-        local cols = {TeleElements:CreateRow(3)}
+        local r1, r2, r3 = TeleElements:CreateRow(3)
+        local cols = {r1, r2, r3}
+        
         for j = 1, 3 do
             local slotIdx = i + (j - 1)
             local item = data[slotIdx]
@@ -106,7 +249,8 @@ local function CreateTeleportSection(title, data)
             if item and container then
                 container.Size = UDim2.new(0, 111, 1, 0)
                 TeleElements:CreateButton(item[1], function()
-                    local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                    local char = game.Players.LocalPlayer.Character
+                    local hrp = char and char:FindFirstChild("HumanoidRootPart")
                     if hrp then hrp.CFrame = item[2] end
                 end, container)
             end
@@ -117,142 +261,10 @@ end
 CreateTeleportSection("Zone", zoneData)
 CreateTeleportSection("Secret Spell Location", secretData)
 
--- ==========================================
--- MAIN TAB: AUTO FARM MASTER
--- ==========================================
-local MasterRowL, MasterRowR = MainElements:CreateRow(2)
-MasterRowL.Size = UDim2.new(0, 216, 1, 0)
-MasterRowR.Size = UDim2.new(0, 36, 1, 0)
-MainElements:CreateLabel("Auto Farm", MasterRowL)
-MainElements:CreateToggle(function(state)
-    autoFarmEnabled = state
-end, false, MasterRowR)
-
--- Card: Auto Skills
-local SkillCard = Instance.new("Frame")
-SkillCard.Size = UDim2.new(1, 0, 0, 180)
-SkillCard.BackgroundTransparency = 1
-SkillCard.Parent = MainPage
-
-local SkillLayout = Instance.new("UIListLayout", SkillCard)
-SkillLayout.Padding = UDim.new(0, Theme.Gap)
-
-for i = 1, 4 do
-    local id = tostring(i)
-    local data = spellStates[id]
-    
-    -- Let the library handle the row creation and parenting naturally
-    local R1, R2, R3 = MainElements:CreateRow(3) 
-    R1.Size = UDim2.new(0, 171, 1, 0)
-    R2.Size = UDim2.new(0, 81, 1, 0)
-    R3.Size = UDim2.new(0, 36, 1, 0)
-
-    MainElements:CreateLabel("AUTO SKILL " .. id, R1)
-    MainElements:CreateTextBox("10", "Delay", "Sec", function(v) data.delay = tonumber(v) or 10 end, R2)
-    MainElements:CreateToggle(function(s) data.enabled = s end, false, R3)
-
-    task.spawn(function()
-        while true do
-            if autoFarmEnabled and data.enabled and not isSelling then
-                local char = game.Players.LocalPlayer.Character
-                local hrp = char and char:FindFirstChild("HumanoidRootPart")
-                if hrp then
-                    local myCF = hrp.CFrame
-                    local targetPos = (myCF * CFrame.new(0, 0, -10)).Position
-                    secureRemoteFire("UseSpell", id, myCF, targetPos, true)
-                end
-                task.wait(data.delay)
-            end
-            task.wait(0.1)
-        end
-    end)
-end
-
--- ==========================================
--- MAIN TAB: DISCOVERY (ESP)
--- ==========================================
-MainElements:CreateSection("Discovery List")
-
-local ESPCard = Instance.new("Frame", MainPage)
-ESPCard.Size = UDim2.new(1, 0, 0, 150)
-ESPCard.BackgroundTransparency = 1
-
-local R_Sell = {MainElements:CreateRow(3)}
-R_Sell[1].Size = UDim2.new(0, 126, 1, 0) -- Adjust to fit
-R_Sell[2].Size = UDim2.new(0, 81, 1, 0)
-R_Sell[3].Size = UDim2.new(0, 126, 1, 0)
-
-MainElements:CreateLabel("AUTO SELL COOLDOWN", R_Sell[1])
-MainElements:CreateTextBox("60", "Seconds", "60", function(v) autoSellConfig.cooldown = tonumber(v) or 60 end, R_Sell[2])
-MainElements:CreateToggle("Auto Sell", function(s) autoSellConfig.enabled = s end, R_Sell[3])
-
--- Spot Management (Row of 4 small buttons)
-local SpotRow = {MainElements:CreateRow(4)}
-for i = 1, 4 do
-    local btn = MainElements:CreateButton("Set Spot " .. i, function()
-        local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-        if hrp then 
-            savedFarmLocations[i] = hrp.CFrame 
-            warn("[Skena] Spot " .. i .. " Saved!")
-        end
-    end, SpotRow[i])
-end
-
--- ==========================================
--- BACKGROUND LOOPS (Ported from original)
--- ==========================================
-
--- Master Sell Loop
-task.spawn(function()
-    while true do
-        if autoFarmEnabled and autoSellConfig.enabled then
-            local char = game.Players.LocalPlayer.Character
-            local hrp = char and char:FindFirstChild("HumanoidRootPart")
-            if hrp then
-                isSelling = true
-                local oldCF = hrp.CFrame
-                hrp.CFrame = CFrame.new(935.876, 132.344, -52.726)
-                task.wait(5) -- Selling process
-                
-                -- Rotation logic
-                local activeSpots = {}
-                for idx, loc in pairs(savedFarmLocations) do if loc then table.insert(activeSpots, idx) end end
-                
-                if #activeSpots > 0 then
-                    local foundNext = false
-                    for _, sIdx in ipairs(activeSpots) do
-                        if sIdx > currentSpotIndex then currentSpotIndex = sIdx foundNext = true break end
-                    end
-                    if not foundNext then currentSpotIndex = activeSpots[1] end
-                    hrp.CFrame = savedFarmLocations[currentSpotIndex]
-                else
-                    hrp.CFrame = oldCF
-                end
-                isSelling = false
-            end
-            task.wait(autoSellConfig.cooldown)
-        end
-        task.wait(1)
-    end
+-- Initial sizing update
+task.delay(0.5, function()
+    SpellPage.CanvasSize = UDim2.new(0, 0, 0, SpellLayout.AbsoluteContentSize.Y + 20)
+    TelePage.CanvasSize = UDim2.new(0, 0, 0, TeleLayout.AbsoluteContentSize.Y + 20)
 end)
 
--- Anti-Void Safety
-task.spawn(function()
-    while true do
-        if autoFarmEnabled then
-            local char = game.Players.LocalPlayer.Character
-            local hrp = char and char:FindFirstChild("HumanoidRootPart")
-            if hrp and hrp.Position.Y <= 15 then
-                if isSelling then
-                    hrp.CFrame = CFrame.new(935.876, 132.344, -52.726)
-                else
-                    hrp.CFrame = savedFarmLocations[currentSpotIndex] or hrp.CFrame
-                end
-                task.wait(1)
-            end
-        end
-        task.wait(1)
-    end
-end)
-
-warn("[SkenaHub] Simple Spells Redesign Loaded!")
+warn("[SkenaHub] Simple Spells with Hard Dropdown Loaded!")

@@ -1,3 +1,5 @@
+-- Icon Reference: https://raw.githubusercontent.com/dawid-scripts/Fluent/master/src/Icons.lua
+
 local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -401,6 +403,11 @@ function SkenaTopNav:CreateWindow(titleText)
 
     -- // Global Intercept Logic Disabled // --
 
+    local Window = { CurrentTab = nil, Tabs = {}, Gui = SkenaGui }
+    function Window:Toggle()
+        toggleUI()
+    end
+
     -- // Top Bar // --
     local TopBar = Instance.new("Frame")
     TopBar.Size = UDim2.new(1, 0, 0, Theme.TopBarHeight) 
@@ -513,13 +520,9 @@ function SkenaTopNav:CreateWindow(titleText)
     ContentContainer.Size = UDim2.new(1, -(WindowPadding * 2), 1, -(Theme.TopBarHeight + Theme.Gap + Theme.Margin))
     ContentContainer.Position = UDim2.new(0, WindowPadding + 1, 0, Theme.TopBarHeight + Theme.Gap)
     ContentContainer.BackgroundTransparency = 1
-    ContentContainer.ClipsDescendants = false -- Set to false to prevent stroke cropping
+    ContentContainer.ClipsDescendants = false 
     ContentContainer.Parent = MainFrame
 
-    local Window = { CurrentTab = nil, Tabs = {}, Gui = SkenaGui }
-    function Window:Toggle()
-        toggleUI()
-    end
 
     -- // Tab Creation // --
     function Window:CreateTab(tabName, iconId, tabColor, activeIconId, layoutOrder)
@@ -557,6 +560,7 @@ function SkenaTopNav:CreateWindow(titleText)
             ColorSequenceKeypoint.new(1, brightColor) 
         }
         StrokeGradient.Parent = Stroke
+
 
         local Icon = Instance.new("ImageLabel")
         Icon.Name = "Icon"
@@ -757,83 +761,178 @@ function SkenaTopNav:CreateWindow(titleText)
             end)
 
             TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + Theme.SmallGap)
+            return {Btn = Btn, Label = Label, Stroke = Strk}
         end
-        function Elements:CreateToggle(callback_or_text, default_or_callback, parent_or_default)
-            local isModular = typeof(parent_or_default) == "Instance"
-            local text = isModular and (typeof(callback_or_text) == "string" and callback_or_text or "") or callback_or_text
-            local callback = isModular and (typeof(default_or_callback) == "function" and default_or_callback or callback_or_text) or default_or_callback
-            local default = isModular and (typeof(default_or_callback) ~= "function" and default_or_callback or false) or parent_or_default or false
-            local ParentFrame = isModular and parent_or_default or TabPage
-
+        function Elements:CreateToggleSwitch(text, default, callback, parent)
+            local ParentFrame = parent or TabPage
+            local toggled = default or false
             local ToggleFrame = Instance.new("Frame")
-            ToggleFrame.Size = UDim2.new(1, 0, 0, isModular and ParentFrame.AbsoluteSize.Y or Theme.ElementHeight)
+            ToggleFrame.Size = parent and UDim2.new(1, 0, 1, 0) or UDim2.new(1, 0, 0, Theme.ElementHeight)
             ToggleFrame.BackgroundTransparency = 1
             ToggleFrame.Parent = ParentFrame
             
-                local Label = Instance.new("TextLabel")
-                Label.Size = UDim2.new(1, -54, 1, 0)
-                Label.Position = UDim2.new(0, Theme.Gap, 0, 0)
-                Label.BackgroundTransparency = 1
-                Label.Text = text
-                Label.TextColor3 = Theme.TextPrimary
-                Label.FontFace = Theme.Fonts.Bold
-                Label.TextSize = 12
-                Label.TextXAlignment = Enum.TextXAlignment.Left
-                Label.Parent = ToggleFrame
-
-            local toggled = default
-            local TrackSize = Theme.Dimensions.ToggleTrack
-            local KnobSize = Theme.Dimensions.ToggleKnob
+            local Label = Instance.new("TextLabel")
+            Label.Size = UDim2.new(1, -44, 1, 0)
+            Label.Position = UDim2.new(0, Theme.Gap, 0, 0)
+            Label.BackgroundTransparency = 1
+            Label.Text = text
+            Label.TextColor3 = Theme.TextMuted
+            Label.FontFace = Theme.Fonts.SemiBold
+            Label.TextSize = 12
+            Label.TextXAlignment = Enum.TextXAlignment.Left
+            Label.Parent = ToggleFrame
 
             local Track = Instance.new("TextButton")
-            Track.Size = UDim2.new(0, TrackSize.X, 0, TrackSize.Y)
-            Track.Position = isModular and UDim2.new(0, 0, 0.5, -TrackSize.Y/2) or UDim2.new(1, -TrackSize.X - Theme.Gap, 0.5, -TrackSize.Y/2)
-            Track.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Track.Size = UDim2.new(0, 36, 0, 18)
+            Track.Position = UDim2.new(1, -45, 0.5, -9)
+            Track.BackgroundColor3 = toggled and Theme.StatusGreen or Theme.HoverColor
             Track.Text = ""
             Track.AutoButtonColor = false
             Track.Parent = ToggleFrame
             Instance.new("UICorner", Track).CornerRadius = UDim.new(1, 0)
             
-            local TrackGradient = Instance.new("UIGradient", Track)
-            TrackGradient.Rotation = 90
-            
-            local TrackStroke = Instance.new("UIStroke", Track)
-            TrackStroke.Color = Theme.BorderColor
-            TrackStroke.Thickness = Theme.StrokeThickness
-            TrackStroke.Transparency = 0.5
-
-            local function updateVisuals(isOn)
-                if isOn then
-                    TrackGradient.Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0, Theme.StatusGreen),
-                        ColorSequenceKeypoint.new(1, getDarkerColor(Theme.StatusGreen))
-                    }
-                    TrackStroke.Color = getBrighterColor(Theme.StatusGreen)
-                    TrackStroke.Transparency = 0
-                else
-                    TrackGradient.Color = ColorSequence.new(Theme.TopBarColor)
-                    TrackStroke.Color = Theme.BorderColor
-                    TrackStroke.Transparency = 0.5
-                end
-            end
-            updateVisuals(toggled)
+            local Stroke = Instance.new("UIStroke", Track)
+            Stroke.Color = toggled and getBrighterColor(Theme.StatusGreen) or Theme.BorderColor
+            Stroke.Thickness = 1
+            Stroke.Transparency = 0.5
 
             local Knob = Instance.new("Frame")
-            Knob.Size = UDim2.new(0, KnobSize, 0, KnobSize)
-            Knob.Position = toggled and UDim2.new(1, -KnobSize - 3, 0.5, -KnobSize/2) or UDim2.new(0, 3, 0.5, -KnobSize/2)
+            Knob.Size = UDim2.new(0, 12, 0, 12)
+            Knob.Position = toggled and UDim2.new(1, -15, 0.5, -6) or UDim2.new(0, 3, 0.5, -6)
             Knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             Knob.Parent = Track
             Instance.new("UICorner", Knob).CornerRadius = UDim.new(1, 0)
 
+            local TrackGradient = Instance.new("UIGradient")
+            TrackGradient.Rotation = 90
+            TrackGradient.Color = ColorSequence.new{
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(150, 150, 150))
+            }
+            TrackGradient.Enabled = toggled
+            TrackGradient.Parent = Track
+
             Track.MouseButton1Click:Connect(function()
                 toggled = not toggled
-                local targetPos = toggled and UDim2.new(1, -KnobSize - 3, 0.5, -KnobSize/2) or UDim2.new(0, 3, 0.5, -KnobSize/2)
+                local targetPos = toggled and UDim2.new(1, -15, 0.5, -6) or UDim2.new(0, 3, 0.5, -6)
+                local targetColor = toggled and Theme.StatusGreen or Theme.HoverColor
+                local strokeColor = toggled and getBrighterColor(Theme.StatusGreen) or Theme.BorderColor
+                
+                TrackGradient.Enabled = toggled
                 TweenService:Create(Knob, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Position = targetPos}):Play()
-                updateVisuals(toggled)
+                TweenService:Create(Track, TweenInfo.new(0.3), {BackgroundColor3 = targetColor}):Play()
+                TweenService:Create(Stroke, TweenInfo.new(0.3), {Color = strokeColor}):Play()
+                TweenService:Create(Label, TweenInfo.new(0.3), {TextColor3 = toggled and Theme.TextPrimary or Theme.TextMuted}):Play()
+                
                 callback(toggled)
             end)
             
+            ToggleFrame.MouseEnter:Connect(function() 
+                if not toggled then TweenService:Create(Label, TweenInfo.new(0.3), {TextColor3 = Theme.TextPrimary}):Play() end
+            end)
+            ToggleFrame.MouseLeave:Connect(function() 
+                if not toggled then TweenService:Create(Label, TweenInfo.new(0.3), {TextColor3 = Theme.TextMuted}):Play() end
+            end)
+
             TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + Theme.Gap)
+        end
+        Elements.CreateToggle = Elements.CreateToggleSwitch
+
+        function Elements:CreateToggleButton(text, default, iconId, callback, parent, onIconId)
+            local ParentFrame = parent or TabPage
+            local toggled = default or false
+            local accent = tabColor or Theme.AccentRed
+            
+            local Btn = Instance.new("TextButton")
+            Btn.Size = parent and UDim2.new(1, 0, 1, 0) or UDim2.new(1, 0, 0, Theme.ElementHeight)
+            Btn.BackgroundColor3 = Theme.ElementColor
+            Btn.BackgroundTransparency = 0
+            Btn.Text = ""
+            Btn.AutoButtonColor = false
+            Btn.Parent = ParentFrame
+            Instance.new("UICorner", Btn).CornerRadius = Theme.InnerCorner
+            
+            local Strk = Instance.new("UIStroke", Btn)
+            Strk.Color = getBrighterColor(Theme.ElementColor)
+            Strk.Thickness = Theme.StrokeThickness
+            Strk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+            local Ico
+            if iconId then
+                Ico = Instance.new("ImageLabel")
+                Ico.Size = UDim2.new(0, 20, 0, 20)
+                Ico.Position = (text and text ~= "") and UDim2.new(0, 8, 0.5, -10) or UDim2.new(0.5, -10, 0.5, -10)
+                Ico.BackgroundTransparency = 1
+                Ico.Image = "rbxassetid://" .. tostring(iconId)
+                Ico.ImageTransparency = 0.5
+                Ico.Parent = Btn
+            end
+
+            local Label = Instance.new("TextLabel")
+            Label.Size = UDim2.new(1, iconId and -32 or -16, 1, 0)
+            Label.Position = UDim2.new(0, iconId and 30 or 8, 0, 0)
+            Label.BackgroundTransparency = 1
+            Label.Text = text or ""
+            Label.TextColor3 = Theme.TextMuted
+            Label.FontFace = Theme.Fonts.SemiBold
+            Label.TextSize = 12
+            Label.TextXAlignment = iconId and Enum.TextXAlignment.Left or Enum.TextXAlignment.Center
+            Label.Visible = text and text ~= ""
+            Label.Parent = Btn
+
+            local Grad = Instance.new("UIGradient")
+            Grad.Rotation = 90
+            Grad.Color = ColorSequence.new{
+                ColorSequenceKeypoint.new(0, accent),
+                ColorSequenceKeypoint.new(1, getDarkerColor(accent))
+            }
+            Grad.Enabled = toggled
+            Grad.Parent = Btn
+
+            local function update()
+                local targetTrans = toggled and 0.85 or 0
+                local targetStroke = toggled and accent or getBrighterColor(Theme.ElementColor)
+                local contentTrans = toggled and 0 or 0.5
+                local textCol = toggled and Theme.TextPrimary or Theme.TextMuted
+                
+                Grad.Enabled = toggled
+                if Ico then
+                    Ico.Image = "rbxassetid://" .. tostring(toggled and (onIconId or iconId) or iconId)
+                end
+
+                TweenService:Create(Btn, TweenInfo.new(0.3), {BackgroundTransparency = targetTrans}):Play()
+                TweenService:Create(Strk, TweenInfo.new(0.3), {Color = targetStroke}):Play()
+                if Ico then TweenService:Create(Ico, TweenInfo.new(0.3), {ImageTransparency = contentTrans}):Play() end
+                TweenService:Create(Label, TweenInfo.new(0.3), {TextColor3 = textCol}):Play()
+            end
+
+            Btn.MouseButton1Click:Connect(function()
+                toggled = not toggled
+                update()
+                callback(toggled)
+            end)
+
+            Btn.MouseEnter:Connect(function()
+                if not toggled then
+                    TweenService:Create(Btn, TweenInfo.new(0.3), {BackgroundColor3 = Theme.HoverColor}):Play()
+                    TweenService:Create(Strk, TweenInfo.new(0.3), {Color = accent}):Play()
+                    TweenService:Create(Label, TweenInfo.new(0.3), {TextColor3 = Theme.TextPrimary}):Play()
+                    if Ico then TweenService:Create(Ico, TweenInfo.new(0.3), {ImageTransparency = 0.1}):Play() end
+                end
+            end)
+
+            Btn.MouseLeave:Connect(function()
+                if not toggled then
+                    TweenService:Create(Btn, TweenInfo.new(0.3), {BackgroundColor3 = Theme.ElementColor}):Play()
+                    TweenService:Create(Strk, TweenInfo.new(0.3), {Color = getBrighterColor(Theme.ElementColor)}):Play()
+                    TweenService:Create(Label, TweenInfo.new(0.3), {TextColor3 = Theme.TextMuted}):Play()
+                    if Ico then TweenService:Create(Ico, TweenInfo.new(0.3), {ImageTransparency = 0.5}):Play() end
+                end
+            end)
+
+            update() -- Init
+            TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + Theme.SmallGap)
+            return {Btn = Btn, Label = Label, Stroke = Strk, Icon = Ico}
         end
         function Elements:CreateTextBox(text, title, placeholder, callback, parent)
             local ParentFrame = parent or TabPage
@@ -904,13 +1003,15 @@ function SkenaTopNav:CreateWindow(titleText)
             TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + Theme.SmallGap)
         end
 
-        function Elements:CreateRow(count, height)
+        function Elements:CreateRow(count, height, parent)
             count = count or 2
             height = height or Theme.ElementHeight
             local Row = Instance.new("Frame")
+            Row.Name = "Row"
             Row.Size = UDim2.new(1, 0, 0, height)
             Row.BackgroundTransparency = 1
-            Row.Parent = TabPage
+            Row.ClipsDescendants = false
+            Row.Parent = parent or TabPage
             
             local List = Instance.new("UIListLayout", Row)
             List.FillDirection = Enum.FillDirection.Horizontal
@@ -926,6 +1027,7 @@ function SkenaTopNav:CreateWindow(titleText)
                 local sf = Instance.new("Frame")
                 sf.Size = UDim2.new(itemWidth, -offset, 1, 0)
                 sf.BackgroundTransparency = 1
+                sf.ClipsDescendants = false
                 sf.Parent = Row
                 table.insert(subFrames, sf)
             end
@@ -966,12 +1068,13 @@ function SkenaTopNav:CreateWindow(titleText)
             Elements:CreateGap(0)
         end
 
-        function Elements:CreateSlider(name, color, min, max, def, callback)
+        function Elements:CreateSlider(name, color, min, max, def, callback, parent)
+            local ParentFrame = parent or TabPage
             local SliderBg = Instance.new("Frame")
-            SliderBg.Size = UDim2.new(1, 0, 0, Theme.ElementHeight)
+            SliderBg.Size = parent and UDim2.new(1, 0, 1, 0) or UDim2.new(1, 0, 0, Theme.ElementHeight)
             SliderBg.BackgroundColor3 = color
             SliderBg.BackgroundTransparency = 0.85
-            SliderBg.Parent = TabPage
+            SliderBg.Parent = ParentFrame
             Instance.new("UICorner", SliderBg).CornerRadius = Theme.InnerCorner
             
             local Shadow = Instance.new("ImageLabel")
@@ -1055,39 +1158,25 @@ function SkenaTopNav:CreateWindow(titleText)
             TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + Theme.Gap)
             return data
         end
-        function Elements:CreateDropdown(name, options, callback, parent, dropType)
-            dropType = dropType or "default"
+        function Elements:CreateDropdown(name, options, callback, isSearch, parent)
             local ParentFrame = parent or TabPage
-            local isMulti = string.find(dropType:lower(), "multi")
-            local isSearch = string.find(dropType:lower(), "search")
+            local expanded = false
+            local selected = nil
             
-            local selected = {}
-            local drop = {Buttons = {}}
-
             local DropFrame = Instance.new("Frame")
-            DropFrame.Name = "Dropdown_" .. name
-            DropFrame.Size = UDim2.new(1, 0, 0, Theme.ElementHeight)
+            DropFrame.Size = parent and UDim2.new(1, 0, 1, 0) or UDim2.new(1, 0, 0, Theme.ElementHeight)
             DropFrame.BackgroundColor3 = Theme.ElementColor
+            DropFrame.BorderSizePixel = 0
             DropFrame.ClipsDescendants = false
             DropFrame.Parent = ParentFrame
             Instance.new("UICorner", DropFrame).CornerRadius = Theme.InnerCorner
             
-            -- Ensure all parent containers don't clip our dropdown
-            local current = DropFrame.Parent
-            for i = 1, 3 do
-                if current and current:IsA("Frame") then
-                    current.ClipsDescendants = false
-                    current = current.Parent
-                end
-            end
-            
             local Strk = Instance.new("UIStroke", DropFrame)
             Strk.Color = getBrighterColor(Theme.ElementColor)
-            Strk.Thickness = Theme.StrokeThickness
-            Strk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-
+            Strk.Transparency = 0.4
+            
             local Label = Instance.new("TextLabel")
-            Label.Size = UDim2.new(1, -60, 0, Theme.ElementHeight)
+            Label.Size = UDim2.new(1, -40, 0, Theme.ElementHeight)
             Label.Position = UDim2.new(0, Theme.Gap, 0, 0)
             Label.BackgroundTransparency = 1
             Label.Text = name
@@ -1098,150 +1187,78 @@ function SkenaTopNav:CreateWindow(titleText)
             Label.Parent = DropFrame
 
             local Arrow = Instance.new("ImageLabel")
-            Arrow.Size = UDim2.new(0, 16, 0, 16)
-            Arrow.Position = UDim2.new(1, -24, 0, (Theme.ElementHeight-16)/2)
+            Arrow.Size = UDim2.new(0, 14, 0, 14)
+            Arrow.Position = UDim2.new(1, -22, 0.5, -7)
             Arrow.BackgroundTransparency = 1
-            Arrow.Image = "rbxassetid://10709795175"
+            Arrow.Image = "rbxassetid://10709790948"
             Arrow.ImageColor3 = Theme.TextSubtle
             Arrow.Parent = DropFrame
 
-            -- The "Transparent Card Background" container
             local Container = Instance.new("Frame")
-            Container.Name = "DropContainer"
             Container.Size = UDim2.new(1, 0, 0, 0)
-            Container.Position = UDim2.new(0, 0, 1, 2)
-            Container.BackgroundColor3 = Theme.ElementColor
-            Container.BackgroundTransparency = 0.3
+            Container.Position = UDim2.new(0, 0, 1, 4)
+            Container.BackgroundColor3 = Theme.TopBarColor
+            Container.BackgroundTransparency = 0.1
             Container.Visible = false
             Container.ClipsDescendants = true
-            Container.ZIndex = 50
+            Container.ZIndex = 110
             Container.Parent = DropFrame
             Instance.new("UICorner", Container).CornerRadius = Theme.InnerCorner
-            
-            local ContainerStrk = Instance.new("UIStroke", Container)
-            ContainerStrk.Color = getBrighterColor(Theme.ElementColor)
-            ContainerStrk.Thickness = 1
-            ContainerStrk.Transparency = 0.5
-
-            local ContainerLayout = Instance.new("UIListLayout", Container)
-            ContainerLayout.Padding = UDim.new(0, 4)
-            ContainerLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-            ContainerLayout.SortOrder = Enum.SortOrder.LayoutOrder
-
-            local PinnedHeader = Instance.new("Frame")
-            PinnedHeader.Size = UDim2.new(1, 0, 0, 0)
-            PinnedHeader.BackgroundTransparency = 1
-            PinnedHeader.ClipsDescendants = true
-            PinnedHeader.LayoutOrder = 1
-            PinnedHeader.Parent = Container
+            Instance.new("UIStroke", Container).Color = Theme.BorderGlow
 
             local SearchBox
             if isSearch then
-                PinnedHeader.Size = UDim2.new(1, 0, 0, 34)
-                local SearchRow = Instance.new("Frame")
-                SearchRow.Size = UDim2.new(1, -16, 0, 26)
-                SearchRow.Position = UDim2.new(0.5, 0, 0.5, 0)
-                SearchRow.AnchorPoint = Vector2.new(0.5, 0.5)
-                SearchRow.BackgroundTransparency = 1
-                SearchRow.Parent = PinnedHeader
-                
-                local SearchBg = Instance.new("Frame")
-                local isSearchMulti = isMulti and dropType:lower():find("search%-multi")
-                SearchBg.Size = UDim2.new(1, isSearchMulti and -58 or 0, 1, 0)
-                SearchBg.BackgroundColor3 = Theme.TopBarColor
-                SearchBg.BackgroundTransparency = 0.2
-                SearchBg.Parent = SearchRow
-                Instance.new("UICorner", SearchBg).CornerRadius = UDim.new(0, 6)
-                
                 SearchBox = Instance.new("TextBox")
-                SearchBox.Size = UDim2.new(1, -10, 1, 0)
-                SearchBox.Position = UDim2.new(0, 5, 0, 0)
-                SearchBox.BackgroundTransparency = 1
+                SearchBox.Size = UDim2.new(1, -12, 0, 26)
+                SearchBox.Position = UDim2.new(0, 6, 0, 6)
+                SearchBox.BackgroundColor3 = Theme.HoverColor
+                SearchBox.BackgroundTransparency = 0.5
                 SearchBox.PlaceholderText = "Search..."
                 SearchBox.Text = ""
                 SearchBox.TextColor3 = Theme.TextPrimary
                 SearchBox.PlaceholderColor3 = Theme.TextSubtle
                 SearchBox.TextSize = 11
                 SearchBox.FontFace = Theme.Fonts.Regular
-                SearchBox.TextXAlignment = Enum.TextXAlignment.Left
-                SearchBox.Parent = SearchBg
-
-                if isSearchMulti then
-                    local BtnContainer = Instance.new("Frame")
-                    BtnContainer.Size = UDim2.new(0, 48, 1, 0)
-                    BtnContainer.Position = UDim2.new(1, 0, 0, 0)
-                    BtnContainer.AnchorPoint = Vector2.new(1, 0)
-                    BtnContainer.BackgroundTransparency = 1
-                    BtnContainer.Parent = SearchRow
-                    
-                    local BtnLayout = Instance.new("UIListLayout", BtnContainer)
-                    BtnLayout.FillDirection = Enum.FillDirection.Horizontal
-                    BtnLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
-                    BtnLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-                    BtnLayout.Padding = UDim.new(0, 9)
-
-                    local selectAll = Instance.new("ImageButton")
-                    selectAll.Size = UDim2.new(0, 15, 0, 15)
-                    selectAll.BackgroundTransparency = 1
-                    selectAll.Image = "rbxassetid://10734884548"
-                    selectAll.ImageColor3 = Theme.TextSubtle
-                    selectAll.Parent = BtnContainer
-
-                    local deselectAll = Instance.new("ImageButton")
-                    deselectAll.Size = UDim2.new(0, 15, 0, 15)
-                    deselectAll.BackgroundTransparency = 1
-                    deselectAll.Image = "rbxassetid://10723433655"
-                    deselectAll.ImageColor3 = Theme.TextSubtle
-                    deselectAll.Parent = BtnContainer
-
-                    selectAll.MouseButton1Click:Connect(function()
-                        selectAll.ImageColor3 = Theme.StatusGreen
-                        task.delay(0.2, function() selectAll.ImageColor3 = Theme.TextSubtle end)
-                        for _, data in pairs(drop.Buttons) do
-                            data:Set(true, true)
-                        end
-                        callback(selected)
-                    end)
-
-                    deselectAll.MouseButton1Click:Connect(function()
-                        for _, data in pairs(drop.Buttons) do
-                            data:Set(false, true)
-                        end
-                        callback(selected)
-                    end)
-                end
+                SearchBox.Parent = Container
+                Instance.new("UICorner", SearchBox).CornerRadius = UDim.new(0, 4)
             end
 
             local Content = Instance.new("ScrollingFrame")
-            Content.Size = UDim2.new(1, 0, 0, 120)
+            Content.Size = UDim2.new(1, 0, 1, isSearch and -38 or -8)
+            Content.Position = UDim2.new(0, 0, 0, isSearch and 34 or 4)
             Content.BackgroundTransparency = 1
-            Content.ScrollBarThickness = 2
-            Content.ScrollBarImageColor3 = Theme.StatusBlue
-            Content.LayoutOrder = 2
+            Content.ScrollBarThickness = 0
             Content.Parent = Container
             
-            local ContentLayout = Instance.new("UIListLayout", Content)
-            ContentLayout.Padding = UDim.new(0, 2)
-            ContentLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+            local Layout = Instance.new("UIListLayout", Content)
+            Layout.Padding = UDim.new(0, 2)
+            Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
-            ContentLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-                Content.CanvasSize = UDim2.new(0, 0, 0, ContentLayout.AbsoluteContentSize.Y)
-            end)
-
-            local expanded = false
             local function toggle(state)
+                if state and SkenaHub.ActiveDropdown and SkenaHub.ActiveDropdown ~= toggle then
+                    SkenaHub.ActiveDropdown(false)
+                end
+
                 expanded = state
                 Container.Visible = true
-                local targetH = expanded and (120 + (isSearch and 38 or 0) + 10) or 0
+                DropFrame.ZIndex = expanded and 500 or 1
+                if parent then
+                    parent.ZIndex = expanded and 100 or 1
+                    if parent.Parent and parent.Parent:IsA("Frame") then
+                        parent.Parent.ZIndex = expanded and 100 or 1
+                    end
+                end
+                local targetH = expanded and math.min(#(options or {}) * 28 + (isSearch and 40 or 10), 150) or 0
                 TweenService:Create(Container, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(1, 0, 0, targetH)}):Play()
                 TweenService:Create(Arrow, TweenInfo.new(0.4), {Rotation = expanded and 180 or 0}):Play()
                 
-                if not expanded then
-                    task.delay(0.4, function() if not expanded then Container.Visible = false end end)
+                if expanded then
+                    SkenaHub.ActiveDropdown = toggle
+                elseif SkenaHub.ActiveDropdown == toggle then
+                    SkenaHub.ActiveDropdown = nil
                 end
-                
-                task.wait(0.45)
-                TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + Theme.Gap)
+
+                if not expanded then task.delay(0.4, function() if not expanded then Container.Visible = false end end) end
             end
 
             local Hitbox = Instance.new("TextButton")
@@ -1251,33 +1268,239 @@ function SkenaTopNav:CreateWindow(titleText)
             Hitbox.Parent = DropFrame
             Hitbox.MouseButton1Click:Connect(function() toggle(not expanded) end)
 
-            local function updateHeader()
-                if isMulti then
-                    local res = {}
-                    for k, _ in pairs(selected) do table.insert(res, k) end
-                    if #res == 0 then
-                        Label.Text = name
-                    elseif #res == 1 then
-                        Label.Text = res[1]
-                    else
-                        Label.Text = "Selected: " .. #res
+            local itemButtons = {}
+            for _, opt in ipairs(options or {}) do
+                local Btn = Instance.new("TextButton")
+                Btn.Size = UDim2.new(1, -12, 0, 26)
+                Btn.BackgroundColor3 = Theme.HoverColor
+                Btn.BackgroundTransparency = 1
+                Btn.Text = "  " .. opt
+                Btn.TextColor3 = Theme.TextMuted
+                Btn.FontFace = Theme.Fonts.SemiBold
+                Btn.TextSize = 11
+                Btn.TextXAlignment = Enum.TextXAlignment.Left
+                Btn.Parent = Content
+                Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 4)
+                itemButtons[opt] = Btn
+
+                Btn.MouseButton1Click:Connect(function()
+                    selected = opt
+                    Label.Text = opt
+                    Label.TextColor3 = Theme.TextPrimary
+                    toggle(false)
+                    callback(opt)
+                end)
+                
+                Btn.MouseEnter:Connect(function() TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundTransparency = 0.5, TextColor3 = Theme.TextPrimary}):Play() end)
+                Btn.MouseLeave:Connect(function() if selected ~= opt then TweenService:Create(Btn, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextColor3 = Theme.TextMuted}):Play() end end)
+            end
+
+            if isSearch then
+                SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+                    local q = SearchBox.Text:lower()
+                    for opt, btn in pairs(itemButtons) do
+                        btn.Visible = q == "" or opt:lower():find(q) ~= nil
                     end
+                    Content.CanvasSize = UDim2.new(0, 0, 0, Layout.AbsoluteContentSize.Y + 10)
+                end)
+            end
+
+            Content.CanvasSize = UDim2.new(0, 0, 0, Layout.AbsoluteContentSize.Y + 10)
+            TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + Theme.Gap)
+        end
+
+        function Elements:CreateMultiDropdown(name, options, callback, isSearch, parent)
+            local ParentFrame = parent or TabPage
+            local expanded = false
+            local selected = {}
+            
+            local DropFrame = Instance.new("Frame")
+            DropFrame.Size = parent and UDim2.new(1, 0, 1, 0) or UDim2.new(1, 0, 0, Theme.ElementHeight)
+            DropFrame.BackgroundColor3 = Theme.ElementColor
+            DropFrame.ClipsDescendants = false
+            DropFrame.Parent = ParentFrame
+            Instance.new("UICorner", DropFrame).CornerRadius = Theme.InnerCorner
+            
+            local Strk = Instance.new("UIStroke", DropFrame)
+            Strk.Color = getBrighterColor(Theme.ElementColor)
+            Strk.Transparency = 0.4
+            
+            local Label = Instance.new("TextLabel")
+            Label.Size = UDim2.new(1, -40, 0, Theme.ElementHeight)
+            Label.Position = UDim2.new(0, Theme.Gap, 0, 0)
+            Label.BackgroundTransparency = 1
+            Label.Text = name
+            Label.TextColor3 = Theme.TextMuted
+            Label.FontFace = Theme.Fonts.SemiBold
+            Label.TextSize = 12
+            Label.TextXAlignment = Enum.TextXAlignment.Left
+            Label.Parent = DropFrame
+
+            local Arrow = Instance.new("ImageLabel")
+            Arrow.Size = UDim2.new(0, 14, 0, 14)
+            Arrow.Position = UDim2.new(1, -22, 0.5, -7)
+            Arrow.BackgroundTransparency = 1
+            Arrow.Image = "rbxassetid://10709790948"
+            Arrow.ImageColor3 = Theme.TextSubtle
+            Arrow.Parent = DropFrame
+
+            local Container = Instance.new("Frame")
+            Container.Size = UDim2.new(1, 0, 0, 0)
+            Container.Position = UDim2.new(0, 0, 1, 4)
+            Container.BackgroundColor3 = Theme.TopBarColor
+            Container.BackgroundTransparency = 0.1
+            Container.Visible = false
+            Container.ClipsDescendants = true
+            Container.ZIndex = 110
+            Container.Parent = DropFrame
+            Instance.new("UICorner", Container).CornerRadius = Theme.InnerCorner
+            Instance.new("UIStroke", Container).Color = Theme.StatusBlue
+
+            local itemButtons = {}
+            local itemChecks = {}
+
+            local function refreshLabel()
+                local count = 0
+                for _ in pairs(selected) do count += 1 end
+                Label.Text = count > 0 and (count == 1 and next(selected) or "Selected: " .. count) or name
+                Label.TextColor3 = count > 0 and Theme.TextPrimary or Theme.TextMuted
+                callback(selected)
+            end
+
+            local function setOption(opt, state)
+                local btn = itemButtons[opt]
+                local check = itemChecks[opt]
+                if not btn or not check then return end
+                
+                if state then
+                    selected[opt] = true
+                    check.Visible = true
+                    btn.BackgroundTransparency = 0.5
+                    btn.TextColor3 = Theme.TextPrimary
+                else
+                    selected[opt] = nil
+                    check.Visible = false
+                    btn.BackgroundTransparency = 1
+                    btn.TextColor3 = Theme.TextMuted
                 end
             end
 
-            function drop:AddItem(txt, isDefault)
-                local Opt = Instance.new("TextButton")
-                Opt.Name = txt
-                Opt.Size = UDim2.new(1, -12, 0, 26)
-                Opt.BackgroundColor3 = Theme.TopBarColor
-                Opt.BackgroundTransparency = 0.6
-                Opt.Text = "  " .. txt
-                Opt.TextColor3 = Theme.TextMuted
-                Opt.FontFace = Theme.Fonts.SemiBold
-                Opt.TextSize = 11
-                Opt.TextXAlignment = Enum.TextXAlignment.Left
-                Opt.Parent = Content
-                Instance.new("UICorner", Opt).CornerRadius = UDim.new(0, 4)
+            local SearchBox
+            if isSearch then
+                SearchBox = Instance.new("TextBox")
+                SearchBox.Size = UDim2.new(1, -72, 0, 26)
+                SearchBox.Position = UDim2.new(0, 6, 0, 6)
+                SearchBox.BackgroundColor3 = Theme.HoverColor
+                SearchBox.BackgroundTransparency = 0.5
+                SearchBox.PlaceholderText = "Search..."
+                SearchBox.Text = ""
+                SearchBox.TextColor3 = Theme.TextPrimary
+                SearchBox.PlaceholderColor3 = Theme.TextSubtle
+                SearchBox.TextSize = 11
+                SearchBox.FontFace = Theme.Fonts.Regular
+                SearchBox.Parent = Container
+                Instance.new("UICorner", SearchBox).CornerRadius = UDim.new(0, 4)
+
+                local CheckAll = Instance.new("ImageButton")
+                CheckAll.Size = UDim2.new(0, 22, 0, 22)
+                CheckAll.Position = UDim2.new(1, -58, 0, 8)
+                CheckAll.BackgroundTransparency = 1
+                CheckAll.BackgroundColor3 = Theme.StatusGreen
+                CheckAll.Image = "rbxassetid://10734884548"
+                CheckAll.ImageColor3 = getBrighterColor(Theme.StatusGreen)
+                CheckAll.Parent = Container
+                Instance.new("UICorner", CheckAll).CornerRadius = UDim.new(0, 4)
+                
+                CheckAll.MouseButton1Click:Connect(function()
+                    local q = SearchBox.Text:lower()
+                    for opt, btn in pairs(itemButtons) do
+                        if btn.Visible then
+                            setOption(opt, true)
+                        end
+                    end
+                    TweenService:Create(CheckAll, TweenInfo.new(0.2), {BackgroundTransparency = 0.5}):Play()
+                    task.delay(0.5, function() TweenService:Create(CheckAll, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play() end)
+                    refreshLabel()
+                end)
+
+                local DeselectAll = Instance.new("ImageButton")
+                DeselectAll.Size = UDim2.new(0, 22, 0, 22)
+                DeselectAll.Position = UDim2.new(1, -30, 0, 8)
+                DeselectAll.BackgroundTransparency = 1
+                DeselectAll.BackgroundColor3 = Theme.StatusRed
+                DeselectAll.Image = "rbxassetid://10747384394"
+                DeselectAll.ImageColor3 = getBrighterColor(Theme.StatusRed)
+                DeselectAll.Parent = Container
+                Instance.new("UICorner", DeselectAll).CornerRadius = UDim.new(0, 4)
+
+                DeselectAll.MouseButton1Click:Connect(function()
+                    for opt, _ in pairs(itemButtons) do
+                        setOption(opt, false)
+                    end
+                    TweenService:Create(DeselectAll, TweenInfo.new(0.2), {BackgroundTransparency = 0.5}):Play()
+                    task.delay(0.5, function() TweenService:Create(DeselectAll, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play() end)
+                    refreshLabel()
+                end)
+            end
+
+            local Content = Instance.new("ScrollingFrame")
+            Content.Size = UDim2.new(1, 0, 1, isSearch and -38 or -8)
+            Content.Position = UDim2.new(0, 0, 0, isSearch and 34 or 4)
+            Content.BackgroundTransparency = 1
+            Content.ScrollBarThickness = 0
+            Content.Parent = Container
+            
+            local Layout = Instance.new("UIListLayout", Content)
+            Layout.Padding = UDim.new(0, 2)
+            Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+            local function toggle(state)
+                if state and SkenaHub.ActiveDropdown and SkenaHub.ActiveDropdown ~= toggle then
+                    SkenaHub.ActiveDropdown(false)
+                end
+
+                expanded = state
+                Container.Visible = true
+                DropFrame.ZIndex = expanded and 500 or 1
+                if parent then
+                    parent.ZIndex = expanded and 100 or 1
+                    if parent.Parent and parent.Parent:IsA("Frame") then
+                        parent.Parent.ZIndex = expanded and 100 or 1
+                    end
+                end
+                local targetH = expanded and math.min(#(options or {}) * 28 + (isSearch and 40 or 10), 150) or 0
+                TweenService:Create(Container, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(1, 0, 0, targetH)}):Play()
+                TweenService:Create(Arrow, TweenInfo.new(0.4), {Rotation = expanded and 180 or 0}):Play()
+                
+                if expanded then
+                    SkenaHub.ActiveDropdown = toggle
+                elseif SkenaHub.ActiveDropdown == toggle then
+                    SkenaHub.ActiveDropdown = nil
+                end
+
+                if not expanded then task.delay(0.4, function() if not expanded then Container.Visible = false end end) end
+            end
+
+            local Hitbox = Instance.new("TextButton")
+            Hitbox.Size = UDim2.new(1, 0, 0, Theme.ElementHeight)
+            Hitbox.BackgroundTransparency = 1
+            Hitbox.Text = ""
+            Hitbox.Parent = DropFrame
+            Hitbox.MouseButton1Click:Connect(function() toggle(not expanded) end)
+
+            for _, opt in ipairs(options or {}) do
+                local Btn = Instance.new("TextButton")
+                Btn.Size = UDim2.new(1, -12, 0, 26)
+                Btn.BackgroundColor3 = Theme.StatusBlue
+                Btn.BackgroundTransparency = 1
+                Btn.Text = "  " .. opt
+                Btn.TextColor3 = Theme.TextMuted
+                Btn.FontFace = Theme.Fonts.SemiBold
+                Btn.TextSize = 11
+                Btn.TextXAlignment = Enum.TextXAlignment.Left
+                Btn.Parent = Content
+                Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 4)
+                itemButtons[opt] = Btn
                 
                 local Check = Instance.new("ImageLabel")
                 Check.Size = UDim2.new(0, 14, 0, 14)
@@ -1286,70 +1509,28 @@ function SkenaTopNav:CreateWindow(titleText)
                 Check.Image = "rbxassetid://10709790644"
                 Check.ImageColor3 = Theme.StatusGreen
                 Check.Visible = false
-                Check.Parent = Opt
+                Check.Parent = Btn
+                itemChecks[opt] = Check
 
-                function Opt:Set(val, internal)
-                    if isMulti then
-                        if val then
-                            selected[txt] = true
-                            Check.Visible = true
-                            Opt.TextColor3 = Theme.TextPrimary
-                            Opt.BackgroundTransparency = 0.3
-                        else
-                            selected[txt] = nil
-                            Check.Visible = false
-                            Opt.TextColor3 = Theme.TextMuted
-                            Opt.BackgroundTransparency = 0.6
-                        end
-                        updateHeader()
-                        if not internal then callback(selected) end
-                    else
-                        Label.Text = txt
-                        callback(txt)
-                        toggle(false)
-                    end
-                end
-
-                Opt.MouseButton1Click:Connect(function()
-                    if isMulti then
-                        Opt:Set(not selected[txt])
-                    else
-                        Opt:Set(true)
-                    end
+                Btn.MouseButton1Click:Connect(function()
+                    setOption(opt, not selected[opt])
+                    refreshLabel()
                 end)
-                
-                Opt.MouseEnter:Connect(function() 
-                    if not (isMulti and selected[txt]) then
-                        TweenService:Create(Opt, TweenInfo.new(0.2), {BackgroundTransparency = 0.3, TextColor3 = Theme.TextPrimary}):Play() 
-                    end
-                end)
-                Opt.MouseLeave:Connect(function() 
-                    if not (isMulti and selected[txt]) then
-                        TweenService:Create(Opt, TweenInfo.new(0.2), {BackgroundTransparency = 0.6, TextColor3 = Theme.TextMuted}):Play() 
-                    end
-                end)
-
-                if isDefault then Opt:Set(true, true) end
-                
-                drop.Buttons[txt] = Opt
             end
 
-            if isSearch and SearchBox then
+            if isSearch then
                 SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
                     local q = SearchBox.Text:lower()
-                    for _, child in ipairs(Content:GetChildren()) do
-                        if child:IsA("TextButton") then
-                            child.Visible = q == "" or child.Name:lower():find(q) ~= nil
-                        end
+                    for opt, btn in pairs(itemButtons) do
+                        btn.Visible = q == "" or opt:lower():find(q) ~= nil
                     end
-                    Content.CanvasSize = UDim2.new(0, 0, 0, ContentLayout.AbsoluteContentSize.Y)
+                    Content.CanvasSize = UDim2.new(0, 0, 0, Layout.AbsoluteContentSize.Y + 10)
                 end)
             end
 
-            for _, opt in ipairs(options or {}) do drop:AddItem(opt) end
-            
+            Content.CanvasSize = UDim2.new(0, 0, 0, Layout.AbsoluteContentSize.Y + 10)
             TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + Theme.Gap)
-            return drop
+            return {Frame = DropFrame, Label = Label, Stroke = Strk, Container = Container}
         end
 
         function Elements:CreateCircleButton(text, callback, parent, transparent)
@@ -1560,65 +1741,17 @@ local Actions = {
 }
 
 for _, act in pairs(Actions) do
-    local Btn = Instance.new("TextButton")
-    Btn.BackgroundColor3 = Theme.ElementColor
-    Btn.BackgroundTransparency = 0
-    Btn.Text = ""
-    Btn.Parent = GridContainer
-    Instance.new("UICorner", Btn).CornerRadius = Theme.InnerCorner
+    local toggledComp = GeneralElements:CreateToggleButton("", false, act.imgOff, function(state)
+        act.call(state)
+    end, GridContainer, act.imgOn)
     
-    local Strk = Instance.new("UIStroke", Btn)
-    Strk.Color = getBrighterColor(Theme.ElementColor)
-    Strk.Transparency = 0
-    Strk.Thickness = Theme.StrokeThickness
-    Strk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-
-    local Ico = Instance.new("ImageLabel")
-    local icoSize = 20
-    Ico.Size = UDim2.new(0, icoSize, 0, icoSize) 
-    Ico.Position = UDim2.new(0.5, -icoSize/2, 0.5, -icoSize/2)
-    Ico.BackgroundTransparency = 1
-    Ico.Image = "rbxassetid://" .. act.imgOff
-    Ico.ImageTransparency = 0.5 
-    Ico.Parent = Btn
-
-    local enabled = false
-    Btn.MouseButton1Click:Connect(function()
-        enabled = not enabled
-        if act.reset then enabled = false end
-        act.call(enabled)
-        
-        if enabled then
-            Ico.Image = "rbxassetid://" .. act.imgOn
-            TweenService:Create(Btn, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Theme.AccentRed, BackgroundTransparency = 0.85}):Play()
-            TweenService:Create(Strk, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Color = Theme.AccentRed, Transparency = 0}):Play()
-            TweenService:Create(Ico, TweenInfo.new(0.45, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
-        else
-            Ico.Image = "rbxassetid://" .. act.imgOff
-            TweenService:Create(Btn, TweenInfo.new(0.4, Enum.EasingStyle.Exponential), {BackgroundColor3 = Theme.ElementColor, BackgroundTransparency = 0}):Play()
-            TweenService:Create(Strk, TweenInfo.new(0.4, Enum.EasingStyle.Exponential), {Color = getBrighterColor(Theme.ElementColor), Transparency = 0}):Play()
-            TweenService:Create(Ico, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {ImageTransparency = 0.5}):Play()
-        end
-    end)
-    
-    Btn.MouseEnter:Connect(function()
+    toggledComp.Btn.MouseEnter:Connect(function()
         ActionsTitle.Text = string.upper(act.name)
         ActionsTitle.TextColor3 = Theme.TextPrimary
-        if not enabled then 
-            TweenService:Create(Btn, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Theme.HoverColor}):Play() 
-            TweenService:Create(Strk, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Color = Theme.BorderGlow}):Play() 
-            TweenService:Create(Ico, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 0.1}):Play()
-        end
     end)
-    
-    Btn.MouseLeave:Connect(function()
+    toggledComp.Btn.MouseLeave:Connect(function()
         ActionsTitle.Text = "PLAYER ACTIONS"
         ActionsTitle.TextColor3 = Theme.TextSubtle
-        if not enabled then 
-            TweenService:Create(Btn, TweenInfo.new(0.4, Enum.EasingStyle.Exponential), {BackgroundColor3 = Theme.ElementColor}):Play() 
-            TweenService:Create(Strk, TweenInfo.new(0.4, Enum.EasingStyle.Exponential), {Color = getBrighterColor(Theme.ElementColor)}):Play() 
-            TweenService:Create(Ico, TweenInfo.new(0.4, Enum.EasingStyle.Exponential), {ImageTransparency = 0.5}):Play()
-        end
     end)
 end
 
@@ -1626,6 +1759,46 @@ task.delay(0.1, function()
     ActionsCard.Size = UDim2.new(1, 0, 0, GridLayout.AbsoluteContentSize.Y + Theme.ElementHeight + Theme.Gap)
     GeneralPage.CanvasSize = UDim2.new(0, 0, 0, GeneralLayout.AbsoluteContentSize.Y + 24)
 end)
+
+
+
+-- // Tab: Experimental (Purple) // --
+local ExperimentalElements, ExperimentalPage, ExperimentalLayout = Window:CreateTab("Dropdown Tab", 10734883986, Color3.fromRGB(150, 100, 200), nil, 2)
+
+
+local R1C1, R1C2 = ExperimentalElements:CreateRow(2)
+R1C1.Size = UDim2.new(0, 100, 1, 0)
+R1C2.Size = UDim2.new(1, -100 - Theme.Gap, 1, 0)
+ExperimentalElements:CreateLabel("single", R1C1)
+ExperimentalElements:CreateDropdown("Single Dropdown", {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7", "Option 8"}, function(val)
+    warn("Selected Single: " .. tostring(val))
+end, false, R1C2)
+
+local R2C1, R2C2 = ExperimentalElements:CreateRow(2)
+R2C1.Size = UDim2.new(1, -100 - Theme.Gap, 1, 0)
+R2C2.Size = UDim2.new(0, 100, 1, 0)
+ExperimentalElements:CreateMultiDropdown("Multi Dropdown 1", {"Choice A", "Choice B", "Choice C", "Choice D", "Choice E"}, function(list)
+    warn("Multi 1 updated")
+end, false, R2C1)
+local L2 = ExperimentalElements:CreateLabel("multiple", R2C2)
+L2.TextXAlignment = Enum.TextXAlignment.Right
+
+ExperimentalElements:CreateMultiDropdown("Multi Dropdown 2", {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"}, function(list)
+    warn("Multi 2 updated")
+end, true)
+
+ExperimentalElements:CreateSlider("Showcase Slider", Theme.AccentRed, 0, 100, 50, function(val)
+    warn("Slider value: " .. val)
+end)
+
+local Col1, Col2, Col3 = ExperimentalElements:CreateRow(3)
+Col2.Size = UDim2.new(0, 36, 1, 0)
+Col3.Size = UDim2.new(0, 80, 1, 0)
+Col1.Size = UDim2.new(1, -116 - (Theme.Gap * 2), 1, 0)
+
+ExperimentalElements:CreateLabel("example", Col1)
+ExperimentalElements:CreateToggleSwitch("", true, function(s) warn("Toggle: " .. tostring(s)) end, Col2)
+ExperimentalElements:CreateButton("Button", function() warn("Button Clicked") end, Col3)
 
 
 -- // Game-Specific Loader // --

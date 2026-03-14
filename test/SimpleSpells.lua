@@ -141,15 +141,15 @@ for i = 1, 4 do
     local id = tostring(i)
     local data = spellStates[id]
     
-    local R = MainElements:CreateRow(3) -- Label | Delay | Toggle
-    R[1].Parent = SkillCard -- Manual parenting because of card structure
-    R[1].Size = UDim2.new(0, 171, 1, 0)
-    R[2].Size = UDim2.new(0, 81, 1, 0)
-    R[3].Size = UDim2.new(0, 36, 1, 0)
+    -- Let the library handle the row creation and parenting naturally
+    local R1, R2, R3 = MainElements:CreateRow(3) 
+    R1.Size = UDim2.new(0, 171, 1, 0)
+    R2.Size = UDim2.new(0, 81, 1, 0)
+    R3.Size = UDim2.new(0, 36, 1, 0)
 
-    MainElements:CreateLabel("AUTO SKILL " .. id, R[1])
-    MainElements:CreateTextBox("10", "Delay", "Sec", function(v) data.delay = tonumber(v) or 10 end, R[2])
-    MainElements:CreateToggle(function(s) data.enabled = s end, false, R[3])
+    MainElements:CreateLabel("AUTO SKILL " .. id, R1)
+    MainElements:CreateTextBox("10", "Delay", "Sec", function(v) data.delay = tonumber(v) or 10 end, R2)
+    MainElements:CreateToggle(function(s) data.enabled = s end, false, R3)
 
     task.spawn(function()
         while true do
@@ -177,7 +177,7 @@ local ESPCard = Instance.new("Frame", MainPage)
 ESPCard.Size = UDim2.new(1, 0, 0, 150)
 ESPCard.BackgroundTransparency = 1
 
-local R_Sell = MainElements:CreateRow(3)
+local R_Sell = {MainElements:CreateRow(3)}
 R_Sell[1].Size = UDim2.new(0, 126, 1, 0) -- Adjust to fit
 R_Sell[2].Size = UDim2.new(0, 81, 1, 0)
 R_Sell[3].Size = UDim2.new(0, 126, 1, 0)
@@ -187,7 +187,7 @@ MainElements:CreateTextBox("60", "Seconds", "60", function(v) autoSellConfig.coo
 MainElements:CreateToggle("Auto Sell", function(s) autoSellConfig.enabled = s end, R_Sell[3])
 
 -- Spot Management (Row of 4 small buttons)
-local SpotRow = MainElements:CreateRow(4)
+local SpotRow = {MainElements:CreateRow(4)}
 for i = 1, 4 do
     local btn = MainElements:CreateButton("Set Spot " .. i, function()
         local hrp = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")

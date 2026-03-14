@@ -25,40 +25,9 @@ pcall(function()
     getgenv()._SKENA_ANTI_AFK = true
 end)
 
--- // Security & Interception Hooks // --
+-- // Security & Interception Hooks Disabled // --
 local OriginalRequest = (request or http_request or (syn and syn.request))
 local OriginalSetClipboard = setclipboard
-
--- // Remote Spy Setup // --
-getgenv().SkenaHub_Spy_Hooks = getgenv().SkenaHub_Spy_Hooks or false
-if not getgenv().SkenaHub_Spy_Hooks then
-    local oldNamecall
-    oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
-        local method = getnamecallmethod()
-        if SkenaHub.Admin.IsSpying and (method == "FireServer" or method == "InvokeServer") then
-            local args = {...}
-            task.spawn(function()
-                local log = string.format("[%s] %s:%s(...)\nArgs: %s", os.date("%X"), self:GetFullName(), method, SkenaHub.Core.Serialize(args, 1))
-                table.insert(SkenaHub.Admin.SpyLogs, log)
-            end)
-        end
-        return oldNamecall(self, ...)
-    end)
-
-    local dummyEvent = Instance.new("RemoteEvent")
-    local oldFireServer
-    oldFireServer = hookfunction(dummyEvent.FireServer, function(self, ...)
-        if SkenaHub.Admin.IsSpying then
-            local args = {...}
-            task.spawn(function()
-                local log = string.format("[%s] %s:FireServer(...)\nArgs: %s", os.date("%X"), self:GetFullName(), SkenaHub.Core.Serialize(args, 1))
-                table.insert(SkenaHub.Admin.SpyLogs, log)
-            end)
-        end
-        return oldFireServer(self, ...)
-    end)
-    getgenv().SkenaHub_Spy_Hooks = true
-end
 
 -- // UI Theme & Configuration // --
 local Theme = {
@@ -176,13 +145,21 @@ SkenaHub.Config.BaseURL = SkenaHub.Config.DevMode and LOCAL_URL or GITHUB_URL
 
 SkenaHub.Core.Load = function(fileName)
     local url = SkenaHub.Config.BaseURL .. fileName .. "?t=" .. os.time()
-    local success, body = pcall(game.HttpGet, game, url, true)
-    if success and body and #body > 0 then
-        local func, err = loadstring(body)
-        if func then return func() else warn("[SkenaHub] Syntax Error: " .. tostring(err)) end
-    else
-        warn("[SkenaHub] Gagal mengunduh: " .. fileName)
-    end
+    local result = nil
+    local done = false
+    task.spawn(function()
+        local ok, body = pcall(game.HttpGet, game, url, true)
+        if ok and body and #body > 0 then
+            local func, err = loadstring(body)
+            if func then result = {func} else warn("[SkenaHub] Syntax Error: " .. tostring(err)) end
+        else
+            warn("[SkenaHub] Failed: " .. fileName)
+        end
+        done = true
+    end)
+    local timeout = tick()
+    repeat task.wait(0.1) until done or (tick() - timeout > 10)
+    if result then result[1]() end
 end
 getgenv().SkenaLoad = SkenaHub.Core.Load -- Support legacy scripts
 getgenv()._SKENA_BASE_URL = SkenaHub.Config.BaseURL
@@ -258,6 +235,10 @@ local function UpdateESP(state)
     end
 end
 
+local ToggleKey = Enum.KeyCode.Z
+local Window = nil
+local SkenaGui = nil
+
 -- // UI Library (Top Navigation) // --
 local SkenaTopNav = {}
 
@@ -275,7 +256,7 @@ function SkenaTopNav:CreateWindow(titleText)
     local MainFrame = Instance.new("Frame")
     MainFrame.Size = UDim2.new(0, PanelWidth, 0, PanelHeight)
     MainFrame.AnchorPoint = Vector2.new(0, 0) 
-    MainFrame.Position = UDim2.new(0, -PanelWidth - 24, 0, PanelYOffset) 
+    MainFrame.Position = UDim2.new(0, Theme.Margin, 0, PanelYOffset) 
     MainFrame.BackgroundColor3 = Theme.MainColor
     MainFrame.BorderSizePixel = 0
     MainFrame.ClipsDescendants = false
@@ -283,10 +264,10 @@ function SkenaTopNav:CreateWindow(titleText)
     Instance.new("UICorner", MainFrame).CornerRadius = Theme.OuterCorner
 
     -- // Toggle Logic // --
-    local isPanelOpen = false
+    local isPanelOpen = true
     local ToggleBtn = Instance.new("TextButton")
     ToggleBtn.Size = UDim2.new(0, Theme.ElementHeight, 0, Theme.ElementHeight) 
-    ToggleBtn.Position = UDim2.new(0, Theme.Margin, 0, PanelYOffset)
+    ToggleBtn.Position = UDim2.new(0, Theme.Margin + PanelWidth + Theme.Gap, 0, PanelYOffset)
     ToggleBtn.AnchorPoint = Vector2.new(0, 0)
     ToggleBtn.BackgroundTransparency = 1 
     ToggleBtn.Text = ""
@@ -298,7 +279,7 @@ function SkenaTopNav:CreateWindow(titleText)
     ToggleIcon.BackgroundTransparency = 1
     ToggleIcon.Image = "rbxassetid://10709791437" -- chevron-right
     ToggleIcon.ImageColor3 = Theme.TextPrimary
-    ToggleIcon.Rotation = 0
+    ToggleIcon.Rotation = -180
     ToggleIcon.Parent = ToggleBtn
 
     local function toggleUI()
@@ -418,37 +399,7 @@ function SkenaTopNav:CreateWindow(titleText)
         end)
     end
 
-    -- // Global Intercept Logic // --
-    if OriginalRequest then
-        getgenv().request = function(options)
-            if SkenaHub.Admin.SafeMode then
-                local decision = nil
-                SkenaTopNav:CreatePrompt("HTTP Request Detected", "A script is attempting to send data to:\n" .. (options.Url or "Unknown URL"), function(res)
-                    decision = res
-                end)
-                repeat task.wait() until decision ~= nil
-                if not decision then return {StatusCode = 403, Body = "Blocked by SkenaHub Safe Mode"} end
-            end
-            return OriginalRequest(options)
-        end
-        getgenv().http_request = getgenv().request
-    end
-
-    if OriginalSetClipboard then
-        getgenv().setclipboard = function(data)
-            if SkenaHub.Admin.SafeMode then
-                local decision = nil
-                local preview = #data > 50 and (string.sub(data, 1, 47) .. "...") or data
-                SkenaTopNav:CreatePrompt("Clipboard Access", "A script is attempting to set your clipboard to:\n\"" .. preview .. "\"", function(res)
-                    decision = res
-                end)
-                repeat task.wait() until decision ~= nil
-                if not decision then return end
-            end
-            return OriginalSetClipboard(data)
-        end
-        getgenv().toclipboard = getgenv().setclipboard
-    end
+    -- // Global Intercept Logic Disabled // --
 
     -- // Top Bar // --
     local TopBar = Instance.new("Frame")
@@ -476,9 +427,11 @@ function SkenaTopNav:CreateWindow(titleText)
     SubTitle.Size = UDim2.new(0, 150, 0, 12)
     SubTitle.Position = UDim2.new(0, Theme.Margin + 3, 0, Theme.Margin + 16) 
     SubTitle.BackgroundTransparency = 1
-    local gameName = "Unknown Game"
-    pcall(function() gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name end)
-    SubTitle.Text = gameName
+    SubTitle.Text = "Unknown Game"
+    task.spawn(function()
+        local ok, name = pcall(function() return game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name end)
+        if ok then SubTitle.Text = name end
+    end)
     SubTitle.TextColor3 = Theme.TextMuted
     SubTitle.FontFace = Theme.Fonts.SemiBold
     SubTitle.TextSize = 9
@@ -563,13 +516,13 @@ function SkenaTopNav:CreateWindow(titleText)
     ContentContainer.ClipsDescendants = false -- Set to false to prevent stroke cropping
     ContentContainer.Parent = MainFrame
 
-    local Window = { CurrentTab = nil, Tabs = {} }
+    local Window = { CurrentTab = nil, Tabs = {}, Gui = SkenaGui }
     function Window:Toggle()
         toggleUI()
     end
 
     -- // Tab Creation // --
-    function Window:CreateTab(tabName, iconId, tabColor, activeIconId)
+    function Window:CreateTab(tabName, iconId, tabColor, activeIconId, layoutOrder)
         activeIconId = activeIconId or iconId
         local TabBtn = Instance.new("TextButton")
         TabBtn.Size = UDim2.new(0, Theme.ElementHeight, 0, Theme.ElementHeight)
@@ -578,6 +531,7 @@ function SkenaTopNav:CreateWindow(titleText)
         TabBtn.Text = ""
         TabBtn.AutoButtonColor = false
         TabBtn.Parent = TabContainer
+        TabBtn.LayoutOrder = layoutOrder or (#Window.Tabs * 10) + 10
         Instance.new("UICorner", TabBtn).CornerRadius = Theme.InnerCorner
 
         local BtnGradient = Instance.new("UIGradient")
@@ -806,9 +760,9 @@ function SkenaTopNav:CreateWindow(titleText)
         end
         function Elements:CreateToggle(callback_or_text, default_or_callback, parent_or_default)
             local isModular = typeof(parent_or_default) == "Instance"
-            local text = isModular and "" or callback_or_text
-            local callback = isModular and callback_or_text or default_or_callback
-            local default = isModular and default_or_callback or parent_or_default or false
+            local text = isModular and (typeof(callback_or_text) == "string" and callback_or_text or "") or callback_or_text
+            local callback = isModular and (typeof(default_or_callback) == "function" and default_or_callback or callback_or_text) or default_or_callback
+            local default = isModular and (typeof(default_or_callback) ~= "function" and default_or_callback or false) or parent_or_default or false
             local ParentFrame = isModular and parent_or_default or TabPage
 
             local ToggleFrame = Instance.new("Frame")
@@ -1009,7 +963,7 @@ function SkenaTopNav:CreateWindow(titleText)
             L.FontFace = Theme.Fonts.Bold
             L.TextSize = 12
             L.TextTransparency = 0.1
-            Elements:CreateGap(-5)
+            Elements:CreateGap(0)
         end
 
         function Elements:CreateSlider(name, color, min, max, def, callback)
@@ -1101,15 +1055,31 @@ function SkenaTopNav:CreateWindow(titleText)
             TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + Theme.Gap)
             return data
         end
-        function Elements:CreateDropdown(name, options, callback, parent)
+        function Elements:CreateDropdown(name, options, callback, parent, dropType)
+            dropType = dropType or "default"
             local ParentFrame = parent or TabPage
-            local isModular = parent ~= nil
+            local isMulti = string.find(dropType:lower(), "multi")
+            local isSearch = string.find(dropType:lower(), "search")
             
+            local selected = {}
+            local drop = {Buttons = {}}
+
             local DropFrame = Instance.new("Frame")
+            DropFrame.Name = "Dropdown_" .. name
             DropFrame.Size = UDim2.new(1, 0, 0, Theme.ElementHeight)
             DropFrame.BackgroundColor3 = Theme.ElementColor
+            DropFrame.ClipsDescendants = false
             DropFrame.Parent = ParentFrame
             Instance.new("UICorner", DropFrame).CornerRadius = Theme.InnerCorner
+            
+            -- Ensure all parent containers don't clip our dropdown
+            local current = DropFrame.Parent
+            for i = 1, 3 do
+                if current and current:IsA("Frame") then
+                    current.ClipsDescendants = false
+                    current = current.Parent
+                end
+            end
             
             local Strk = Instance.new("UIStroke", DropFrame)
             Strk.Color = getBrighterColor(Theme.ElementColor)
@@ -1117,7 +1087,7 @@ function SkenaTopNav:CreateWindow(titleText)
             Strk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
             local Label = Instance.new("TextLabel")
-            Label.Size = UDim2.new(1, -30, 1, 0)
+            Label.Size = UDim2.new(1, -60, 0, Theme.ElementHeight)
             Label.Position = UDim2.new(0, Theme.Gap, 0, 0)
             Label.BackgroundTransparency = 1
             Label.Text = name
@@ -1129,72 +1099,251 @@ function SkenaTopNav:CreateWindow(titleText)
 
             local Arrow = Instance.new("ImageLabel")
             Arrow.Size = UDim2.new(0, 16, 0, 16)
-            Arrow.Position = UDim2.new(1, -24, 0.5, -8)
+            Arrow.Position = UDim2.new(1, -24, 0, (Theme.ElementHeight-16)/2)
             Arrow.BackgroundTransparency = 1
             Arrow.Image = "rbxassetid://10709795175"
             Arrow.ImageColor3 = Theme.TextSubtle
             Arrow.Parent = DropFrame
 
+            -- The "Transparent Card Background" container
+            local Container = Instance.new("Frame")
+            Container.Name = "DropContainer"
+            Container.Size = UDim2.new(1, 0, 0, 0)
+            Container.Position = UDim2.new(0, 0, 1, 2)
+            Container.BackgroundColor3 = Theme.ElementColor
+            Container.BackgroundTransparency = 0.3
+            Container.Visible = false
+            Container.ClipsDescendants = true
+            Container.ZIndex = 50
+            Container.Parent = DropFrame
+            Instance.new("UICorner", Container).CornerRadius = Theme.InnerCorner
+            
+            local ContainerStrk = Instance.new("UIStroke", Container)
+            ContainerStrk.Color = getBrighterColor(Theme.ElementColor)
+            ContainerStrk.Thickness = 1
+            ContainerStrk.Transparency = 0.5
+
+            local ContainerLayout = Instance.new("UIListLayout", Container)
+            ContainerLayout.Padding = UDim.new(0, 4)
+            ContainerLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+            ContainerLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+            local PinnedHeader = Instance.new("Frame")
+            PinnedHeader.Size = UDim2.new(1, 0, 0, 0)
+            PinnedHeader.BackgroundTransparency = 1
+            PinnedHeader.ClipsDescendants = true
+            PinnedHeader.LayoutOrder = 1
+            PinnedHeader.Parent = Container
+
+            local SearchBox
+            if isSearch then
+                PinnedHeader.Size = UDim2.new(1, 0, 0, 34)
+                local SearchRow = Instance.new("Frame")
+                SearchRow.Size = UDim2.new(1, -16, 0, 26)
+                SearchRow.Position = UDim2.new(0.5, 0, 0.5, 0)
+                SearchRow.AnchorPoint = Vector2.new(0.5, 0.5)
+                SearchRow.BackgroundTransparency = 1
+                SearchRow.Parent = PinnedHeader
+                
+                local SearchBg = Instance.new("Frame")
+                local isSearchMulti = isMulti and dropType:lower():find("search%-multi")
+                SearchBg.Size = UDim2.new(1, isSearchMulti and -58 or 0, 1, 0)
+                SearchBg.BackgroundColor3 = Theme.TopBarColor
+                SearchBg.BackgroundTransparency = 0.2
+                SearchBg.Parent = SearchRow
+                Instance.new("UICorner", SearchBg).CornerRadius = UDim.new(0, 6)
+                
+                SearchBox = Instance.new("TextBox")
+                SearchBox.Size = UDim2.new(1, -10, 1, 0)
+                SearchBox.Position = UDim2.new(0, 5, 0, 0)
+                SearchBox.BackgroundTransparency = 1
+                SearchBox.PlaceholderText = "Search..."
+                SearchBox.Text = ""
+                SearchBox.TextColor3 = Theme.TextPrimary
+                SearchBox.PlaceholderColor3 = Theme.TextSubtle
+                SearchBox.TextSize = 11
+                SearchBox.FontFace = Theme.Fonts.Regular
+                SearchBox.TextXAlignment = Enum.TextXAlignment.Left
+                SearchBox.Parent = SearchBg
+
+                if isSearchMulti then
+                    local BtnContainer = Instance.new("Frame")
+                    BtnContainer.Size = UDim2.new(0, 48, 1, 0)
+                    BtnContainer.Position = UDim2.new(1, 0, 0, 0)
+                    BtnContainer.AnchorPoint = Vector2.new(1, 0)
+                    BtnContainer.BackgroundTransparency = 1
+                    BtnContainer.Parent = SearchRow
+                    
+                    local BtnLayout = Instance.new("UIListLayout", BtnContainer)
+                    BtnLayout.FillDirection = Enum.FillDirection.Horizontal
+                    BtnLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+                    BtnLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+                    BtnLayout.Padding = UDim.new(0, 9)
+
+                    local selectAll = Instance.new("ImageButton")
+                    selectAll.Size = UDim2.new(0, 15, 0, 15)
+                    selectAll.BackgroundTransparency = 1
+                    selectAll.Image = "rbxassetid://10734884548"
+                    selectAll.ImageColor3 = Theme.TextSubtle
+                    selectAll.Parent = BtnContainer
+
+                    local deselectAll = Instance.new("ImageButton")
+                    deselectAll.Size = UDim2.new(0, 15, 0, 15)
+                    deselectAll.BackgroundTransparency = 1
+                    deselectAll.Image = "rbxassetid://10723433655"
+                    deselectAll.ImageColor3 = Theme.TextSubtle
+                    deselectAll.Parent = BtnContainer
+
+                    selectAll.MouseButton1Click:Connect(function()
+                        selectAll.ImageColor3 = Theme.StatusGreen
+                        task.delay(0.2, function() selectAll.ImageColor3 = Theme.TextSubtle end)
+                        for _, data in pairs(drop.Buttons) do
+                            data:Set(true, true)
+                        end
+                        callback(selected)
+                    end)
+
+                    deselectAll.MouseButton1Click:Connect(function()
+                        for _, data in pairs(drop.Buttons) do
+                            data:Set(false, true)
+                        end
+                        callback(selected)
+                    end)
+                end
+            end
+
             local Content = Instance.new("ScrollingFrame")
-            Content.Size = UDim2.new(1, 0, 0, 0)
-            Content.Position = UDim2.new(0, 0, 1, 0)
+            Content.Size = UDim2.new(1, 0, 0, 120)
             Content.BackgroundTransparency = 1
             Content.ScrollBarThickness = 2
-            Content.Visible = false
-            Content.ClipsDescendants = true
-            Content.Parent = DropFrame
+            Content.ScrollBarImageColor3 = Theme.StatusBlue
+            Content.LayoutOrder = 2
+            Content.Parent = Container
             
             local ContentLayout = Instance.new("UIListLayout", Content)
             ContentLayout.Padding = UDim.new(0, 2)
+            ContentLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+            ContentLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+                Content.CanvasSize = UDim2.new(0, 0, 0, ContentLayout.AbsoluteContentSize.Y)
+            end)
 
             local expanded = false
             local function toggle(state)
                 expanded = state
-                Content.Visible = true
-                local targetSize = expanded and 120 or 0
-                TweenService:Create(Content, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(1, 0, 0, targetSize)}):Play()
+                Container.Visible = true
+                local targetH = expanded and (120 + (isSearch and 38 or 0) + 10) or 0
+                TweenService:Create(Container, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(1, 0, 0, targetH)}):Play()
                 TweenService:Create(Arrow, TweenInfo.new(0.4), {Rotation = expanded and 180 or 0}):Play()
                 
                 if not expanded then
-                    task.delay(0.4, function() if not expanded then Content.Visible = false end end)
+                    task.delay(0.4, function() if not expanded then Container.Visible = false end end)
                 end
                 
-                -- Update Tab Canvas
                 task.wait(0.45)
                 TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + Theme.Gap)
             end
 
             local Hitbox = Instance.new("TextButton")
-            Hitbox.Size = UDim2.new(1, 0, 1, 0)
+            Hitbox.Size = UDim2.new(1, 0, 0, Theme.ElementHeight)
             Hitbox.BackgroundTransparency = 1
             Hitbox.Text = ""
             Hitbox.Parent = DropFrame
             Hitbox.MouseButton1Click:Connect(function() toggle(not expanded) end)
 
-            local drop = {Options = {}}
+            local function updateHeader()
+                if isMulti then
+                    local res = {}
+                    for k, _ in pairs(selected) do table.insert(res, k) end
+                    if #res == 0 then
+                        Label.Text = name
+                    elseif #res == 1 then
+                        Label.Text = res[1]
+                    else
+                        Label.Text = "Selected: " .. #res
+                    end
+                end
+            end
+
             function drop:AddItem(txt, isDefault)
                 local Opt = Instance.new("TextButton")
-                Opt.Size = UDim2.new(1, -4, 0, 26)
+                Opt.Name = txt
+                Opt.Size = UDim2.new(1, -12, 0, 26)
                 Opt.BackgroundColor3 = Theme.TopBarColor
-                Opt.BackgroundTransparency = 0.5
-                Opt.Text = txt
+                Opt.BackgroundTransparency = 0.6
+                Opt.Text = "  " .. txt
                 Opt.TextColor3 = Theme.TextMuted
                 Opt.FontFace = Theme.Fonts.SemiBold
                 Opt.TextSize = 11
+                Opt.TextXAlignment = Enum.TextXAlignment.Left
                 Opt.Parent = Content
                 Instance.new("UICorner", Opt).CornerRadius = UDim.new(0, 4)
                 
+                local Check = Instance.new("ImageLabel")
+                Check.Size = UDim2.new(0, 14, 0, 14)
+                Check.Position = UDim2.new(1, -22, 0.5, -7)
+                Check.BackgroundTransparency = 1
+                Check.Image = "rbxassetid://10709790644"
+                Check.ImageColor3 = Theme.StatusGreen
+                Check.Visible = false
+                Check.Parent = Opt
+
+                function Opt:Set(val, internal)
+                    if isMulti then
+                        if val then
+                            selected[txt] = true
+                            Check.Visible = true
+                            Opt.TextColor3 = Theme.TextPrimary
+                            Opt.BackgroundTransparency = 0.3
+                        else
+                            selected[txt] = nil
+                            Check.Visible = false
+                            Opt.TextColor3 = Theme.TextMuted
+                            Opt.BackgroundTransparency = 0.6
+                        end
+                        updateHeader()
+                        if not internal then callback(selected) end
+                    else
+                        Label.Text = txt
+                        callback(txt)
+                        toggle(false)
+                    end
+                end
+
                 Opt.MouseButton1Click:Connect(function()
-                    Label.Text = txt
-                    callback(txt)
-                    toggle(false)
+                    if isMulti then
+                        Opt:Set(not selected[txt])
+                    else
+                        Opt:Set(true)
+                    end
                 end)
                 
-                Opt.MouseEnter:Connect(function() TweenService:Create(Opt, TweenInfo.new(0.2), {BackgroundTransparency = 0, TextColor3 = Theme.TextPrimary}):Play() end)
-                Opt.MouseLeave:Connect(function() TweenService:Create(Opt, TweenInfo.new(0.2), {BackgroundTransparency = 0.5, TextColor3 = Theme.TextMuted}):Play() end)
+                Opt.MouseEnter:Connect(function() 
+                    if not (isMulti and selected[txt]) then
+                        TweenService:Create(Opt, TweenInfo.new(0.2), {BackgroundTransparency = 0.3, TextColor3 = Theme.TextPrimary}):Play() 
+                    end
+                end)
+                Opt.MouseLeave:Connect(function() 
+                    if not (isMulti and selected[txt]) then
+                        TweenService:Create(Opt, TweenInfo.new(0.2), {BackgroundTransparency = 0.6, TextColor3 = Theme.TextMuted}):Play() 
+                    end
+                end)
+
+                if isDefault then Opt:Set(true, true) end
                 
-                if isDefault then Label.Text = txt end
-                Content.CanvasSize = UDim2.new(0, 0, 0, ContentLayout.AbsoluteContentSize.Y)
+                drop.Buttons[txt] = Opt
+            end
+
+            if isSearch and SearchBox then
+                SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+                    local q = SearchBox.Text:lower()
+                    for _, child in ipairs(Content:GetChildren()) do
+                        if child:IsA("TextButton") then
+                            child.Visible = q == "" or child.Name:lower():find(q) ~= nil
+                        end
+                    end
+                    Content.CanvasSize = UDim2.new(0, 0, 0, ContentLayout.AbsoluteContentSize.Y)
+                end)
             end
 
             for _, opt in ipairs(options or {}) do drop:AddItem(opt) end
@@ -1255,21 +1404,20 @@ function SkenaTopNav:CreateWindow(titleText)
                 if isIcon then TweenService:Create(Content, TweenInfo.new(0.3), {ImageTransparency = 0.3}):Play() else TweenService:Create(Content, TweenInfo.new(0.3), {TextTransparency = 0}):Play() end
             end)
         end
-        task.spawn(function()
-            task.wait(0.2)
-            toggleUI()
-        end)
         return Elements, TabPage, PageLayout
     end
     return Window
 end
 
 -- // Initialize UI // --
-local Window = SkenaTopNav:CreateWindow("SkenaHub")
+Window = SkenaTopNav:CreateWindow("SkenaHub")
+SkenaGui = Window.Gui -- Assuming CreateWindow adds this or we just refer to it later
 SkenaHub.UI = Window -- Expose to game scripts
+SkenaHub.Theme = Theme
+getgenv().SkenaHubTheme = Theme
 
 -- // Tab 1: General (Red) // --
-local GeneralElements, GeneralPage, GeneralLayout = Window:CreateTab("General Tab", 10723407389, Color3.fromRGB(200, 70, 70), 10723407389)
+local GeneralElements, GeneralPage, GeneralLayout = Window:CreateTab("General Tab", 10723407389, Color3.fromRGB(200, 70, 70), 10723407389, 1)
 
 local PropsCard = Instance.new("Frame")
 PropsCard.Size = UDim2.new(1, 0, 0, 240)
@@ -1519,233 +1667,15 @@ end
 
 -- // Admin & Settings Tabs (Last) // --
 local function InitializeFinalTabs()
-    -- // Tab: AdminTools (Blue) // --
-    local isAdmin = true -- Logic for admin check
-    if isAdmin then
-        local AdminElements, AdminPage, AdminLayout = Window:CreateTab("Admin", 10709818996, Color3.fromRGB(100, 100, 255))
-        
-        -- 1. Place Info & Dex
-        local R1L, R1M, R1R = AdminElements:CreateRow(3)
-        R1L.Size = UDim2.new(0, 171, 1, 0)
-        R1M.Size = UDim2.new(0, 81, 1, 0)
-        R1R.Size = UDim2.new(0, 81, 1, 0)
-        AdminElements:CreateLabel("Place Info & Dex", R1L)
-        AdminElements:CreateButton("Copy PlaceId", function() 
-            if setclipboard then 
-                setclipboard(tostring(game.PlaceId)) 
-                return "Copied!"
-            end 
-            return false
-        end, R1M)
-        AdminElements:CreateButton("DexV3", function()
-            local success = pcall(function()
-                SkenaHub.Core.Load("0CloneRef.lua")
-                SkenaHub.Core.Load("0DexBypasses.lua")
-                SkenaHub.Core.Load("0CustomDex.lua")
-            end)
-            return success
-        end, R1R)
-
-        -- 2. Spy Tools
-        local R2L, R2M, R2R = AdminElements:CreateRow(3)
-        R2L.Size = UDim2.new(0, 171, 1, 0)
-        R2M.Size = UDim2.new(0, 81, 1, 0)
-        R2R.Size = UDim2.new(0, 81, 1, 0)
-        AdminElements:CreateLabel("Spy Tools", R2L)
-        AdminElements:CreateButton("for Xeno", function() 
-            return pcall(function() SkenaHub.Core.Load("0XenoRSpy.lua") end)
-        end, R2M)
-        AdminElements:CreateButton("CobaltSpy", function() 
-            return pcall(function() SkenaHub.Core.Load("0CobaltSpy.lua") end)
-        end, R2R)
-
-        -- 3. Workspace Scanners
-        local R3L, R3M, R3R = AdminElements:CreateRow(3)
-        R3L.Size = UDim2.new(0, 171, 1, 0)
-        R3M.Size = UDim2.new(0, 81, 1, 0)
-        R3R.Size = UDim2.new(0, 81, 1, 0)
-        AdminElements:CreateLabel("Workspace Scanners", R3L)
-        AdminElements:CreateButton("TouchInt", function()
-            local ok, errMsg = pcall(function()
-                local lines = {"=== SKENA TOUCHINTEREST SCAN ==="}
-                local seen = {}
-                local count = 0
-                for _, obj in ipairs(workspace:GetDescendants()) do
-                    if obj:IsA("TouchInterest") and obj.Parent then
-                        local part = obj.Parent
-                        local path = part:GetFullName()
-                        if not seen[path] then
-                            seen[path] = true
-                            count = count + 1
-                            lines[#lines + 1] = "[" .. count .. "] (TouchInt) " .. part.Name .. " | " .. path
-                        end
-                    end
-                end
-                if count == 0 then warn("[Scan] Tidak ada TouchInterest ditemukan.") error("No TouchInt") end
-                if setclipboard then setclipboard(table.concat(lines, "\n")) end
-            end)
-            return ok and "Copied!" or false
-        end, R3M)
-        AdminElements:CreateButton("Remotes", function()
-            local ok, errMsg = pcall(function()
-                local rs = game:GetService("ReplicatedStorage")
-                local lines = {"=== SKENA REMOTE SCANNER ===", "Location: ReplicatedStorage", ""}
-                local count = 0
-                for _, obj in ipairs(rs:GetDescendants()) do
-                    if obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction") then
-                        count = count + 1
-                        lines[#lines + 1] = "[" .. count .. "] (" .. obj.ClassName .. ") " .. obj.Name .. " | " .. obj:GetFullName()
-                    end
-                end
-                if count == 0 then warn("[Scan] Tidak ada Remote ditemukan.") error("No Remotes") end
-                if setclipboard then setclipboard(table.concat(lines, "\n")) end
-            end)
-            return ok and "Copied!" or false
-        end, R3R)
-
-        -- 4. Player & Entity Tools
-        local R4L, R4M, R4R = AdminElements:CreateRow(3)
-        R4L.Size = UDim2.new(0, 171, 1, 0)
-        R4M.Size = UDim2.new(0, 81, 1, 0)
-        R4R.Size = UDim2.new(0, 81, 1, 0)
-        AdminElements:CreateLabel("Player & Entity Tools", R4L)
-        AdminElements:CreateButton("Scan NPCs", function()
-            local ok, errMsg = pcall(function()
-                local playerNames = {}
-                for _, p in ipairs(Players:GetPlayers()) do playerNames[p.Name] = true end
-                local lines = {"=== SKENA MOB/NPC SCAN ==="}
-                local count = 0
-                for _, obj in ipairs(workspace:GetDescendants()) do
-                    if obj:IsA("Humanoid") and obj.Parent and obj.Parent:IsA("Model") then
-                        local model = obj.Parent
-                        if not playerNames[model.Name] and model ~= LocalPlayer.Character then
-                            count = count + 1
-                            local hrp = model:FindFirstChild("HumanoidRootPart") or model.PrimaryPart
-                            local pos = hrp and string.format("(%.0f, %.0f, %.0f)", hrp.Position.X, hrp.Position.Y, hrp.Position.Z) or "?"
-                            lines[#lines + 1] = string.format("[%d] %s | HP: %.0f/%.0f | Pos: %s | Path: %s",
-                                count, model.Name, obj.Health, obj.MaxHealth, pos, model:GetFullName())
-                        end
-                    end
-                end
-                if count == 0 then warn("[Scan] Tidak ada NPC ditemukan.") error("No NPCs") end
-                if setclipboard then setclipboard(table.concat(lines, "\n")) end
-            end)
-            return ok and "Copied!" or false
-        end, R4M)
-        AdminElements:CreateButton("Copy Pos", function()
-            local p = LocalPlayer.Character:GetPivot().Position
-            if setclipboard then 
-                setclipboard(string.format("Vector3.new(%.3f, %.3f, %.3f)", p.X, p.Y, p.Z)) 
-                return "Copied!"
-            end
-            return false
-        end, R4R)
-
-        -- 5. Record Actions (Spy)
-        local R5L, R5M, R5R = AdminElements:CreateRow(3)
-        R5L.Size = UDim2.new(0, 216, 1, 0)
-        R5M.Size = UDim2.new(0, 36, 1, 0)
-        R5R.Size = UDim2.new(0, 81, 1, 0)
-        AdminElements:CreateLabel("Record Actions (Spy)", R5L)
-        AdminElements:CreateToggle(function(state)
-            SkenaHub.Admin.IsSpying = state
-            if state then SkenaHub.Admin.SpyLogs = {} end
-        end, false, R5M)
-        AdminElements:CreateButton("Copy", function()
-            if setclipboard and SkenaHub.Admin.SpyLogs and #SkenaHub.Admin.SpyLogs > 0 then 
-                setclipboard(table.concat(SkenaHub.Admin.SpyLogs, "\n")) 
-                return "Copied!"
-            end
-            return false
-        end, R5R)
-
-        -- 6. Auto Interact (Log)
-        local R6L, R6M, R6R = AdminElements:CreateRow(3)
-        R6L.Size = UDim2.new(0, 216, 1, 0)
-        R6M.Size = UDim2.new(0, 36, 1, 0)
-        R6R.Size = UDim2.new(0, 81, 1, 0)
-        AdminElements:CreateLabel("Auto Interact (Log)", R6L)
-        AdminElements:CreateToggle(function(state)
-            SkenaHub.Admin.AutoInteract = state
-            if state then
-                SkenaHub.Admin.InteractLogs = {}
-                task.spawn(function()
-                    while SkenaHub.Admin.AutoInteract do
-                        local hrp = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                        if hrp and fireproximityprompt then
-                            for _, obj in ipairs(workspace:GetDescendants()) do
-                                if obj:IsA("ProximityPrompt") and obj.Enabled then
-                                    local part = obj.Parent
-                                    if part and part:IsA("BasePart") and (hrp.Position - part.Position).Magnitude < 30 then
-                                        fireproximityprompt(obj)
-                                        table.insert(SkenaHub.Admin.InteractLogs, string.format("[%s] Interacted: %s | %s", os.date("%X"), obj.ObjectText, part:GetFullName()))
-                                        task.wait(0.1)
-                                    end
-                                end
-                            end
-                        end
-                        task.wait(0.5)
-                    end
-                end)
-            end
-        end, false, R6M)
-        AdminElements:CreateButton("Copy", function()
-            if setclipboard and SkenaHub.Admin.InteractLogs and #SkenaHub.Admin.InteractLogs > 0 then 
-                setclipboard(table.concat(SkenaHub.Admin.InteractLogs, "\n")) 
-                return "Copied!"
-            end
-            return false
-        end, R6R) -- Corrected from R5R to R6R
-
-        -- 7. HTTPS Executor
-        local C1, C2, C3 = AdminElements:CreateRow(3)
-        C1.Size = UDim2.new(0, 171, 1, 0)
-        C2.Size = UDim2.new(0, 36, 1, 0)
-        C3.Size = UDim2.new(0, 81 + Theme.Gap + 36, 1, 0) -- TextBox (81) + Gap (9) + Button (36)
-        AdminElements:CreateLabel("HTTPS Interceptor", C1)
-        AdminElements:CreateToggle(function(state)
-            SkenaHub.Admin.SafeMode = state
-        end, true, C2)
-
-        local ExecFrame = Instance.new("Frame", C3)
-        ExecFrame.Size = UDim2.new(1, 0, 1, 0)
-        ExecFrame.BackgroundTransparency = 1
-        local ExecLayout = Instance.new("UIListLayout", ExecFrame)
-        ExecLayout.FillDirection = Enum.FillDirection.Horizontal
-        ExecLayout.Padding = UDim.new(0, Theme.Gap) -- Using standard 9px gap
-        ExecLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-        
-        local scriptSource = ""
-        AdminElements:CreateTextBox("", nil, "loadstring...", function(val)
-            scriptSource = val
-        end, ExecFrame)
-
-        -- Adjust the TextBox size to 81px (2 slots + 1 gap)
-        for _, child in ipairs(ExecFrame:GetChildren()) do
-            if child:IsA("Frame") then child.Size = UDim2.new(0, 81, 0, Theme.Dimensions.ToggleTrack.Y) end
-        end
-
-        AdminElements:CreateCircleButton("rbxassetid://10709791437", function()
-            if scriptSource ~= "" then
-                local success, err = pcall(function() loadstring(scriptSource)() end)
-                if not success then warn("[Exec] Error: " .. tostring(err)) end
-            end
-        end, ExecFrame, true)
-
-        -- Adjust circle button to 1 slot (36px)
-        for _, child in ipairs(ExecFrame:GetChildren()) do
-            if child:IsA("TextButton") then child.Size = UDim2.new(0, 36, 0, 36) end
-        end
-    end
+    -- // Admin Tab Removed // --
 
     -- // Tab: Settings (Grey/Silver) // --
-    local SettingsElements, SettingsPage, SettingsLayout = Window:CreateTab("Settings Tab", 6031280882, Color3.fromRGB(140, 140, 140))
+    local SettingsElements, SettingsPage, SettingsLayout = Window:CreateTab("Settings Tab", 6031280882, Color3.fromRGB(140, 140, 140), nil, 99999)
     local C1, C2, C3 = SettingsElements:CreateRow(3)
     C1.Size = UDim2.new(0, 216, 1, 0)
     C2.Size = UDim2.new(0, 36, 1, 0)
     C3.Size = UDim2.new(0, 81, 1, 0)
 
-    local ToggleKey = Enum.KeyCode.Z
     SettingsElements:CreateTextBox("Z", "Toggle UI Key", "Key...", function(val)
         local success, key = pcall(function() return Enum.KeyCode[val] end)
         if success then
@@ -1781,8 +1711,8 @@ local function InitializeFinalTabs()
     end, C3)
 end
 
-LoadGameScript()
-InitializeFinalTabs()
+task.spawn(LoadGameScript)
+task.spawn(InitializeFinalTabs)
 
 UserInputService.InputBegan:Connect(function(input, gpe)
     if not gpe and input.KeyCode == ToggleKey then
